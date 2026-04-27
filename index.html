@@ -10,17 +10,17 @@
         :root { --primary: #6366f1; --success: #22c55e; --danger: #ef4444; --bg: #f8fafc; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
         .container { max-width: 1200px; margin: auto; }
-        .header { background: white; padding: 25px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .header { background: white; padding: 25px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 15px; }
+        .controls { display: flex; align-items: center; gap: 15px; background: #f1f5f9; padding: 10px 20px; border-radius: 12px; }
+        select { padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-family: inherit; cursor: pointer; }
         .grid-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 25px; }
         .kpi-card { background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-bottom: 4px solid #e2e8f0; }
-        .kpi-card span { color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .kpi-card span { color: #64748b; font-size: 13px; text-transform: uppercase; font-weight: 600; }
         .kpi-card strong { display: block; font-size: 26px; margin-top: 8px; }
         .grid-charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
         .chart-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .full { grid-column: span 2; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { background: #f8fafc; padding: 12px; text-align: left; font-size: 12px; color: #64748b; }
-        td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        h2 { font-size: 18px; margin: 0 0 20px 0; color: #334155; }
         .btn-refresh { background: var(--primary); color: white; padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
     </style>
 </head>
@@ -29,52 +29,106 @@
 <div class="container">
     <div class="header">
         <div>
-            <h1 style="margin:0; color: var(--primary); font-size: 28px;">FinanceVision Pro</h1>
-            <p id="status" style="margin:0; color: #64748b;">Conectado ao Google Sheets</p>
+            <h1 style="margin:0; color: var(--primary); font-size: 26px;">Visão Financeiro Mobcall</h1>
+            <p id="status" style="margin:0; color: #64748b;">Sincronizado com Google Sheets</p>
         </div>
-        <button class="btn-refresh" onclick="atualizarDados()">🔄 Atualizar Agora</button>
+        
+        <div class="controls">
+            <label for="filtroMes">Período:</label>
+            <select id="filtroMes" onchange="aplicarFiltro()">
+                <option value="todos">Ver Tudo</option>
+            </select>
+            <button class="btn-refresh" onclick="atualizarDados()">🔄 Atualizar</button>
+        </div>
     </div>
 
     <div class="grid-kpis">
         <div class="kpi-card" style="border-color: var(--success);"><span>Receitas</span><strong id="kpiRec" style="color: var(--success);">R$ 0,00</strong></div>
         <div class="kpi-card" style="border-color: var(--danger);"><span>Despesas</span><strong id="kpiDes" style="color: var(--danger);">R$ 0,00</strong></div>
-        <div class="kpi-card" style="border-color: var(--primary);"><span>Saldo Atual</span><strong id="kpiSaldo">R$ 0,00</strong></div>
+        <div class="kpi-card" style="border-color: var(--primary);"><span>Saldo do Período</span><strong id="kpiSaldo">R$ 0,00</strong></div>
     </div>
 
     <div class="grid-charts">
         <div class="chart-box"><h2>Distribuição de Despesas</h2><canvas id="chartPizza"></canvas></div>
-        <div class="chart-box"><h2>Entradas vs Saídas Diárias</h2><canvas id="chartMov"></canvas></div>
+        <div class="chart-box"><h2>Movimentação Diária</h2><canvas id="chartMov"></canvas></div>
         <div class="chart-box full"><h2>Evolução do Saldo Final</h2><canvas id="chartEvol" height="80"></canvas></div>
     </div>
 </div>
 
 <script>
-    // ============================================================
-    // COLE SEUS LINKS ABAIXO ENTRE AS ASPAS
-    // ============================================================
+    // === COLOQUE SEUS LINKS AQUI ===
     const LINK_LANCAMENTOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=165446579&single=true&output=csv";
     const LINK_FLUXO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=1838851070&single=true&output=csv";
-    // ============================================================
 
+    let dadosOriginais = { lancamentos: [], fluxo: [] };
     let charts = {};
 
     function atualizarDados() {
-        // Carregar Lançamentos
         Papa.parse(LINK_LANCAMENTOS, {
             download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
-            complete: function(res) { processarLancamentos(res.data); }
+            complete: function(res) { 
+                dadosOriginais.lancamentos = res.data;
+                gerarOpcoesMes(res.data);
+                aplicarFiltro();
+            }
         });
-
-        // Carregar Fluxo
         Papa.parse(LINK_FLUXO, {
             download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
-            complete: function(res) { processarFluxo(res.data); }
+            complete: function(res) { 
+                dadosOriginais.fluxo = res.data;
+                aplicarFiltro();
+            }
         });
     }
 
+    function gerarOpcoesMes(dados) {
+        const select = document.getElementById('filtroMes');
+        const mesesEncontrados = new Set();
+        
+        dados.forEach(row => {
+            if (row.Data) {
+                const data = new Date(row.Data);
+                if (!isNaN(data)) {
+                    const mesAno = data.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+                    mesesEncontrados.add(mesAno);
+                }
+            }
+        });
+
+        // Limpa e repõe as opções
+        select.innerHTML = '<option value="todos">Ver Tudo</option>';
+        Array.from(mesesEncontrados).sort().forEach(mes => {
+            const opt = document.createElement('option');
+            opt.value = mes;
+            opt.innerHTML = mes.charAt(0).toUpperCase() + mes.slice(1);
+            select.appendChild(opt);
+        });
+    }
+
+    function aplicarFiltro() {
+        const periodoSel = document.getElementById('filtroMes').value;
+        
+        // Filtrar Lançamentos
+        const lancFiltrados = dadosOriginais.lancamentos.filter(row => {
+            if (periodoSel === 'todos') return true;
+            const mesAno = new Date(row.Data).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+            return mesAno === periodoSel;
+        });
+
+        // Filtrar Fluxo
+        const fluxoFiltrado = dadosOriginais.fluxo.filter(row => {
+            if (periodoSel === 'todos') return true;
+            const mesAno = new Date(row.Data).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+            return mesAno === periodoSel;
+        });
+
+        processarLancamentos(lancFiltrados);
+        processarFluxo(fluxoFiltrado);
+    }
+
+    // Funções de processamento (Matemática e Gráficos)
     function num(v) {
         if (!v || v === "-") return 0;
-        if (typeof v === 'number') return v;
         return parseFloat(v.toString().replace("R$", "").replace(/\./g, "").replace(",", ".").trim()) || 0;
     }
 
@@ -84,14 +138,14 @@
         let r = 0, d = 0, cats = {};
         dados.forEach(row => {
             let v = num(row.Valor);
-            if (row.Status === 'Recebido' || row.Status === 'Pago' || row.Status === 'Realizado') {
-                if (row.Tipo === 'Receber' || row.Tipo === 'receber') r += v;
+            if (row.Status === 'Realizado') {
+                if (row.Tipo === 'Receber') r += v;
                 else { d += v; cats[row.Categoria] = (cats[row.Categoria] || 0) + v; }
             }
         });
         document.getElementById('kpiRec').innerText = real(r);
         document.getElementById('kpiDes').innerText = real(Math.abs(d));
-        document.getElementById('kpiSaldo').innerText = real(r + d);
+        document.getElementById('kpiSaldo').innerText = real(r - d);
         renderPizza(cats);
     }
 
@@ -99,8 +153,7 @@
         const labels = dados.map(d => d.Data);
         const ents = dados.map(d => num(d.Entradas_Previstas || d.Entradas));
         const sais = dados.map(d => num(d.Saídas_Previstas || d.Saídas));
-        const finais = dados.map(d => num(d.Saldo_Final || d.SaldoFinal || d['Saldo Final']));
-        
+        const finais = dados.map(d => num(d.Saldo_Final || d['Saldo Final']));
         renderEvol(labels, finais);
         renderMov(labels, ents, sais);
     }
@@ -117,7 +170,7 @@
         if (charts.e) charts.e.destroy();
         charts.e = new Chart(document.getElementById('chartEvol'), {
             type: 'line',
-            data: { labels: lab, datasets: [{ label: 'Saldo Final', data: dat, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', fill: true, tension: 0.3 }] }
+            data: { labels: lab, datasets: [{ label: 'Saldo Final', data: dat, borderColor: '#6366f1', fill: true, tension: 0.3 }] }
         });
     }
 
@@ -129,7 +182,6 @@
         });
     }
 
-    // Inicia automático
     window.onload = atualizarDados;
 </script>
 </body>
