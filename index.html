@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+chat, pode <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -126,34 +126,63 @@
         processarFluxo(fluxoFiltrado);
     }
 
-    // Funções de processamento (Matemática e Gráficos)
+// Funções de processamento (Matemática e Gráficos) - VERSÃO CORRIGIDA
     function num(v) {
-        if (!v || v === "-") return 0;
-        return parseFloat(v.toString().replace("R$", "").replace(/\./g, "").replace(",", ".").trim()) || 0;
+        if (v === undefined || v === null || v === "" || v === "-") return 0;
+        if (typeof v === 'number') return v;
+        
+        // Esta parte limpa o valor: tira o R$, tira pontos de milhar e troca a vírgula por ponto
+        let limpo = v.toString()
+            .replace("R$", "")
+            .replace(/\s/g, "") // remove espaços
+            .replace(/\./g, "") // remove ponto de milhar (ex: 1.000 -> 1000)
+            .replace(",", "."); // troca vírgula por ponto decimal
+            
+        return parseFloat(limpo) || 0;
     }
-
-    function real(v) { return v.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}); }
 
     function processarLancamentos(dados) {
         let r = 0, d = 0, cats = {};
+
         dados.forEach(row => {
             let v = num(row.Valor);
-            if (row.Status === 'Realizado') {
-                if (row.Tipo === 'Receber') r += v;
-                else { d += v; cats[row.Categoria] = (cats[row.Categoria] || 0) + v; }
+            
+            // Verificamos se o status é realizado
+            // Dica: usei "toLowerCase" para ele aceitar "Realizado" ou "realizado"
+            if (row.Status && row.Status.toString().toLowerCase() === 'realizado') {
+                
+                // Soma Receitas (Tipo: Receber ou receber)
+                if (row.Tipo && row.Tipo.toString().toLowerCase() === 'receber') {
+                    r += v;
+                } 
+                // Soma Despesas (Tipo: Pagar ou pagar)
+                else if (row.Tipo && row.Tipo.toString().toLowerCase() === 'pagar') {
+                    // Como despesas costumam estar negativas na planilha (ex: -100), 
+                    // usamos Math.abs para transformar em positivo na hora de somar o total
+                    d += Math.abs(v);
+                    
+                    if (row.Categoria) {
+                        cats[row.Categoria] = (cats[row.Categoria] || 0) + Math.abs(v);
+                    }
+                }
             }
         });
+
+        // ATUALIZAÇÃO DOS VALORES NO TOPO (KPIs)
         document.getElementById('kpiRec').innerText = real(r);
-        document.getElementById('kpiDes').innerText = real(Math.abs(d));
+        document.getElementById('kpiDes').innerText = real(d);
         document.getElementById('kpiSaldo').innerText = real(r - d);
+        
         renderPizza(cats);
     }
 
     function processarFluxo(dados) {
+        // No gráfico de fluxo, mantemos a lógica original que já estava certa
         const labels = dados.map(d => d.Data);
         const ents = dados.map(d => num(d.Entradas_Previstas || d.Entradas));
         const sais = dados.map(d => num(d.Saídas_Previstas || d.Saídas));
         const finais = dados.map(d => num(d.Saldo_Final || d['Saldo Final']));
+        
         renderEvol(labels, finais);
         renderMov(labels, ents, sais);
     }
@@ -162,7 +191,14 @@
         if (charts.p) charts.p.destroy();
         charts.p = new Chart(document.getElementById('chartPizza'), {
             type: 'doughnut',
-            data: { labels: Object.keys(cats), datasets: [{ data: Object.values(cats), backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] }] }
+            data: { 
+                labels: Object.keys(cats), 
+                datasets: [{ 
+                    data: Object.values(cats), 
+                    backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'] 
+                }] 
+            },
+            options: { plugins: { legend: { position: 'bottom' } } }
         });
     }
 
@@ -170,7 +206,17 @@
         if (charts.e) charts.e.destroy();
         charts.e = new Chart(document.getElementById('chartEvol'), {
             type: 'line',
-            data: { labels: lab, datasets: [{ label: 'Saldo Final', data: dat, borderColor: '#6366f1', fill: true, tension: 0.3 }] }
+            data: { 
+                labels: lab, 
+                datasets: [{ 
+                    label: 'Saldo Final', 
+                    data: dat, 
+                    borderColor: '#6366f1', 
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)', 
+                    fill: true, 
+                    tension: 0.3 
+                }] 
+            }
         });
     }
 
@@ -178,7 +224,14 @@
         if (charts.m) charts.m.destroy();
         charts.m = new Chart(document.getElementById('chartMov'), {
             type: 'bar',
-            data: { labels: lab, datasets: [{ label: 'Entradas', data: ent, backgroundColor: '#22c55e' }, { label: 'Saídas', data: sai, backgroundColor: '#ef4444' }] }
+            data: { 
+                labels: lab, 
+                datasets: [
+                    { label: 'Entradas', data: ent, backgroundColor: '#22c55e' },
+                    { label: 'Saídas', data: sai.map(v => Math.abs(v)), backgroundColor: '#ef4444' }
+                ] 
+            },
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
         });
     }
 
