@@ -126,49 +126,45 @@
         processarFluxo(fluxoFiltrado);
     }
 
-// Funções de processamento (Matemática e Gráficos) - VERSÃO CORRIGIDA
+// Funções de processamento (VERSÃO À PROVA DE ERROS)
     function num(v) {
         if (v === undefined || v === null || v === "" || v === "-") return 0;
         if (typeof v === 'number') return v;
-        
-        // Esta parte limpa o valor: tira o R$, tira pontos de milhar e troca a vírgula por ponto
-        let limpo = v.toString()
-            .replace("R$", "")
-            .replace(/\s/g, "") // remove espaços
-            .replace(/\./g, "") // remove ponto de milhar (ex: 1.000 -> 1000)
-            .replace(",", "."); // troca vírgula por ponto decimal
-            
+        let limpo = v.toString().replace("R$", "").replace(/\s/g, "").replace(/\./g, "").replace(",", ".");
         return parseFloat(limpo) || 0;
     }
 
     function processarLancamentos(dados) {
         let r = 0, d = 0, cats = {};
 
+        if (!dados || dados.length === 0) return;
+
         dados.forEach(row => {
             let v = num(row.Valor);
-            
-            // Verificamos se o status é realizado
-            // Dica: usei "toLowerCase" para ele aceitar "Realizado" ou "realizado"
-            if (row.Status && row.Status.toString().toLowerCase() === 'realizado') {
+            // Transformamos tudo em texto para não dar erro
+            let status = String(row.Status || "").toUpperCase().trim();
+            let tipo = String(row.Tipo || "").toUpperCase().trim();
+
+            // Se o status contém "REALIZADO" ou "PAGO" ou "RECEBIDO"
+            if (status.includes("REALIZADO") || status.includes("PAGO") || status.includes("RECEBIDO")) {
                 
-                // Soma Receitas (Tipo: Receber ou receber)
-                if (row.Tipo && row.Tipo.toString().toLowerCase() === 'receber') {
+                // Se o tipo contém "RECEBER" ou "ENTRADA"
+                if (tipo.includes("RECEBER") || tipo.includes("ENTRADA")) {
                     r += v;
                 } 
-                // Soma Despesas (Tipo: Pagar ou pagar)
-                else if (row.Tipo && row.Tipo.toString().toLowerCase() === 'pagar') {
-                    // Como despesas costumam estar negativas na planilha (ex: -100), 
-                    // usamos Math.abs para transformar em positivo na hora de somar o total
-                    d += Math.abs(v);
+                // Se o tipo contém "PAGAR" ou "SAIDA"
+                else if (tipo.includes("PAGAR") || tipo.includes("SAIDA") || tipo.includes("SAÍDA")) {
+                    let valorDespesa = Math.abs(v);
+                    d += valorDespesa;
                     
                     if (row.Categoria) {
-                        cats[row.Categoria] = (cats[row.Categoria] || 0) + Math.abs(v);
+                        let catNome = row.Categoria.trim();
+                        cats[catNome] = (cats[catNome] || 0) + valorDespesa;
                     }
                 }
             }
         });
 
-        // ATUALIZAÇÃO DOS VALORES NO TOPO (KPIs)
         document.getElementById('kpiRec').innerText = real(r);
         document.getElementById('kpiDes').innerText = real(d);
         document.getElementById('kpiSaldo').innerText = real(r - d);
@@ -177,52 +173,51 @@
     }
 
     function processarFluxo(dados) {
-        // No gráfico de fluxo, mantemos a lógica original que já estava certa
-        const labels = dados.map(d => d.Data);
-        const ents = dados.map(d => num(d.Entradas_Previstas || d.Entradas));
-        const sais = dados.map(d => num(d.Saídas_Previstas || d.Saídas));
-        const finais = dados.map(d => num(d.Saldo_Final || d['Saldo Final']));
+        if (!dados || dados.length === 0) return;
+        
+        // Mapeia os dados buscando colunas com nomes aproximados
+        const labels = dados.map(d => d.Data || "");
+        const ents = dados.map(d => num(d.Entradas_Previstas || d.Entradas || d['Entradas Previstas']));
+        const sais = dados.map(d => num(d.Saídas_Previstas || d.Saídas || d['Saídas Previstas']));
+        const finais = dados.map(d => num(d.Saldo_Final || d['Saldo Final'] || d.SaldoFinal));
         
         renderEvol(labels, finais);
         renderMov(labels, ents, sais);
     }
 
     function renderPizza(cats) {
+        const canvas = document.getElementById('chartPizza');
+        if (!canvas) return;
         if (charts.p) charts.p.destroy();
-        charts.p = new Chart(document.getElementById('chartPizza'), {
+        charts.p = new Chart(canvas, {
             type: 'doughnut',
             data: { 
                 labels: Object.keys(cats), 
-                datasets: [{ 
-                    data: Object.values(cats), 
-                    backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'] 
-                }] 
+                datasets: [{ data: Object.values(cats), backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'] }] 
             },
-            options: { plugins: { legend: { position: 'bottom' } } }
+            options: { plugins: { legend: { position: 'bottom' } }, maintainAspectRatio: false }
         });
     }
 
     function renderEvol(lab, dat) {
+        const canvas = document.getElementById('chartEvol');
+        if (!canvas) return;
         if (charts.e) charts.e.destroy();
-        charts.e = new Chart(document.getElementById('chartEvol'), {
+        charts.e = new Chart(canvas, {
             type: 'line',
             data: { 
                 labels: lab, 
-                datasets: [{ 
-                    label: 'Saldo Final', 
-                    data: dat, 
-                    borderColor: '#6366f1', 
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)', 
-                    fill: true, 
-                    tension: 0.3 
-                }] 
-            }
+                datasets: [{ label: 'Saldo Final', data: dat, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', fill: true, tension: 0.3 }] 
+            },
+            options: { maintainAspectRatio: false }
         });
     }
 
     function renderMov(lab, ent, sai) {
+        const canvas = document.getElementById('chartMov');
+        if (!canvas) return;
         if (charts.m) charts.m.destroy();
-        charts.m = new Chart(document.getElementById('chartMov'), {
+        charts.m = new Chart(canvas, {
             type: 'bar',
             data: { 
                 labels: lab, 
@@ -231,7 +226,7 @@
                     { label: 'Saídas', data: sai.map(v => Math.abs(v)), backgroundColor: '#ef4444' }
                 ] 
             },
-            options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
         });
     }
 
