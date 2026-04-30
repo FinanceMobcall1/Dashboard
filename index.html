@@ -21,12 +21,11 @@
         .chart-box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 320px; position: relative; }
         .full { grid-column: span 2; height: 350px; }
         .table-box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-top: 20px; }
-        h2 { font-size: 16px; margin: 0 0 15px 0; color: #334155; display: flex; align-items: center; gap: 8px; }
+        h2 { font-size: 16px; margin: 0 0 15px 0; color: #334155; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th { padding: 12px; border-bottom: 2px solid #f1f5f9; color: #64748b; font-size: 13px; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-        .badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
-        .badge-pendente { background: #fef3c7; color: #92400e; }
+        .badge-pendente { background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
         .btn-refresh { background: var(--primary); color: white; padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
     </style>
 </head>
@@ -36,18 +35,18 @@
     <div class="header">
         <div>
             <h1 style="margin:0; color: var(--primary); font-size: 22px;">Visão Financeiro Mobcall</h1>
-            <p id="status" style="margin:0; color: #64748b; font-size: 12px;">Sincronizado com Google Sheets</p>
+            <p id="status" style="margin:0; color: #64748b; font-size: 12px;">Padrão de Data: DD/MM/AAAA</p>
         </div>
         <div class="controls">
-            <select id="filtroMes" onchange="aplicarFiltro()"><option value="todos">Carregando períodos...</option></select>
+            <select id="filtroMes" onchange="aplicarFiltro()"><option value="todos">Ver Tudo</option></select>
             <button class="btn-refresh" onclick="atualizarDados()">🔄</button>
         </div>
     </div>
 
     <div class="grid-kpis">
-        <div class="kpi-card" style="border-color: var(--success);"><span>Receitas (Realizado)</span><strong id="kpiRec" style="color: var(--success);">R$ 0,00</strong></div>
-        <div class="kpi-card" style="border-color: var(--danger);"><span>Despesas (Realizado)</span><strong id="kpiDes" style="color: var(--danger);">R$ 0,00</strong></div>
-        <div class="kpi-card" style="border-color: var(--warning);"><span>Total Pendente</span><strong id="kpiPend" style="color: var(--warning);">R$ 0,00</strong></div>
+        <div class="kpi-card" style="border-color: var(--success);"><span>Receitas</span><strong id="kpiRec" style="color: var(--success);">R$ 0,00</strong></div>
+        <div class="kpi-card" style="border-color: var(--danger);"><span>Despesas</span><strong id="kpiDes" style="color: var(--danger);">R$ 0,00</strong></div>
+        <div class="kpi-card" style="border-color: var(--warning);"><span>Pendentes</span><strong id="kpiPend" style="color: var(--warning);">R$ 0,00</strong></div>
         <div class="kpi-card" style="border-color: var(--primary);"><span>Saldo Período</span><strong id="kpiSaldo">R$ 0,00</strong></div>
     </div>
 
@@ -58,12 +57,10 @@
     </div>
 
     <div class="table-box">
-        <h2>⚠️ Detalhamento de Itens Pendentes</h2>
+        <h2>⚠️ Itens Pendentes</h2>
         <div style="max-height: 300px; overflow-y: auto;">
             <table id="tabelaPendentes">
-                <thead>
-                    <tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Valor</th></tr>
-                </thead>
+                <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Valor</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
@@ -71,6 +68,7 @@
 </div>
 
 <script>
+    // LINKS DO GOOGLE SHEETS (CSV)
     const LINK_LANCAMENTOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=165446579&single=true&output=csv";
     const LINK_FLUXO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=1838851070&single=true&output=csv";
     const LINK_DECISOES = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=417072815&single=true&output=csv";
@@ -82,6 +80,16 @@
         Papa.parse(LINK_LANCAMENTOS, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.lanc = res.data; gerarFiltros(res.data); aplicarFiltro(); }});
         Papa.parse(LINK_FLUXO, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.fluxo = res.data; aplicarFiltro(); }});
         Papa.parse(LINK_DECISOES, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.decisoes = res.data; aplicarFiltro(); }});
+    }
+
+    // Função central para ler datas no formato dd/mm/aaaa
+    function formatarDataBR(dataStr) {
+        if (!dataStr) return null;
+        const partes = dataStr.toString().split('/');
+        if (partes.length !== 3) return null;
+        // Cria um objeto de data (Mês no JS começa em 0, por isso o -1)
+        const dataObj = new Date(partes[2], partes[1] - 1, partes[0]);
+        return dataObj;
     }
 
     function parseMoeda(v) {
@@ -98,7 +106,10 @@
     function gerarFiltros(dados) {
         const select = document.getElementById('filtroMes');
         const meses = new Set();
-        dados.forEach(r => { if (r.Data) meses.add(new Date(r.Data).toLocaleDateString('pt-BR', {month:'long', year:'numeric'})); });
+        dados.forEach(r => {
+            const d = formatarDataBR(r.Data);
+            if (d && !isNaN(d)) meses.add(d.toLocaleDateString('pt-BR', {month:'long', year:'numeric'}));
+        });
         select.innerHTML = '<option value="todos">Ver Tudo</option>';
         Array.from(meses).forEach(m => {
             let opt = document.createElement('option');
@@ -108,8 +119,12 @@
     }
 
     function aplicarFiltro() {
-        const periodo = document.getElementById('filtroMes').value;
-        const filtrar = (lista) => lista.filter(r => periodo === 'todos' || new Date(r.Data).toLocaleDateString('pt-BR', {month:'long', year:'numeric'}) === periodo);
+        const periodoSel = document.getElementById('filtroMes').value;
+        const filtrar = (lista) => lista.filter(r => {
+            if (periodoSel === 'todos') return true;
+            const d = formatarDataBR(r.Data);
+            return d ? d.toLocaleDateString('pt-BR', {month:'long', year:'numeric'}) === periodoSel : false;
+        });
 
         const fLanc = filtrar(dadosBrutos.lanc);
         const fFluxo = filtrar(dadosBrutos.fluxo);
@@ -128,7 +143,7 @@
                 else { dTotal += Math.abs(v); cats[row.Categoria] = (cats[row.Categoria] || 0) + Math.abs(v); }
             } else if (status.includes("pendente")) {
                 pTotal += Math.abs(v);
-                htmlPendentes += `<tr><td>${row.Data}</td><td>${row.Descrição || '-'}</td><td>${row.Categoria || '-'}</td><td><span class="badge badge-pendente">${tipo}</span></td><td style="color:${tipo.includes('receber') ? '#22c55e' : '#ef4444'}">${formatarReal(v)}</td></tr>`;
+                htmlPendentes += `<tr><td>${row.Data}</td><td>${row.Descrição || '-'}</td><td>${row.Categoria || '-'}</td><td>${tipo}</td><td style="color:${tipo.includes('receber') ? '#22c55e' : '#ef4444'}">${formatarReal(v)}</td></tr>`;
             }
         });
 
@@ -136,7 +151,7 @@
         document.getElementById('kpiDes').innerText = formatarReal(dTotal);
         document.getElementById('kpiPend').innerText = formatarReal(pTotal);
         document.getElementById('kpiSaldo').innerText = formatarReal(rTotal - dTotal);
-        document.querySelector("#tabelaPendentes tbody").innerHTML = htmlPendentes || "<tr><td colspan='5' style='text-align:center'>Nenhum pendente.</td></tr>";
+        document.querySelector("#tabelaPendentes tbody").innerHTML = htmlPendentes || "<tr><td colspan='5' style='text-align:center'>Nenhum item pendente.</td></tr>";
 
         renderCharts(cats, fFluxo, fDecisoes);
     }
@@ -144,7 +159,6 @@
     function renderCharts(cats, fFluxo, fDecisoes) {
         const opt = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } };
         
-        // Gráfico de Pizza
         if (charts.p) charts.p.destroy();
         charts.p = new Chart(document.getElementById('chartPizza'), {
             type: 'doughnut',
@@ -152,7 +166,6 @@
             options: opt
         });
 
-        // Gráfico de Movimentação (Barras)
         if (charts.m) charts.m.destroy();
         charts.m = new Chart(document.getElementById('chartMov'), {
             type: 'bar',
@@ -166,29 +179,14 @@
             options: opt
         });
 
-        // Gráfico de Evolução (Comparativo Real vs Decisões)
         if (charts.e) charts.e.destroy();
         charts.e = new Chart(document.getElementById('chartEvol'), {
             type: 'line',
             data: { 
                 labels: fFluxo.map(d => d.Data),
                 datasets: [
-                    { 
-                        label: 'Saldo Real (Atual)', 
-                        data: fFluxo.map(d => parseMoeda(d.Saldo_Final || d['Saldo Final'])), 
-                        borderColor: '#6366f1', 
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                        fill: true, 
-                        tension: 0.3 
-                    },
-                    { 
-                        label: 'Fluxo c/ Decisões (Projetado)', 
-                        data: fDecisoes.map(d => parseMoeda(d.Saldo_Final || d['Saldo Final'])), 
-                        borderColor: '#ef4444', 
-                        borderDash: [5, 5], // Linha tracejada para diferenciar
-                        fill: false, 
-                        tension: 0.3 
-                    }
+                    { label: 'Saldo Real', data: fFluxo.map(d => parseMoeda(d.Saldo_Final || d['Saldo Final'])), borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', fill: true, tension: 0.3 },
+                    { label: 'Fluxo Decisões', data: fDecisoes.map(d => parseMoeda(d.Saldo_Final || d['Saldo Final'])), borderColor: '#ef4444', borderDash: [5, 5], fill: false, tension: 0.3 }
                 ]
             },
             options: opt
