@@ -182,21 +182,17 @@
 </head>
 <body>
 
-<div class="header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <img src="https://media.licdn.com/dms/image/v2/C4E0BAQG0Q8Jc6_TiwA/company-logo_200_200/company-logo_200_200/0/1631317424683?e=2147483647&v=beta&t=4eN8zU2U8X_F1m4qgOvx9_A_y_Q5X3m2M6S_B1_D_E0" 
-                 alt="Mobcall Logo" 
-                 style="height: 50px; width: auto; object-fit: contain;">
-            
-            <div style="border-left: 2px solid #e2e8f0; padding-left: 20px;">
-                <span class="brand-tag">Management Report</span>
-                <h1 style="margin: 0; font-size: 24px;">Visão Financeira Mobcall</h1>
-            </div>
+<div class="container">
+    <div class="header">
+        <div>
+            <span class="brand-tag">Management Report</span>
+            <h1>Visão Financeira Mobcall</h1>
         </div>
         <div class="controls">
             <select id="filtroMes" onchange="aplicarFiltro()"><option value="todos">Selecione o Mês</option></select>
             <button class="btn-refresh" onclick="atualizarDados()"><i class="fa-solid fa-rotate"></i> Atualizar</button>
         </div>
+    </div>
 
     <div class="grid-kpis">
         <div class="kpi-card">
