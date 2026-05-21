@@ -38,7 +38,7 @@
     <div class="header">
         <div>
             <h1 style="margin:0; color: var(--primary); font-size: 22px;">Visão Financeiro Mobcall</h1>
-            <p id="status" style="margin:0; color: #64748b; font-size: 12px;">Processamento Inteligente de Dados</p>
+            <p id="status" style="margin:0; color: #64748b; font-size: 12px;">Análise de Redução Baseada em Cronologia</p>
         </div>
         <div class="controls">
             <select id="filtroMes" onchange="aplicarFiltro()"><option value="todos">Ver Tudo</option></select>
@@ -49,7 +49,7 @@
     <div class="grid-kpis">
         <div class="kpi-card" style="border-color: var(--success);"><span>Receitas</span><strong id="kpiRec" style="color: var(--success);">R$ 0,00</strong></div>
         <div class="kpi-card" style="border-color: var(--danger);"><span>Despesas</span><strong id="kpiDes" style="color: var(--danger);">R$ 0,00</strong></div>
-        <div class="kpi-card" style="border-color: var(--success);"><span>Economia (Saving)</span><strong id="kpiSaving" style="color: var(--success);">R$ 0,00</strong></div>
+        <div class="kpi-card" style="border-color: var(--success);"><span>Economia Real (Saving)</span><strong id="kpiSaving" style="color: var(--success);">R$ 0,00</strong></div>
         <div class="kpi-card" style="border-color: var(--warning);"><span>Pendentes</span><strong id="kpiPend" style="color: var(--warning);">R$ 0,00</strong></div>
         <div class="kpi-card" style="border-color: var(--primary);"><span>Saldo Período</span><strong id="kpiSaldo">R$ 0,00</strong></div>
     </div>
@@ -61,10 +61,10 @@
     </div>
 
     <div class="table-box" style="border-left: 5px solid var(--success);">
-        <h2>📉 Ações de Redução de Custos (Savings por Fornecedor)</h2>
+        <h2>📉 Histórico de Savings Conquistados (Mês a Mês)</h2>
         <div style="max-height: 200px; overflow-y: auto;">
             <table id="tabelaSavings">
-                <thead><tr><th>Fornecedor / Descrição</th><th>Maior Gasto</th><th>Menor Gasto</th><th>Redução</th></tr></thead>
+                <thead><tr><th>Fornecedor / Descrição</th><th>Mês Anterior</th><th>Mês da Redução</th><th>Economia Conquistada</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
@@ -82,7 +82,6 @@
 </div>
 
 <script>
-    // === VEJA SE SEUS LINKS TERMINAM COM output=csv ===
     const LINK_LANCAMENTOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=165446579&single=true&output=csv";
     const LINK_FLUXO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=1838851070&single=true&output=csv";
     const LINK_DECISOES = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=417072815&single=true&output=csv";
@@ -92,21 +91,17 @@
 
     function atualizarDados() {
         document.getElementById('erroDiagnostico').style.display = 'none';
-        
         Papa.parse(LINK_LANCAMENTOS, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.lanc = normalizarColunas(res.data); gerarFiltros(dadosBrutos.lanc); aplicarFiltro(); }});
         Papa.parse(LINK_FLUXO, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.fluxo = normalizarColunas(res.data); aplicarFiltro(); }});
         Papa.parse(LINK_DECISOES, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.decisoes = normalizarColunas(res.data); aplicarFiltro(); }});
     }
 
-    // Deixa os nomes das colunas fáceis para o sistema ler (ignora maiúsculas e acentos)
     function normalizarColunas(dados) {
         if(!dados || dados.length === 0) return [];
         return dados.map(row => {
             let novaRow = {};
             Object.keys(row).forEach(key => {
-                let chaveLimpa = key.toLowerCase().trim()
-                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remove acentos
-                    .replace(/\s+/g, '_'); // troca espaços por underline
+                let chaveLimpa = key.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
                 novaRow[chaveLimpa] = row[key];
             });
             return novaRow;
@@ -146,25 +141,7 @@
         });
     }
 
-    function validarColunas() {
-        const divErro = document.getElementById('erroDiagnostico');
-        if(dadosBrutos.lanc.length > 0) {
-            const c = Object.keys(dadosBrutos.lanc[0]);
-            let faltantes = [];
-            if(!c.includes('data')) faltantes.push('Data');
-            if(!c.includes('valor')) faltantes.push('Valor');
-            if(!c.includes('status')) faltantes.push('Status');
-            if(!c.includes('tipo')) faltantes.push('Tipo');
-            
-            if(faltantes.length > 0) {
-                divErro.style.display = 'block';
-                divErro.innerHTML = `⚠️ Atenção: Não encontramos as seguintes colunas na aba Lançamentos: ${faltantes.join(', ')}. Verifique o nome delas na planilha.`;
-            }
-        }
-    }
-
     function aplicarFiltro() {
-        validarColunas();
         const periodoSel = document.getElementById('filtroMes').value;
         const filtrar = (lista) => lista.filter(r => {
             if (periodoSel === 'todos') return true;
@@ -179,34 +156,59 @@
         let rTotal = 0, dTotal = 0, pTotal = 0, cats = {};
         let htmlPendentes = "";
 
-        // Lógica de Saving (Histórica)
-        let histFornecedores = {};
+        // ==========================================
+        // NOVA LÓGICA CRONOLÓGICA DE SAVING (CORRIGIDA)
+        // ==========================================
+        let mapaFornecedores = {};
         dadosBrutos.lanc.forEach(row => {
             let status = String(row.status || "").toLowerCase();
             let tipo = String(row.tipo || "").toLowerCase();
-            if ((status.includes("realizado") || status.includes("pago")) && (tipo.includes("pagar") || tipo.includes("saida"))) {
+            let dObj = formatarDataBR(row.data);
+            
+            if ((status.includes("realizado") || status.includes("pago")) && (tipo.includes("pagar") || tipo.includes("saida")) && dObj) {
                 let nome = String(row.descricao || "").trim().toUpperCase();
                 let v = Math.abs(parseMoeda(row.valor));
+                let chaveMes = dObj.getFullYear() * 100 + (dObj.getMonth() + 1); // Ex: 202604 para Abril/2026
+                let labelMes = dObj.toLocaleDateString('pt-BR', {month:'short', year:'2-digit'});
+
                 if (nome && v > 0) {
-                    if (!histFornecedores[nome]) histFornecedores[nome] = [];
-                    histFornecedores[nome].push(v);
+                    if (!mapaFornecedores[nome]) mapaFornecedores[nome] = {};
+                    // Acumula o valor caso haja mais de um lançamento do mesmo fornecedor no mesmo mês
+                    mapaFornecedores[nome][chaveMes] = { valor: (mapaFornecedores[nome][chaveMes]?.valor || 0) + v, label: labelMes };
                 }
             }
         });
 
-        let totalSavingGeral = 0, htmlSavings = "";
-        Object.keys(histFornecedores).forEach(forn => {
-            let valores = histFornecedores[forn];
-            if (valores.length > 1) {
-                let maior = Math.max(...valores), menor = Math.min(...valores), econ = maior - menor;
-                if (econ > 0) {
-                    totalSavingGeral += econ;
-                    htmlSavings += `<tr><td><strong>${forn}</strong></td><td>${formatarReal(maior)}</td><td>${formatarReal(menor)}</td><td><span class="badge-saving">↓ ${formatarReal(econ)}</span></td></tr>`;
+        let totalSavingGeral = 0;
+        let htmlSavings = "";
+
+        Object.keys(mapaFornecedores).forEach(forn => {
+            let mesesDisponiveis = Object.keys(mapaFornecedores[forn]).map(Number).sort((a, b) => a - b);
+            
+            // Compara os meses em ordem cronológica pura (Passado -> Presente)
+            for (let i = 1; i < mesesDisponiveis.length; i++) {
+                let mesAntChave = mesesDisponiveis[i-1];
+                let mesAtuChave = mesesDisponiveis[i];
+                
+                let dadoAnt = mapaFornecedores[forn][mesAntChave];
+                let dadoAtu = mapaFornecedores[forn][mesAtuChave];
+
+                // Só há saving se o valor ATUAL for MENOR que o ANTERIOR
+                if (dadoAtu.valor < dadoAnt.valor) {
+                    let economia = dadoAnt.valor - dadoAtu.valor;
+                    totalSavingGeral += economia;
+                    htmlSavings += `<tr>
+                        <td><strong>${forn}</strong></td>
+                        <td>${dadoAnt.label}: ${formatarReal(dadoAnt.valor)}</td>
+                        <td>${dadoAtu.label}: ${formatarReal(dadoAtu.valor)}</td>
+                        <td><span class="badge-saving">↓ Economia de ${formatarReal(economia)}</span></td>
+                    </tr>`;
                 }
             }
         });
+        // ==========================================
 
-        // Filtrados
+        // Processamento do período filtrado para KPIs e Pendências
         fLanc.forEach(row => {
             let v = parseMoeda(row.valor);
             let status = String(row.status || "").toLowerCase();
@@ -227,8 +229,8 @@
         document.getElementById('kpiSaving').innerText = formatarReal(totalSavingGeral);
         document.getElementById('kpiSaldo').innerText = formatarReal(rTotal - dTotal);
         
-        document.getElementById('tabelaSavings').querySelector('tbody').innerHTML = htmlSavings || "<tr><td colspan='4'>Nenhuma redução.</td></tr>";
-        document.getElementById('tabelaPendentes').querySelector('tbody').innerHTML = htmlPendentes || "<tr><td colspan='5'>Nenhum pendente.</td></tr>";
+        document.getElementById('tabelaSavings').querySelector('tbody').innerHTML = htmlSavings || "<tr><td colspan='4' style='text-align:center'>Nenhuma redução cronológica identificada.</td></tr>";
+        document.getElementById('tabelaPendentes').querySelector('tbody').innerHTML = htmlPendentes || "<tr><td colspan='5' style='text-align:center'>Nenhum item pendente.</td></tr>";
 
         renderCharts(cats, fFluxo, fDecisoes);
     }
