@@ -25,7 +25,7 @@
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th { padding: 12px; border-bottom: 2px solid #f1f5f9; color: #64748b; font-size: 13px; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-        .badge-pendente { background: #fef3c7; color: #92400e; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
+        .badge-saving { background: #dcfce7; color: #15803d; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
         .btn-refresh { background: var(--primary); color: white; padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
     </style>
 </head>
@@ -46,7 +46,7 @@
     <div class="grid-kpis">
         <div class="kpi-card" style="border-color: var(--success);"><span>Receitas</span><strong id="kpiRec" style="color: var(--success);">R$ 0,00</strong></div>
         <div class="kpi-card" style="border-color: var(--danger);"><span>Despesas</span><strong id="kpiDes" style="color: var(--danger);">R$ 0,00</strong></div>
-        <div class="kpi-card" style="border-color: var(--warning);"><span>Pendentes</span><strong id="kpiPend" style="color: var(--warning);">R$ 0,00</strong></div>
+        <div class="kpi-card" style="border-color: var(--success);"><span>Economia Gerada (Saving)</span><strong id="kpiSaving" style="color: var(--success);">R$ 0,00</strong></div>
         <div class="kpi-card" style="border-color: var(--primary);"><span>Saldo Período</span><strong id="kpiSaldo">R$ 0,00</strong></div>
     </div>
 
@@ -56,9 +56,21 @@
         <div class="chart-box full"><h2>Comparativo: Fluxo Real vs Decisões</h2><canvas id="chartEvol"></canvas></div>
     </div>
 
+    <div class="table-box" style="border-left: 5px solid var(--success);">
+        <h2>📉 Ações de Redução de Custos (Savings por Fornecedor)</h2>
+        <div style="max-height: 250px; overflow-y: auto;">
+            <table id="tabelaSavings">
+                <thead>
+                    <tr><th>Fornecedor / Descrição</th><th>Maior Gasto Identificado</th><th>Menor Gasto Identificado</th><th>Redução Conquistada</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="table-box">
         <h2>⚠️ Itens Pendentes</h2>
-        <div style="max-height: 300px; overflow-y: auto;">
+        <div style="max-height: 250px; overflow-y: auto;">
             <table id="tabelaPendentes">
                 <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Tipo</th><th>Valor</th></tr></thead>
                 <tbody></tbody>
@@ -68,7 +80,6 @@
 </div>
 
 <script>
-    // LINKS DO GOOGLE SHEETS (CSV)
     const LINK_LANCAMENTOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=165446579&single=true&output=csv";
     const LINK_FLUXO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=1838851070&single=true&output=csv";
     const LINK_DECISOES = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=417072815&single=true&output=csv";
@@ -82,14 +93,11 @@
         Papa.parse(LINK_DECISOES, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.decisoes = res.data; aplicarFiltro(); }});
     }
 
-    // Função central para ler datas no formato dd/mm/aaaa
     function formatarDataBR(dataStr) {
         if (!dataStr) return null;
         const partes = dataStr.toString().split('/');
         if (partes.length !== 3) return null;
-        // Cria um objeto de data (Mês no JS começa em 0, por isso o -1)
-        const dataObj = new Date(partes[2], partes[1] - 1, partes[0]);
-        return dataObj;
+        return new Date(partes[2], partes[1] - 1, partes[0]);
     }
 
     function parseMoeda(v) {
@@ -133,6 +141,44 @@
         let rTotal = 0, dTotal = 0, pTotal = 0, cats = {};
         let htmlPendentes = "";
 
+        // Lógica para calcular Savings (Corte de Custos) baseado em TODA a base histórica do fornecedor
+        let historicoFornecedores = {};
+        dadosBrutos.lanc.forEach(row => {
+            let status = String(row.Status || "").toLowerCase();
+            let tipo = String(row.Tipo || "").toLowerCase();
+            if ((status.includes("realizado") || status.includes("pago")) && (tipo.includes("pagar") || tipo.includes("saida"))) {
+                let nome = String(row.Descrição || row.Descricao || "").trim().toUpperCase();
+                let v = Math.abs(parseMoeda(row.Valor));
+                if (nome && v > 0) {
+                    if (!historicoFornecedores[nome]) historicoFornecedores[nome] = [];
+                    historicoFornecedores[nome].push(v);
+                }
+            }
+        });
+
+        let totalSavingGeral = 0;
+        let htmlSavings = "";
+        
+        Object.keys(historicoFornecedores).forEach(fornecedor => {
+            let valores = historicoFornecedores[fornecedor];
+            if (valores.length > 1) {
+                let maiorGasto = Math.max(...valores);
+                let menorGasto = Math.min(...valores);
+                let economia = maiorGasto - menorGasto;
+
+                if (economia > 0) {
+                    totalSavingGeral += economia;
+                    htmlSavings += `<tr>
+                        <td><strong>${fornecedor}</strong></td>
+                        <td>${formatarReal(maiorGasto)}</td>
+                        <td>${formatarReal(menorGasto)}</td>
+                        <td><span class="badge-saving">↓ Poupou ${formatarReal(economia)}</span></td>
+                    </tr>`;
+                }
+            }
+        });
+
+        // Processar dados do período filtrado para KPIs normais e Pendentes
         fLanc.forEach(row => {
             let v = parseMoeda(row.Valor);
             let status = String(row.Status || "").toLowerCase();
@@ -150,7 +196,10 @@
         document.getElementById('kpiRec').innerText = formatarReal(rTotal);
         document.getElementById('kpiDes').innerText = formatarReal(dTotal);
         document.getElementById('kpiPend').innerText = formatarReal(pTotal);
+        document.getElementById('kpiSaving').innerText = formatarReal(totalSavingGeral);
         document.getElementById('kpiSaldo').innerText = formatarReal(rTotal - dTotal);
+        
+        document.querySelector("#tabelaSavings tbody").innerHTML = htmlSavings || "<tr><td colspan='4' style='text-align:center'>Nenhuma redução identificada ainda.</td></tr>";
         document.querySelector("#tabelaPendentes tbody").innerHTML = htmlPendentes || "<tr><td colspan='5' style='text-align:center'>Nenhum item pendente.</td></tr>";
 
         renderCharts(cats, fFluxo, fDecisoes);
@@ -185,7 +234,7 @@
             data: { 
                 labels: fFluxo.map(d => d.Data),
                 datasets: [
-                    { label: 'Saldo Real', data: fFluxo.map(d => parseMoeda(d.Saldo_Final || d['Saldo Final'])), borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', fill: true, tension: 0.3 },
+                    { label: 'Saldo Real', data: fFluxo.map(d => parseMoeda(d.Saldo_Final || d['Saldo Final'])), borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.05)', fill: true, tension: 0.3 },
                     { label: 'Fluxo Decisões', data: fDecisoes.map(d => parseMoeda(d.Saldo_Final || d['Saldo Final'])), borderColor: '#ef4444', borderDash: [5, 5], fill: false, tension: 0.3 }
                 ]
             },
