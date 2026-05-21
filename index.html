@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* CONFIGURAÇÕES DE DESIGN SISTÊMICO */
         :root {
             --mobcall-blue: #1e3a8a;
             --mobcall-accent: #3b82f6;
@@ -35,7 +34,6 @@
 
         .container { max-width: 1300px; margin: auto; }
 
-        /* HEADER ESTILO CONSULTORIA */
         .header {
             display: flex;
             justify-content: space-between;
@@ -78,7 +76,6 @@
             background: #f8fafc;
         }
 
-        /* KPI CARDS - ALTO IMPACTO */
         .grid-kpis {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -119,10 +116,10 @@
             color: #1e293b;
         }
 
-        /* GRÁFICOS */
+        /* AJUSTE NA PROPORÇÃO DOS GRÁFICOS (MUDOU DE 1fr 1.5fr PARA 1.3fr 1fr) */
         .grid-charts {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
+            grid-template-columns: 1.3fr 1fr;
             gap: 25px;
             margin-bottom: 30px;
         }
@@ -135,7 +132,8 @@
             height: 400px;
         }
 
-        .full-width { grid-column: span 2; height: 450px; }
+        /* DIMINUIÇÃO DA ALTURA DO GRÁFICO COMPARATIVO DE 450px PARA 350px */
+        .full-width { grid-column: span 2; height: 350px; }
 
         h2 {
             font-family: 'Poppins', sans-serif;
@@ -146,7 +144,6 @@
             gap: 10px;
         }
 
-        /* TABELAS EXECUTIVAS */
         .table-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -260,7 +257,6 @@
 </div>
 
 <script>
-    // --- INSIRA SEUS LINKS CSV ABAIXO ---
     const LINK_LANCAMENTOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=165446579&single=true&output=csv";
     const LINK_FLUXO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=1838851070&single=true&output=csv";
     const LINK_DECISOES = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=417072815&single=true&output=csv";
@@ -328,7 +324,6 @@
         let rec = 0, des = 0, pen = 0, cats = {};
         let htmlP = "", htmlS = "", totalSaving = 0;
 
-        // Lógica de Saving Cronológico
         let mapaForn = {};
         dadosBrutos.lanc.forEach(r => {
             let dObj = formatarDataBR(r.data);
