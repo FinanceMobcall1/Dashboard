@@ -116,10 +116,9 @@
             color: #1e293b;
         }
 
-        /* AJUSTE NA PROPORÇÃO DOS GRÁFICOS (MUDOU DE 1fr 1.5fr PARA 1.3fr 1fr) */
         .grid-charts {
             display: grid;
-            grid-template-columns: 1.3fr 1fr;
+            grid-template-columns: 1.1fr 1fr;
             gap: 25px;
             margin-bottom: 30px;
         }
@@ -132,7 +131,6 @@
             height: 400px;
         }
 
-        /* DIMINUIÇÃO DA ALTURA DO GRÁFICO COMPARATIVO DE 450px PARA 350px */
         .full-width { grid-column: span 2; height: 350px; }
 
         h2 {
@@ -210,7 +208,7 @@
         <div class="kpi-card">
             <i class="fa-solid fa-clock-rotate-left" style="color: var(--warning)"></i>
             <span>Pendências Totais</span>
-            <strong id="kpiPend" style="color: var(--warning)">R$ 0,00</strong>
+            <strong id="kpiPend">R$ 0,00</strong>
         </div>
         <div class="kpi-card" style="background: var(--mobcall-blue);">
             <i class="fa-solid fa-wallet" style="color: white; opacity: 0.3;"></i>
@@ -222,7 +220,9 @@
     <div class="grid-charts">
         <div class="chart-box">
             <h2><i class="fa-solid fa-chart-pie"></i> Composição de Custos</h2>
-            <canvas id="chartPizza"></canvas>
+            <div style="position: relative; height: 280px; width: 100%;">
+                <canvas id="chartPizza"></canvas>
+            </div>
         </div>
         <div class="chart-box">
             <h2><i class="fa-solid fa-chart-bar"></i> Fluxo Previsto</h2>
@@ -375,20 +375,41 @@
     }
 
     function renderCharts(cats, fF, fD) {
-        const common = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } } };
+        // Opções padrão para gráficos lineares/barras (com eixos)
+        const commonWithScales = { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } }
+        };
+
+        // Opções customizadas e LIMPAS para o gráfico de pizza/rosca (sem nenhuma escala ou grade)
+        const pieOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } 
+            }
+        };
         
+        // Renderização do gráfico de Pizza/Rosca
         if (charts.p) charts.p.destroy();
         charts.p = new Chart(document.getElementById('chartPizza'), {
             type: 'doughnut',
-            data: { labels: Object.keys(cats), datasets: [{ data: Object.values(cats), backgroundColor: ['#1e3a8a', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'] }] },
-            options: common
+            data: { 
+                labels: Object.keys(cats), 
+                datasets: [{ 
+                    data: Object.values(cats), 
+                    backgroundColor: ['#1e3a8a', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'] 
+                }] 
+            },
+            options: pieOptions // Aplica o modelo limpo
         });
 
         if (charts.m) charts.m.destroy();
         charts.m = new Chart(document.getElementById('chartMov'), {
             type: 'bar',
             data: { labels: fF.map(d => d.data), datasets: [{ label: 'Entradas', data: fF.map(d => num(d.entradas_previstas || d.entradas)), backgroundColor: '#10b981' }, { label: 'Saídas', data: fF.map(d => Math.abs(num(d.saidas_previstas || d.saidas))), backgroundColor: '#ef4444' }] },
-            options: common
+            options: commonWithScales
         });
 
         if (charts.e) charts.e.destroy();
@@ -401,7 +422,7 @@
                     { label: 'Projeção Decisões', data: fD.map(d => num(d.saldo_final)), borderColor: '#ef4444', borderDash: [5, 5], tension: 0.4 }
                 ]
             },
-            options: common
+            options: commonWithScales
         });
     }
 
