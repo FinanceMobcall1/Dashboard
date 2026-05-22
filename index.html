@@ -271,11 +271,14 @@
     }
 
     function normalizarColunas(dados) {
+        if(!dados || dados.length === 0) return [];
         return dados.map(row => {
             let nRow = {};
             Object.keys(row).forEach(k => {
-                let clean = k.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
-                nRow[clean] = row[k];
+                if (k) {
+                    let clean = k.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
+                    nRow[clean] = row[k];
+                }
             });
             return nRow;
         });
@@ -289,6 +292,4 @@
 
     function num(v) {
         if (!v || v === "-") return 0;
-        if (typeof v === 'number') return v;
-        let s = v.toString().replace("R$", "").trim();
-        if (s.includes(",") && s.
+        if (typeof
