@@ -880,4 +880,379 @@
                     complete: res => { 
                         dadosBrutos.lanc = normalizarColunas(res.data.filter(r => r.data)); 
 
+    // ===== CARREGAMENTO DE DADOS (continuação) =====
+    function atualizarDados() {
+        const botao = document.querySelector('.btn-refresh');
+        botao.disabled = true;
+        botao.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Carregando...';
 
+        Promise.all([
+            new Promise((resolve) => {
+                Papa.parse(LINK_LANCAMENTOS, { 
+                    download: true, header: true, dynamicTyping: false,
+                    complete: res => { 
+                        dadosBrutos.lanc = normalizarColunas(res.data.filter(r => r.data));
+                        resolve();
+                    },
+                    error: err => {
+                        console.error("Erro ao carregar Lançamentos:", err);
+                        resolve();
+                    }
+                });
+            }),
+            new Promise((resolve) => {
+                Papa.parse(LINK_FLUXO, { 
+                    download: true, header: true, dynamicTyping: false,
+                    complete: res => { 
+                        dadosBrutos.fluxo = normalizarColunas(res.data.filter(r => r.data));
+                        resolve();
+                    },
+                    error: err => {
+                        console.error("Erro ao carregar Fluxo Caixa:", err);
+                        resolve();
+                    }
+                });
+            }),
+            new Promise((resolve) => {
+                Papa.parse(LINK_DECISOES, { 
+                    download: true, header: true, dynamicTyping: false,
+                    complete: res => { 
+                        dadosBrutos.decisoes = normalizarColunas(res.data.filter(r => r.data));
+                        resolve();
+                    },
+                    error: err => {
+                        console.error("Erro ao carregar Decisões:", err);
+                        resolve();
+                    }
+                });
+            })
+        ]).then(() => {
+            gerarFiltros(dadosBrutos.lanc);
+            aplicarFiltro();
+            atualizarTimestamp();
+            botao.disabled = false;
+            botao.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Atualizar';
+        });
+    }
+
+    // ===== GERAR FILTROS DE MÊS =====
+    function gerarFiltros(dados) {
+        const sel = document.getElementById('filtroMes');
+        const meses = new Set();
+
+        dados.forEach(r => {
+            let d = formatarDataBR(r.data);
+            if (d && !isNaN(d)) {
+                meses.add(d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }));
+            }
+        });
+
+        sel.innerHTML = '<option value="todos">Período Total</option>';
+        Array.from(meses).sort().forEach(m => {
+            let o = document.createElement('option');
+            o.value = m;
+            o.innerHTML = m.charAt(0).toUpperCase() + m.slice(1);
+            sel.appendChild(o);
+        });
+    }
+
+    // ===== APLICAR FILTRO =====
+    function aplicarFiltro() {
+        const sel = document.getElementById('filtroMes').value;
+
+        const filtrar = (l) => l.filter(r => {
+            if (sel === 'todos') return true;
+            let d = formatarDataBR(r.data);
+            return d && d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) === sel;
+        });
+
+        const fL = filtrar(dadosBrutos.lanc);
+        const fF = filtrar(dadosBrutos.fluxo);
+        const fD = filtrar(dadosBrutos.decisoes);
+
+        // Calcular KPIs
+        let rec = 0, des = 0, pen = 0;
+        let cc_dados = {};
+        let htmlPend = "";
+        let pendenciasArray = [];
+
+        fL.forEach(r => {
+            let v = num(r.valor);
+            let s = String(r.status || "").toLowerCase();
+            let t = String(r.tipo || "").toLowerCase();
+            let cat = String(r.categoria || "Sem categoria").trim();
+
+            if (s.includes("realizado") || s.includes("pago") || s.includes("recebido")) {
+                if (t.includes("receber")) {
+                    rec += v;
+                } else {
+                    des += Math.abs(v);
+                    let cc = r.centro_de_custo || r.centro_custos || "Não Especificado";
+                    cc_dados[cc] = (cc_dados[cc] || 0) + Math.abs(v);
+                }
+            } else if (s.includes("pendente")) {
+                pen += Math.abs(v);
+                pendenciasArray.push({
+                    data: r.data,
+                    descricao: r.descricao,
+                    categoria: cat,
+                    tipo: t,
+                    valor: v
+                });
+            }
+        });
+
+        // Atualizar KPIs
+        document.getElementById('kpiRec').innerText = real(rec);
+        document.getElementById('kpiDes').innerText = real(des);
+        document.getElementById('kpiSaldo').innerText = real(rec - des);
+        document.getElementById('kpiPend').innerText = real(pen);
+
+        // Calcular desvio Real vs Decisões
+        let saldoReal = rec - des;
+        let saldoDecisao = 0;
+        fD.forEach(r => {
+            saldoDecisao = num(r.saldo_final);
+        });
+
+        let desvio = saldoDecisao !== 0 ? Math.abs((saldoReal - saldoDecisao) / saldoDecisao * 100) : 0;
+        document.getElementById('kpiDesvio').innerText = desvio.toFixed(1) + "%";
+
+        if (desvio < 10) {
+            document.getElementById('kpiDesvioTipo').innerText = "Muito alinhado";
+            document.getElementById('kpiDesvioTipo').className = "kpi-change positive";
+        } else if (desvio < 25) {
+            document.getElementById('kpiDesvioTipo').innerText = "Desvio moderado";
+            document.getElementById('kpiDesvioTipo').className = "kpi-change";
+        } else {
+            document.getElementById('kpiDesvioTipo').innerText = "Desvio significativo";
+            document.getElementById('kpiDesvioTipo').className = "kpi-change negative";
+        }
+
+        // Atualizar Saúde Financeira
+        if (rec > des) {
+            document.getElementById('healthPositivo').innerText = `✓ Receitas ${real(rec)} > Despesas ${real(des)}`;
+        } else {
+            document.getElementById('healthPositivo').innerText = `✗ Despesas ${real(des)} > Receitas ${real(rec)}`;
+        }
+
+        if (pen > 0) {
+            document.getElementById('healthPendenciasText').innerText = `${pendenciasArray.length} pendências totalizando ${real(pen)}`;
+        } else {
+            document.getElementById('healthPendenciasText').innerText = "Nenhuma pendência! ✓";
+        }
+
+        // Tabela de Pendências
+        if (pendenciasArray.length > 0) {
+            htmlPend = pendenciasArray.map(p => `
+                <tr>
+                    <td>${p.data || '-'}</td>
+                    <td>${p.descricao || '-'}</td>
+                    <td><span class="badge badge-info">${p.categoria}</span></td>
+                    <td>${p.tipo.includes('receber') ? 'A Receber' : 'A Pagar'}</td>
+                    <td style="color: ${p.tipo.includes('receber') ? '#10b981' : '#ef4444'}; font-weight: 700;">
+                        ${real(p.valor)}
+                    </td>
+                </tr>
+            `).join('');
+        } else {
+            htmlPend = '<tr><td colspan="5" style="text-align: center; color: #94a3b8;">Sem pendências</td></tr>';
+        }
+        document.getElementById('tabelaPendentes').querySelector('tbody').innerHTML = htmlPend;
+
+        // Prioridades de Pagamento
+        let pendenciasOrdenadas = pendenciasArray
+            .filter(p => p.tipo.includes('pagar'))
+            .sort((a, b) => num(b.valor) - num(a.valor))
+            .slice(0, 5);
+
+        let htmlPriority = "";
+        if (pendenciasOrdenadas.length > 0) {
+            htmlPriority = pendenciasOrdenadas.map((p, idx) => {
+                let prioridade = idx === 0 ? 'high' : idx <= 2 ? 'medium' : 'low';
+                return `
+                    <div class="priority-item ${prioridade}">
+                        <div class="priority-info">
+                            <h4>${p.descricao}</h4>
+                            <p>${p.categoria} • ${p.data}</p>
+                        </div>
+                        <div class="priority-amount">${real(p.valor)}</div>
+                    </div>
+                `;
+            }).join('');
+        } else {
+            htmlPriority = `
+                <div class="empty-state">
+                    <i class="fa-solid fa-inbox"></i>
+                    <p>Nenhuma pendência de pagamento</p>
+                </div>
+            `;
+        }
+        document.getElementById('priorityList').innerHTML = htmlPriority;
+
+        // Tabela de Observações
+        let htmlObs = "";
+        if (fD.length > 0) {
+            htmlObs = fD.filter(r => r.observacoes && r.observacoes.trim()).map(r => `
+                <tr>
+                    <td>${r.data || '-'}</td>
+                    <td>${r.observacoes}</td>
+                    <td style="font-weight: 700;">${real(num(r.saldo_final))}</td>
+                </tr>
+            `).join('');
+        }
+        if (!htmlObs) {
+            htmlObs = '<tr><td colspan="3" style="text-align: center; color: #94a3b8;">Sem observações registradas</td></tr>';
+        }
+        document.getElementById('tabelaObservacoes').querySelector('tbody').innerHTML = htmlObs;
+
+        // Renderizar Gráficos
+        renderCharts(cc_dados, fF, fD);
+    }
+
+    // ===== RENDERIZAR GRÁFICOS =====
+    function renderCharts(cc_dados, fF, fD) {
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 12,
+                        font: { family: 'Inter', size: 12 },
+                        padding: 15
+                    }
+                }
+            }
+        };
+
+        // Gráfico Pizza - Despesas por Centro de Custo
+        try {
+            if (charts.pizza) charts.pizza.destroy();
+
+            let ccLabels = Object.keys(cc_dados).length > 0 ? Object.keys(cc_dados) : ['Sem dados'];
+            let ccValues = Object.values(cc_dados).length > 0 ? Object.values(cc_dados) : [0];
+
+            charts.pizza = new Chart(document.getElementById('chartPizza'), {
+                type: 'doughnut',
+                data: {
+                    labels: ccLabels,
+                    datasets: [{
+                        data: ccValues,
+                        backgroundColor: [
+                            '#3b82f6', '#1e40af', '#60a5fa', '#93c5fd', '#dbeafe',
+                            '#10b981', '#059669', '#6ee7b7', '#a7f3d0', '#d1fae5'
+                        ],
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: commonOptions
+            });
+        } catch(e) {
+            console.error("Erro ao renderizar pizza:", e);
+        }
+
+        // Gráfico Barras - Fluxo de Caixa
+        try {
+            if (charts.barras) charts.barras.destroy();
+
+            charts.barras = new Chart(document.getElementById('chartMov'), {
+                type: 'bar',
+                data: {
+                    labels: fF.map(d => d.data || ""),
+                    datasets: [
+                        {
+                            label: 'Entradas',
+                            data: fF.map(d => num(d.entradas || 0)),
+                            backgroundColor: '#10b981',
+                            borderRadius: 8
+                        },
+                        {
+                            label: 'Saídas',
+                            data: fF.map(d => Math.abs(num(d.saidas || 0))),
+                            backgroundColor: '#ef4444',
+                            borderRadius: 8
+                        }
+                    ]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + value.toLocaleString('pt-BR');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } catch(e) {
+            console.error("Erro ao renderizar barras:", e);
+        }
+
+        // Gráfico Linha - Real vs Decisões
+        try {
+            if (charts.linha) charts.linha.destroy();
+
+            charts.linha = new Chart(document.getElementById('chartEvol'), {
+                type: 'line',
+                data: {
+                    labels: fF.map(d => d.data || ""),
+                    datasets: [
+                        {
+                            label: 'Fluxo Real',
+                            data: fF.map(d => num(d.saldo_final || 0)),
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Projeção Decisões',
+                            data: fD.map(d => num(d.saldo_final || 0)),
+                            borderColor: '#ef4444',
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#ef4444',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + value.toLocaleString('pt-BR');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } catch(e) {
+            console.error("Erro ao renderizar linha:", e);
+        }
+    }
+
+    // ===== INICIALIZAR =====
+    window.onload = atualizarDados;
+</script>
+
+</body>
+</html>
