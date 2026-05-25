@@ -6,6 +6,7 @@
     <title>Executive Dashboard | Mobcall</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -396,7 +397,12 @@
 </div>
 
 <script>
-    const SHEET_ID = "1LOjJ-8uTY1Vs61C52cgT84oCVmGXe7Hv-Hhf0YEqyIY";
+    // URLs dos arquivos CSV no GitHub (RAW)
+    const URLs = {
+        lancamentos: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Lançamentos.csv',
+        fluxoCaixa: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Caixa%20(1).csv',
+        decisoes: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Decisões.csv'
+    };
 
     function num(v) {
         if (!v || v === "-" || v === "") return 0;
@@ -431,27 +437,14 @@
 
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Carregando...';
-        conteudo.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando dados da planilha...</p></div>';
+        conteudo.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando dados...</p></div>';
 
         try {
-            // Carregar dados usando a API do Google Sheets
-            const urlLancamentos = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=AIzaSyAHjW5L9_CYSHxlVzHnhKPVLWHvJLfPPEw&ranges=Lançamentos&valueRenderOption=UNFORMATTED_VALUE`;
-            const urlFluxoCaixa = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=AIzaSyAHjW5L9_CYSHxlVzHnhKPVLWHvJLfPPEw&ranges=Fluxo%20Caixa&valueRenderOption=UNFORMATTED_VALUE`;
-            const urlDecisoes = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=AIzaSyAHjW5L9_CYSHxlVzHnhKPVLWHvJLfPPEw&ranges=Fluxo%20Decisões&valueRenderOption=UNFORMATTED_VALUE`;
-
-            const [resLanc, resFluxo, resDecisoes] = await Promise.all([
-                fetch(urlLancamentos),
-                fetch(urlFluxoCaixa),
-                fetch(urlDecisoes)
+            const [lancamentos, fluxoCaixa, decisoes] = await Promise.all([
+                fetch(URLs.lancamentos).then(r => r.text()).then(csv => Papa.parse(csv, { header: true }).data),
+                fetch(URLs.fluxoCaixa).then(r => r.text()).then(csv => Papa.parse(csv, { header: true }).data),
+                fetch(URLs.decisoes).then(r => r.text()).then(csv => Papa.parse(csv, { header: true }).data)
             ]);
-
-            const dataLanc = await resLanc.json();
-            const dataFluxo = await resFluxo.json();
-            const dataDecisoes = await resDecisoes.json();
-
-            const lancamentos = extrairDadosAPI(dataLanc, 'Lançamentos');
-            const fluxoCaixa = extrairDadosAPI(dataFluxo, 'Fluxo Caixa');
-            const decisoes = extrairDadosAPI(dataDecisoes, 'Fluxo Decisões');
 
             renderizarDashboard(lancamentos, fluxoCaixa, decisoes);
             atualizarTimestamp();
@@ -463,41 +456,13 @@
             conteudo.innerHTML = `
                 <div class="error-message">
                     <i class="fa-solid fa-triangle-exclamation"></i>
-                    <strong>Erro ao carregar dados da planilha</strong>
-                    <p style="margin-top: 10px;">Verifique se a planilha está compartilhada como "Público na Web"</p>
+                    <strong>Erro ao carregar dados</strong>
+                    <p style="margin-top: 10px;">Verifique se os arquivos CSV estão no repositório GitHub</p>
                     <p><small>Erro: ${erro.message}</small></p>
                 </div>
             `;
             btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Atualizar';
-        }
-    }
-
-    function extrairDadosAPI(response, nomeAba) {
-        try {
-            if (!response.sheets) return [];
-
-            const sheet = response.sheets.find(s => s.properties.title === nomeAba);
-            if (!sheet || !sheet.data[0] || !sheet.data[0].values) return [];
-
-            const valores = sheet.data[0].values;
-            if (valores.length < 2) return [];
-
-            const headers = valores[0];
-            const dados = [];
-
-            for (let i = 1; i < valores.length; i++) {
-                let obj = {};
-                for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j]] = valores[i][j] || '';
-                }
-                dados.push(obj);
-            }
-
-            return dados;
-        } catch(e) {
-            console.error(`Erro ao extrair dados de ${nomeAba}:`, e);
-            return [];
         }
     }
 
@@ -508,6 +473,8 @@
 
         // Processar Lançamentos
         lancamentos.forEach(r => {
+            if (!r.Valor) return;
+
             let v = num(r.Valor);
             let status = String(r.Status || "").toLowerCase();
             let tipo = String(r.Tipo || "").toLowerCase();
@@ -678,7 +645,7 @@
             new Chart(ctxBarras, {
                 type: 'bar',
                 data: {
-                    labels: fluxoCaixa.map(d => d.Data || ""),
+                    labels: fluxoCaixa.map(d => d.Data || "").filter(d => d),
                     datasets: [
                         {
                             label: 'Entradas',
@@ -712,7 +679,7 @@
             new Chart(ctxLinha, {
                 type: 'line',
                 data: {
-                    labels: fluxoCaixa.map(d => d.Data || ""),
+                    labels: fluxoCaixa.map(d => d.Data || "").filter(d => d),
                     datasets: [
                         {
                             label: 'Fluxo Real',
