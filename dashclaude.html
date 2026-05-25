@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
     <style>
         :root {
@@ -394,9 +395,6 @@
     <div id="conteudo"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-
 <script>
     // URLs dos arquivos CSV no GitHub (RAW)
     const URLs = {
@@ -404,6 +402,30 @@
         fluxoCaixa: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Caixa%20(1).csv',
         decisoes: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Decisões.csv'
     };
+
+    // Função para parsear CSV manualmente (sem biblioteca externa)
+    function parseCSV(csv) {
+        const lines = csv.trim().split('\n');
+        if (lines.length < 2) return [];
+
+        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+        const data = [];
+
+        for (let i = 1; i < lines.length; i++) {
+            const obj = {};
+            const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+
+            for (let j = 0; j < headers.length; j++) {
+                obj[headers[j]] = values[j] || '';
+            }
+
+            if (Object.values(obj).some(v => v)) { // Ignora linhas vazias
+                data.push(obj);
+            }
+        }
+
+        return data;
+    }
 
     function num(v) {
         if (!v || v === "-" || v === "") return 0;
@@ -442,9 +464,9 @@
 
         try {
             const [lancamentos, fluxoCaixa, decisoes] = await Promise.all([
-                fetch(URLs.lancamentos).then(r => r.text()).then(csv => Papa.parse(csv, { header: true }).data),
-                fetch(URLs.fluxoCaixa).then(r => r.text()).then(csv => Papa.parse(csv, { header: true }).data),
-                fetch(URLs.decisoes).then(r => r.text()).then(csv => Papa.parse(csv, { header: true }).data)
+                fetch(URLs.lancamentos).then(r => r.text()).then(csv => parseCSV(csv)),
+                fetch(URLs.fluxoCaixa).then(r => r.text()).then(csv => parseCSV(csv)),
+                fetch(URLs.decisoes).then(r => r.text()).then(csv => parseCSV(csv))
             ]);
 
             renderizarDashboard(lancamentos, fluxoCaixa, decisoes);
