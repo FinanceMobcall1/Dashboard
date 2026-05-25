@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Executive Dashboard | Mobcall</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -26,7 +25,6 @@
             --text-primary: #0f172a;
             --text-secondary: #64748b;
             --border: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -51,7 +49,6 @@
             margin: 0 auto;
         }
 
-        /* ===== HEADER ===== */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
@@ -100,7 +97,6 @@
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 8px;
-            letter-spacing: -0.5px;
         }
 
         .header p {
@@ -115,28 +111,6 @@
             align-items: center;
             position: relative;
             z-index: 1;
-        }
-
-        .select-period {
-            padding: 12px 16px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .select-period:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .select-period option {
-            background: var(--primary);
-            color: white;
         }
 
         .btn-refresh {
@@ -160,20 +134,11 @@
             box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
         }
 
-        .btn-refresh:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
         .timestamp {
             font-size: 12px;
             color: #cbd5e1;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
-        /* ===== GRID KPIs ===== */
         .grid-kpis {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -209,10 +174,6 @@
             border-left-color: var(--warning);
         }
 
-        .kpi-card.info {
-            border-left-color: var(--info);
-        }
-
         .kpi-icon {
             position: absolute;
             right: 20px;
@@ -240,108 +201,6 @@
             margin-bottom: 8px;
         }
 
-        .kpi-change {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .kpi-change.positive {
-            color: var(--success);
-        }
-
-        .kpi-change.negative {
-            color: var(--danger);
-        }
-
-        /* ===== HEALTH INDICATOR ===== */
-        .health-section {
-            background: var(--card-bg);
-            padding: 28px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 40px;
-        }
-
-        .health-title {
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .health-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .health-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border-left: 4px solid;
-        }
-
-        .health-item.green {
-            border-left-color: var(--success);
-            background: #ecfdf5;
-        }
-
-        .health-item.yellow {
-            border-left-color: var(--warning);
-            background: #fffbeb;
-        }
-
-        .health-item.red {
-            border-left-color: var(--danger);
-            background: #fef2f2;
-        }
-
-        .health-indicator {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-
-        .health-item.green .health-indicator {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        .health-item.yellow .health-indicator {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-        }
-
-        .health-item.red .health-indicator {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-        }
-
-        .health-info h4 {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .health-info p {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* ===== CHARTS GRID ===== */
         .grid-charts {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -354,7 +213,6 @@
             padding: 28px;
             border-radius: 16px;
             box-shadow: var(--shadow-md);
-            position: relative;
         }
 
         .chart-box h2 {
@@ -382,19 +240,12 @@
             height: 400px;
         }
 
-        /* ===== TABLES ===== */
-        .tables-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
         .table-box {
             background: var(--card-bg);
             padding: 28px;
             border-radius: 16px;
             box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
         }
 
         .table-box h2 {
@@ -405,7 +256,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--text-primary);
         }
 
         .table-wrapper {
@@ -434,21 +284,18 @@
             color: var(--text-secondary);
             text-transform: uppercase;
             font-size: 11px;
-            letter-spacing: 0.5px;
             border-bottom: 2px solid var(--border);
         }
 
         td {
             padding: 14px;
             border-bottom: 1px solid var(--border);
-            color: var(--text-primary);
         }
 
         tbody tr:hover {
             background: #f8fafc;
         }
 
-        /* ===== BADGES ===== */
         .badge {
             display: inline-block;
             padding: 6px 12px;
@@ -456,7 +303,11 @@
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+        }
+
+        .badge-info {
+            background: #ecf0ff;
+            color: #2563eb;
         }
 
         .badge-success {
@@ -469,84 +320,36 @@
             color: #dc2626;
         }
 
-        .badge-warning {
-            background: #fffbeb;
-            color: #d97706;
-        }
-
-        .badge-info {
-            background: #ecf0ff;
-            color: #2563eb;
-        }
-
-        /* ===== PRIORITY SECTION ===== */
-        .priority-section {
-            background: var(--card-bg);
-            padding: 28px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 40px;
-            border-top: 4px solid var(--danger);
-        }
-
-        .priority-section h2 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-primary);
-        }
-
-        .priority-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 16px;
-        }
-
-        .priority-item {
-            padding: 16px;
-            border-left: 4px solid var(--danger);
+        .error-message {
             background: #fef2f2;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
+            border: 2px solid #fecaca;
+            color: #991b1b;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-weight: 600;
         }
 
-        .priority-item.medium {
-            border-left-color: var(--warning);
-            background: #fffbeb;
-        }
-
-        .priority-item.low {
-            border-left-color: var(--success);
-            background: #ecfdf5;
-        }
-
-        .priority-info h4 {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .priority-info p {
-            font-size: 12px;
+        .loading {
+            text-align: center;
+            padding: 40px;
             color: var(--text-secondary);
-            margin-bottom: 8px;
         }
 
-        .priority-amount {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--text-primary);
-            text-align: right;
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(59, 130, 246, 0.3);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
 
-        /* ===== RESPONSIVE ===== */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         @media (max-width: 1024px) {
             .grid-kpis {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -556,75 +359,17 @@
                 grid-template-columns: 1fr;
             }
 
-            .chart-full {
-                grid-column: 1;
-            }
-
-            .tables-section {
-                grid-template-columns: 1fr;
-            }
-
             .header {
                 flex-direction: column;
                 text-align: center;
                 gap: 20px;
             }
-
-            .header-controls {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-        }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 20px 10px;
-            }
-
-            .header {
-                padding: 24px;
-            }
-
-            .header h1 {
-                font-size: 24px;
-            }
-
-            .kpi-value {
-                font-size: 22px;
-            }
-
-            .grid-kpis {
-                grid-template-columns: 1fr;
-            }
-
-            .priority-item {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .priority-amount {
-                text-align: left;
-            }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            opacity: 0.3;
-            margin-bottom: 16px;
-            display: block;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- HEADER -->
     <div class="header">
         <div class="header-content">
             <span class="header-tag">Executive Dashboard</span>
@@ -632,10 +377,7 @@
             <p>Visão integrada de caixa, pagamentos e decisões estratégicas</p>
         </div>
         <div class="header-controls">
-            <select id="filtroMes" class="select-period" onchange="aplicarFiltro()">
-                <option value="todos">Período Total</option>
-            </select>
-            <button class="btn-refresh" onclick="atualizarDados()">
+            <button class="btn-refresh" onclick="carregarDados()">
                 <i class="fa-solid fa-rotate-right"></i> Atualizar
             </button>
             <div class="timestamp">
@@ -645,181 +387,11 @@
         </div>
     </div>
 
-    <!-- KPIs PRINCIPAIS -->
-    <div class="grid-kpis">
-        <div class="kpi-card success">
-            <i class="fa-solid fa-arrow-trend-up kpi-icon"></i>
-            <span class="kpi-label">Receitas Realizadas</span>
-            <strong class="kpi-value" id="kpiRec">R$ 0,00</strong>
-            <span class="kpi-change">Período selecionado</span>
-        </div>
-
-        <div class="kpi-card danger">
-            <i class="fa-solid fa-arrow-trend-down kpi-icon"></i>
-            <span class="kpi-label">Despesas Realizadas</span>
-            <strong class="kpi-value" id="kpiDes">R$ 0,00</strong>
-            <span class="kpi-change">Período selecionado</span>
-        </div>
-
-        <div class="kpi-card success">
-            <i class="fa-solid fa-hand-holding-dollar kpi-icon"></i>
-            <span class="kpi-label">Saldo Positivo</span>
-            <strong class="kpi-value" id="kpiSaldo">R$ 0,00</strong>
-            <span class="kpi-change">Receitas - Despesas</span>
-        </div>
-
-        <div class="kpi-card warning">
-            <i class="fa-solid fa-hourglass-end kpi-icon"></i>
-            <span class="kpi-label">Pendências Totais</span>
-            <strong class="kpi-value" id="kpiPend">R$ 0,00</strong>
-            <span class="kpi-change">Aguardando pagamento</span>
-        </div>
-
-        <div class="kpi-card info">
-            <i class="fa-solid fa-chart-line kpi-icon"></i>
-            <span class="kpi-label">Desvio Real vs Decisão</span>
-            <strong class="kpi-value" id="kpiDesvio">0%</strong>
-            <span class="kpi-change" id="kpiDesvioTipo">Análise de impacto</span>
-        </div>
-    </div>
-
-    <!-- INDICADOR DE SAÚDE FINANCEIRA -->
-    <div class="health-section">
-        <h2 class="health-title">
-            <i class="fa-solid fa-heart-pulse"></i> Saúde Financeira
-        </h2>
-        <div class="health-grid">
-            <div class="health-item green">
-                <div class="health-indicator">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-                <div class="health-info">
-                    <h4>Fluxo Positivo</h4>
-                    <p id="healthPositivo">Receitas > Despesas</p>
-                </div>
-            </div>
-
-            <div class="health-item yellow" id="healthPendencias">
-                <div class="health-indicator">
-                    <i class="fa-solid fa-exclamation"></i>
-                </div>
-                <div class="health-info">
-                    <h4>Pendências Ativas</h4>
-                    <p id="healthPendenciasText">Acompanhe os pagamentos em aberto</p>
-                </div>
-            </div>
-
-            <div class="health-item green" id="healthDecisoes">
-                <div class="health-indicator">
-                    <i class="fa-solid fa-lightbulb"></i>
-                </div>
-                <div class="health-info">
-                    <h4>Decisões Alinhadas</h4>
-                    <p id="healthDecisoesText">Realidade próxima ao planejado</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PRIORIDADES DE PAGAMENTO -->
-    <div class="priority-section">
-        <h2>
-            <i class="fa-solid fa-triangle-exclamation"></i> Prioridades de Pagamento
-        </h2>
-        <div class="priority-list" id="priorityList">
-            <div class="empty-state">
-                <i class="fa-solid fa-inbox"></i>
-                <p>Nenhuma pendência no momento</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- GRÁFICOS -->
-    <div class="grid-charts">
-        <div class="chart-box">
-            <h2><i class="fa-solid fa-chart-pie"></i> Despesas por Centro de Custo</h2>
-            <div class="chart-container">
-                <canvas id="chartPizza"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-box">
-            <h2><i class="fa-solid fa-chart-bar"></i> Fluxo de Caixa Previsto</h2>
-            <div class="chart-container">
-                <canvas id="chartMov"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-box chart-full">
-            <h2><i class="fa-solid fa-chart-line"></i> Comparativo: Fluxo Real vs. Decisões Tomadas</h2>
-            <div class="chart-container">
-                <canvas id="chartEvol"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- TABELAS -->
-    <div class="tables-section">
-        <div class="table-box">
-            <h2>
-                <i class="fa-solid fa-circle-exclamation" style="color: var(--warning)"></i> 
-                Carteira de Pendências
-            </h2>
-            <div class="table-wrapper">
-                <table id="tabelaPendentes">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Descrição</th>
-                            <th>Categoria</th>
-                            <th>Tipo</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="table-box">
-            <h2>
-                <i class="fa-solid fa-lightbulb" style="color: var(--info)"></i> 
-                Observações das Decisões
-            </h2>
-            <div class="table-wrapper">
-                <table id="tabelaObservacoes">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Observação</th>
-                            <th>Saldo Previsto</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <div id="conteudo"></div>
 </div>
 
 <script>
-    // ===== CONFIGURAÇÃO =====
     const SHEET_ID = "1LOjJ-8uTY1Vs61C52cgT84oCVmGXe7Hv-Hhf0YEqyIY";
-
-    // URLs de exportação CSV do Google Sheets
-    const LINK_LANCAMENTOS = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Lançamentos`;
-    const LINK_FLUXO = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Fluxo Caixa`;
-    const LINK_DECISOES = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Fluxo Decisões`;
-
-    let dadosBrutos = { lanc: [], fluxo: [], decisoes: [] };
-    let charts = {};
-
-    // ===== FUNÇÕES UTILITÁRIAS =====
-    function formatarDataBR(s) {
-        if (!s) return null;
-        let p = s.toString().split('/');
-        return p.length === 3 ? new Date(p[2], p[1]-1, p[0]) : null;
-    }
 
     function num(v) {
         if (!v || v === "-" || v === "") return 0;
@@ -831,33 +403,14 @@
             } else if (s.includes(",")) {
                 s = s.replace(",", ".");
             }
-            let resultado = parseFloat(s) || 0;
-            return isNaN(resultado) ? 0 : resultado;
+            return parseFloat(s) || 0;
         } catch(e) {
-            console.warn("Erro ao converter número:", v);
             return 0;
         }
     }
 
     function real(v) {
         return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
-
-    function normalizarColunas(dados) {
-        if (!dados || dados.length === 0) return [];
-        return dados.map(row => {
-            let nRow = {};
-            Object.keys(row).forEach(k => {
-                if (k) {
-                    let clean = k.toLowerCase().trim()
-                        .normalize("NFD")
-                        .replace(/[\u0300-\u036f]/g, "")
-                        .replace(/\s+/g, '_');
-                    nRow[clean] = row[k];
-                }
-            });
-            return nRow;
-        });
     }
 
     function atualizarTimestamp() {
@@ -867,391 +420,304 @@
         document.getElementById('lastUpdate').innerText = `${data} às ${hora}`;
     }
 
-    // ===== CARREGAMENTO DE DADOS =====
-    function atualizarDados() {
-        const botao = document.querySelector('.btn-refresh');
-        botao.disabled = true;
-        botao.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Carregando...';
+    async function carregarDados() {
+        const conteudo = document.getElementById('conteudo');
+        conteudo.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando dados...</p></div>';
 
-        Promise.all([
-            new Promise((resolve) => {
-                Papa.parse(LINK_LANCAMENTOS, { 
-                    download: true, header: true, dynamicTyping: false,
-                    complete: res => { 
-                        dadosBrutos.lanc = normalizarColunas(res.data.filter(r => r.data)); 
+        try {
+            // Carregar Lançamentos
+            const resLanc = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Lançamentos`);
+            const dataLanc = await resLanc.json();
+            const lancamentos = extrairDados(dataLanc);
 
-    // ===== CARREGAMENTO DE DADOS (continuação) =====
-    function atualizarDados() {
-        const botao = document.querySelector('.btn-refresh');
-        botao.disabled = true;
-        botao.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Carregando...';
+            // Carregar Fluxo Caixa
+            const resFluxo = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Fluxo Caixa`);
+            const dataFluxo = await resFluxo.json();
+            const fluxoCaixa = extrairDados(dataFluxo);
 
-        Promise.all([
-            new Promise((resolve) => {
-                Papa.parse(LINK_LANCAMENTOS, { 
-                    download: true, header: true, dynamicTyping: false,
-                    complete: res => { 
-                        dadosBrutos.lanc = normalizarColunas(res.data.filter(r => r.data));
-                        resolve();
-                    },
-                    error: err => {
-                        console.error("Erro ao carregar Lançamentos:", err);
-                        resolve();
-                    }
-                });
-            }),
-            new Promise((resolve) => {
-                Papa.parse(LINK_FLUXO, { 
-                    download: true, header: true, dynamicTyping: false,
-                    complete: res => { 
-                        dadosBrutos.fluxo = normalizarColunas(res.data.filter(r => r.data));
-                        resolve();
-                    },
-                    error: err => {
-                        console.error("Erro ao carregar Fluxo Caixa:", err);
-                        resolve();
-                    }
-                });
-            }),
-            new Promise((resolve) => {
-                Papa.parse(LINK_DECISOES, { 
-                    download: true, header: true, dynamicTyping: false,
-                    complete: res => { 
-                        dadosBrutos.decisoes = normalizarColunas(res.data.filter(r => r.data));
-                        resolve();
-                    },
-                    error: err => {
-                        console.error("Erro ao carregar Decisões:", err);
-                        resolve();
-                    }
-                });
-            })
-        ]).then(() => {
-            gerarFiltros(dadosBrutos.lanc);
-            aplicarFiltro();
+            // Carregar Decisões
+            const resDecisoes = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Fluxo Decisões`);
+            const dataDecisoes = await resDecisoes.json();
+            const decisoes = extrairDados(dataDecisoes);
+
+            renderizarDashboard(lancamentos, fluxoCaixa, decisoes);
             atualizarTimestamp();
-            botao.disabled = false;
-            botao.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Atualizar';
+
+        } catch (erro) {
+            console.error("Erro ao carregar dados:", erro);
+            conteudo.innerHTML = `
+                <div class="error-message">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Erro ao carregar dados da planilha. Verifique se:
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>A planilha está compartilhada como "Qualquer pessoa com o link"</li>
+                        <li>Os nomes das abas estão corretos: "Lançamentos", "Fluxo Caixa", "Fluxo Decisões"</li>
+                        <li>Há dados nas abas</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Erro:</strong> ${erro.message}</p>
+                </div>
+            `;
+        }
+    }
+
+    function extrairDados(response) {
+        if (!response.table || !response.table.rows) return [];
+
+        const cols = response.table.cols.map(c => c.label);
+        return response.table.rows.map(row => {
+            let obj = {};
+            cols.forEach((col, idx) => {
+                obj[col] = row.c[idx]?.v || '';
+            });
+            return obj;
         });
     }
 
-    // ===== GERAR FILTROS DE MÊS =====
-    function gerarFiltros(dados) {
-        const sel = document.getElementById('filtroMes');
-        const meses = new Set();
-
-        dados.forEach(r => {
-            let d = formatarDataBR(r.data);
-            if (d && !isNaN(d)) {
-                meses.add(d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }));
-            }
-        });
-
-        sel.innerHTML = '<option value="todos">Período Total</option>';
-        Array.from(meses).sort().forEach(m => {
-            let o = document.createElement('option');
-            o.value = m;
-            o.innerHTML = m.charAt(0).toUpperCase() + m.slice(1);
-            sel.appendChild(o);
-        });
-    }
-
-    // ===== APLICAR FILTRO =====
-    function aplicarFiltro() {
-        const sel = document.getElementById('filtroMes').value;
-
-        const filtrar = (l) => l.filter(r => {
-            if (sel === 'todos') return true;
-            let d = formatarDataBR(r.data);
-            return d && d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) === sel;
-        });
-
-        const fL = filtrar(dadosBrutos.lanc);
-        const fF = filtrar(dadosBrutos.fluxo);
-        const fD = filtrar(dadosBrutos.decisoes);
-
-        // Calcular KPIs
+    function renderizarDashboard(lancamentos, fluxoCaixa, decisoes) {
         let rec = 0, des = 0, pen = 0;
         let cc_dados = {};
-        let htmlPend = "";
         let pendenciasArray = [];
 
-        fL.forEach(r => {
-            let v = num(r.valor);
-            let s = String(r.status || "").toLowerCase();
-            let t = String(r.tipo || "").toLowerCase();
-            let cat = String(r.categoria || "Sem categoria").trim();
+        // Processar Lançamentos
+        lancamentos.forEach(r => {
+            let v = num(r.Valor);
+            let status = String(r.Status || "").toLowerCase();
+            let tipo = String(r.Tipo || "").toLowerCase();
+            let cat = String(r.Categoria || "Sem categoria").trim();
 
-            if (s.includes("realizado") || s.includes("pago") || s.includes("recebido")) {
-                if (t.includes("receber")) {
+            if (status.includes("realizado") || status.includes("pago") || status.includes("recebido")) {
+                if (tipo.includes("receber")) {
                     rec += v;
                 } else {
                     des += Math.abs(v);
-                    let cc = r.centro_de_custo || r.centro_custos || "Não Especificado";
+                    let cc = r["Centro de Custo"] || "Não Especificado";
                     cc_dados[cc] = (cc_dados[cc] || 0) + Math.abs(v);
                 }
-            } else if (s.includes("pendente")) {
+            } else if (status.includes("pendente")) {
                 pen += Math.abs(v);
                 pendenciasArray.push({
-                    data: r.data,
-                    descricao: r.descricao,
+                    data: r.Data,
+                    descricao: r.Descrição,
                     categoria: cat,
-                    tipo: t,
+                    tipo: tipo,
                     valor: v
                 });
             }
         });
 
-        // Atualizar KPIs
-        document.getElementById('kpiRec').innerText = real(rec);
-        document.getElementById('kpiDes').innerText = real(des);
-        document.getElementById('kpiSaldo').innerText = real(rec - des);
-        document.getElementById('kpiPend').innerText = real(pen);
+        const saldo = rec - des;
 
-        // Calcular desvio Real vs Decisões
-        let saldoReal = rec - des;
-        let saldoDecisao = 0;
-        fD.forEach(r => {
-            saldoDecisao = num(r.saldo_final);
-        });
-
-        let desvio = saldoDecisao !== 0 ? Math.abs((saldoReal - saldoDecisao) / saldoDecisao * 100) : 0;
-        document.getElementById('kpiDesvio').innerText = desvio.toFixed(1) + "%";
-
-        if (desvio < 10) {
-            document.getElementById('kpiDesvioTipo').innerText = "Muito alinhado";
-            document.getElementById('kpiDesvioTipo').className = "kpi-change positive";
-        } else if (desvio < 25) {
-            document.getElementById('kpiDesvioTipo').innerText = "Desvio moderado";
-            document.getElementById('kpiDesvioTipo').className = "kpi-change";
-        } else {
-            document.getElementById('kpiDesvioTipo').innerText = "Desvio significativo";
-            document.getElementById('kpiDesvioTipo').className = "kpi-change negative";
-        }
-
-        // Atualizar Saúde Financeira
-        if (rec > des) {
-            document.getElementById('healthPositivo').innerText = `✓ Receitas ${real(rec)} > Despesas ${real(des)}`;
-        } else {
-            document.getElementById('healthPositivo').innerText = `✗ Despesas ${real(des)} > Receitas ${real(rec)}`;
-        }
-
-        if (pen > 0) {
-            document.getElementById('healthPendenciasText').innerText = `${pendenciasArray.length} pendências totalizando ${real(pen)}`;
-        } else {
-            document.getElementById('healthPendenciasText').innerText = "Nenhuma pendência! ✓";
-        }
-
-        // Tabela de Pendências
-        if (pendenciasArray.length > 0) {
-            htmlPend = pendenciasArray.map(p => `
-                <tr>
-                    <td>${p.data || '-'}</td>
-                    <td>${p.descricao || '-'}</td>
-                    <td><span class="badge badge-info">${p.categoria}</span></td>
-                    <td>${p.tipo.includes('receber') ? 'A Receber' : 'A Pagar'}</td>
-                    <td style="color: ${p.tipo.includes('receber') ? '#10b981' : '#ef4444'}; font-weight: 700;">
-                        ${real(p.valor)}
-                    </td>
-                </tr>
-            `).join('');
-        } else {
-            htmlPend = '<tr><td colspan="5" style="text-align: center; color: #94a3b8;">Sem pendências</td></tr>';
-        }
-        document.getElementById('tabelaPendentes').querySelector('tbody').innerHTML = htmlPend;
-
-        // Prioridades de Pagamento
-        let pendenciasOrdenadas = pendenciasArray
-            .filter(p => p.tipo.includes('pagar'))
-            .sort((a, b) => num(b.valor) - num(a.valor))
-            .slice(0, 5);
-
-        let htmlPriority = "";
-        if (pendenciasOrdenadas.length > 0) {
-            htmlPriority = pendenciasOrdenadas.map((p, idx) => {
-                let prioridade = idx === 0 ? 'high' : idx <= 2 ? 'medium' : 'low';
-                return `
-                    <div class="priority-item ${prioridade}">
-                        <div class="priority-info">
-                            <h4>${p.descricao}</h4>
-                            <p>${p.categoria} • ${p.data}</p>
-                        </div>
-                        <div class="priority-amount">${real(p.valor)}</div>
-                    </div>
-                `;
-            }).join('');
-        } else {
-            htmlPriority = `
-                <div class="empty-state">
-                    <i class="fa-solid fa-inbox"></i>
-                    <p>Nenhuma pendência de pagamento</p>
+        // HTML do Dashboard
+        let html = `
+            <div class="grid-kpis">
+                <div class="kpi-card success">
+                    <i class="fa-solid fa-arrow-trend-up kpi-icon"></i>
+                    <span class="kpi-label">Receitas Realizadas</span>
+                    <strong class="kpi-value">${real(rec)}</strong>
                 </div>
-            `;
-        }
-        document.getElementById('priorityList').innerHTML = htmlPriority;
 
-        // Tabela de Observações
-        let htmlObs = "";
-        if (fD.length > 0) {
-            htmlObs = fD.filter(r => r.observacoes && r.observacoes.trim()).map(r => `
-                <tr>
-                    <td>${r.data || '-'}</td>
-                    <td>${r.observacoes}</td>
-                    <td style="font-weight: 700;">${real(num(r.saldo_final))}</td>
-                </tr>
-            `).join('');
-        }
-        if (!htmlObs) {
-            htmlObs = '<tr><td colspan="3" style="text-align: center; color: #94a3b8;">Sem observações registradas</td></tr>';
-        }
-        document.getElementById('tabelaObservacoes').querySelector('tbody').innerHTML = htmlObs;
+                <div class="kpi-card danger">
+                    <i class="fa-solid fa-arrow-trend-down kpi-icon"></i>
+                    <span class="kpi-label">Despesas Realizadas</span>
+                    <strong class="kpi-value">${real(des)}</strong>
+                </div>
+
+                <div class="kpi-card success">
+                    <i class="fa-solid fa-hand-holding-dollar kpi-icon"></i>
+                    <span class="kpi-label">Saldo Positivo</span>
+                    <strong class="kpi-value">${real(saldo)}</strong>
+                </div>
+
+                <div class="kpi-card warning">
+                    <i class="fa-solid fa-hourglass-end kpi-icon"></i>
+                    <span class="kpi-label">Pendências Totais</span>
+                    <strong class="kpi-value">${real(pen)}</strong>
+                </div>
+            </div>
+
+            <div class="grid-charts">
+                <div class="chart-box">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Despesas por Centro de Custo</h2>
+                    <div class="chart-container">
+                        <canvas id="chartPizza"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-box">
+                    <h2><i class="fa-solid fa-chart-bar"></i> Fluxo de Caixa</h2>
+                    <div class="chart-container">
+                        <canvas id="chartBarras"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-box chart-full">
+                    <h2><i class="fa-solid fa-chart-line"></i> Comparativo: Real vs. Decisões</h2>
+                    <div class="chart-container">
+                        <canvas id="chartLinha"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-box">
+                <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--warning)"></i> Pendências</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${pendenciasArray.length > 0 ? pendenciasArray.map(p => `
+                                <tr>
+                                    <td>${p.data || '-'}</td>
+                                    <td>${p.descricao || '-'}</td>
+                                    <td><span class="badge badge-info">${p.categoria}</span></td>
+                                    <td>${p.tipo.includes('receber') ? 'A Receber' : 'A Pagar'}</td>
+                                    <td style="color: ${p.tipo.includes('receber') ? '#10b981' : '#ef4444'}; font-weight: 700;">${real(p.valor)}</td>
+                                </tr>
+                            `).join('') : '<tr><td colspan="5" style="text-align: center;">Sem pendências</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-box">
+                <h2><i class="fa-solid fa-lightbulb" style="color: var(--info)"></i> Observações das Decisões</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Observação</th>
+                                <th>Saldo Previsto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${decisoes.filter(d => d.Observações).length > 0 ? decisoes.filter(d => d.Observações).map(d => `
+                                <tr>
+                                    <td>${d.Data || '-'}</td>
+                                    <td>${d.Observações}</td>
+                                    <td style="font-weight: 700;">${real(num(d["Saldo Final"]))}</td>
+                                </tr>
+                            `).join('') : '<tr><td colspan="3" style="text-align: center;">Sem observações</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('conteudo').innerHTML = html;
 
         // Renderizar Gráficos
-        renderCharts(cc_dados, fF, fD);
+        setTimeout(() => {
+            renderizarGraficos(cc_dados, fluxoCaixa, decisoes);
+        }, 100);
     }
 
-    // ===== RENDERIZAR GRÁFICOS =====
-    function renderCharts(cc_dados, fF, fD) {
-        const commonOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        boxWidth: 12,
-                        font: { family: 'Inter', size: 12 },
-                        padding: 15
-                    }
-                }
-            }
-        };
-
-        // Gráfico Pizza - Despesas por Centro de Custo
-        try {
-            if (charts.pizza) charts.pizza.destroy();
-
-            let ccLabels = Object.keys(cc_dados).length > 0 ? Object.keys(cc_dados) : ['Sem dados'];
-            let ccValues = Object.values(cc_dados).length > 0 ? Object.values(cc_dados) : [0];
-
-            charts.pizza = new Chart(document.getElementById('chartPizza'), {
+    function renderizarGraficos(cc_dados, fluxoCaixa, decisoes) {
+        // Gráfico Pizza
+        const ctxPizza = document.getElementById('chartPizza');
+        if (ctxPizza) {
+            new Chart(ctxPizza, {
                 type: 'doughnut',
                 data: {
-                    labels: ccLabels,
+                    labels: Object.keys(cc_dados),
                     datasets: [{
-                        data: ccValues,
-                        backgroundColor: [
-                            '#3b82f6', '#1e40af', '#60a5fa', '#93c5fd', '#dbeafe',
-                            '#10b981', '#059669', '#6ee7b7', '#a7f3d0', '#d1fae5'
-                        ],
+                        data: Object.values(cc_dados),
+                        backgroundColor: ['#3b82f6', '#1e40af', '#60a5fa', '#93c5fd', '#10b981', '#059669'],
                         borderColor: '#ffffff',
                         borderWidth: 2
                     }]
                 },
-                options: commonOptions
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
             });
-        } catch(e) {
-            console.error("Erro ao renderizar pizza:", e);
         }
 
-        // Gráfico Barras - Fluxo de Caixa
-        try {
-            if (charts.barras) charts.barras.destroy();
-
-            charts.barras = new Chart(document.getElementById('chartMov'), {
+        // Gráfico Barras
+        const ctxBarras = document.getElementById('chartBarras');
+        if (ctxBarras) {
+            new Chart(ctxBarras, {
                 type: 'bar',
                 data: {
-                    labels: fF.map(d => d.data || ""),
+                    labels: fluxoCaixa.map(d => d.Data || ""),
                     datasets: [
                         {
                             label: 'Entradas',
-                            data: fF.map(d => num(d.entradas || 0)),
+                            data: fluxoCaixa.map(d => num(d.Entradas || 0)),
                             backgroundColor: '#10b981',
                             borderRadius: 8
                         },
                         {
                             label: 'Saídas',
-                            data: fF.map(d => Math.abs(num(d.saidas || 0))),
+                            data: fluxoCaixa.map(d => Math.abs(num(d.Saidas || 0))),
                             backgroundColor: '#ef4444',
                             borderRadius: 8
                         }
                     ]
                 },
                 options: {
-                    ...commonOptions,
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return 'R$ ' + value.toLocaleString('pt-BR');
-                                }
-                            }
+                            beginAtZero: true
                         }
                     }
                 }
             });
-        } catch(e) {
-            console.error("Erro ao renderizar barras:", e);
         }
 
-        // Gráfico Linha - Real vs Decisões
-        try {
-            if (charts.linha) charts.linha.destroy();
-
-            charts.linha = new Chart(document.getElementById('chartEvol'), {
+        // Gráfico Linha
+        const ctxLinha = document.getElementById('chartLinha');
+        if (ctxLinha) {
+            new Chart(ctxLinha, {
                 type: 'line',
                 data: {
-                    labels: fF.map(d => d.data || ""),
+                    labels: fluxoCaixa.map(d => d.Data || ""),
                     datasets: [
                         {
                             label: 'Fluxo Real',
-                            data: fF.map(d => num(d.saldo_final || 0)),
+                            data: fluxoCaixa.map(d => num(d["Saldo Final"] || 0)),
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.1)',
                             fill: true,
                             tension: 0.4,
                             borderWidth: 3,
-                            pointRadius: 5,
-                            pointBackgroundColor: '#3b82f6',
-                            pointBorderColor: '#ffffff',
-                            pointBorderWidth: 2
+                            pointRadius: 5
                         },
                         {
                             label: 'Projeção Decisões',
-                            data: fD.map(d => num(d.saldo_final || 0)),
+                            data: decisoes.map(d => num(d["Saldo Final"] || 0)),
                             borderColor: '#ef4444',
                             borderDash: [5, 5],
                             tension: 0.4,
                             borderWidth: 2,
                             pointRadius: 4,
-                            pointBackgroundColor: '#ef4444',
-                            pointBorderColor: '#ffffff',
-                            pointBorderWidth: 2,
                             fill: false
                         }
                     ]
                 },
                 options: {
-                    ...commonOptions,
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: function(value) {
-                                    return 'R$ ' + value.toLocaleString('pt-BR');
-                                }
-                            }
-                        }
-                    }
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
-        } catch(e) {
-            console.error("Erro ao renderizar linha:", e);
         }
     }
 
-    // ===== INICIALIZAR =====
-    window.onload = atualizarDados;
+    // Carregar dados ao abrir
+    window.addEventListener('load', carregarDados);
 </script>
 
 </body>
