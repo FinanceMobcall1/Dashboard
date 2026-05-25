@@ -3,39 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Mobcall</title>
+    <title>Executive Dashboard | Mobcall</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ff 100%);
-            color: #0f172a;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #334155;
             min-height: 100vh;
             padding: 40px 20px;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1400px; margin: 0 auto; }
 
         .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 20px;
             margin-bottom: 40px;
-            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -45,12 +39,31 @@
             font-family: 'Poppins', sans-serif;
             font-size: 32px;
             font-weight: 800;
+            color: #0f172a;
             margin-bottom: 8px;
         }
 
         .header-content p {
+            color: #64748b;
             font-size: 14px;
-            opacity: 0.9;
+        }
+
+        .header-tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
 
         .btn-refresh {
@@ -64,10 +77,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: all 0.3s ease;
         }
 
         .btn-refresh:hover {
             background: #1e40af;
+            transform: translateY(-2px);
         }
 
         .btn-refresh:disabled {
@@ -77,51 +92,99 @@
 
         .grid-kpis {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
         }
 
         .kpi-card {
             background: white;
-            padding: 28px;
+            padding: 24px;
             border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border-left: 5px solid #3b82f6;
+            position: relative;
         }
 
-        .kpi-card.success {
-            border-left-color: #10b981;
-        }
-
-        .kpi-card.danger {
-            border-left-color: #ef4444;
-        }
-
-        .kpi-card.warning {
-            border-left-color: #f59e0b;
-        }
+        .kpi-card.success { border-left-color: #10b981; }
+        .kpi-card.danger { border-left-color: #ef4444; }
+        .kpi-card.warning { border-left-color: #f59e0b; }
+        .kpi-card.primary { border-left-color: #1e40af; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; }
 
         .kpi-label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            color: #64748b;
+            color: #94a3b8;
             text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 12px;
         }
 
+        .kpi-card.primary .kpi-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
         .kpi-value {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             font-family: 'Poppins', sans-serif;
-            color: #0f172a;
+            color: #1e293b;
+        }
+
+        .kpi-card.primary .kpi-value {
+            color: white;
+        }
+
+        .grid-charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-box h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1e293b;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .full-width .chart-container {
+            height: 400px;
+        }
+
+        .table-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
         }
 
         .table-box {
             background: white;
-            padding: 28px;
+            padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
         }
 
@@ -130,12 +193,14 @@
             font-size: 16px;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1e293b;
         }
 
         .table-wrapper {
-            overflow-x: auto;
-            max-height: 400px;
+            max-height: 350px;
             overflow-y: auto;
         }
 
@@ -163,7 +228,7 @@
 
         td {
             padding: 14px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         tbody tr:hover {
@@ -179,12 +244,17 @@
             text-transform: uppercase;
         }
 
-        .badge-info {
-            background: #ecf0ff;
-            color: #2563eb;
+        .badge-saving {
+            background: #ecfdf5;
+            color: #059669;
         }
 
-        .error-message {
+        .badge-pending {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .error-box {
             background: #fef2f2;
             border: 2px solid #fecaca;
             color: #991b1b;
@@ -197,14 +267,14 @@
         .loading {
             text-align: center;
             padding: 40px;
-            color: #64748b;
+            color: white;
         }
 
         .spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(59, 130, 246, 0.3);
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
             border-top-color: #3b82f6;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
@@ -215,11 +285,9 @@
         }
 
         @media (max-width: 1024px) {
-            .header {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
+            .grid-charts { grid-template-columns: 1fr; }
+            .table-section { grid-template-columns: 1fr; }
+            .header { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
@@ -228,11 +296,12 @@
 <div class="container">
     <div class="header">
         <div class="header-content">
+            <span class="header-tag">Executive Dashboard</span>
             <h1>Gestão Financeira Mobcall</h1>
             <p>Visão integrada de caixa, pagamentos e decisões estratégicas</p>
         </div>
-        <div>
-            <button class="btn-refresh" id="btnAtualizar" onclick="carregarDados()">
+        <div class="header-controls">
+            <button class="btn-refresh" id="btnAtualizar" onclick="atualizarDados()">
                 <i class="fa-solid fa-rotate-right"></i> Atualizar
             </button>
         </div>
@@ -241,103 +310,136 @@
     <div id="conteudo"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
 <script>
-    const URLs = {
-        lancamentos: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Lançamentos.csv',
-        fluxoCaixa: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Caixa%20(1).csv',
-        decisoes: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Decisões.csv'
-    };
+    // COLE OS LINKS AQUI
+    const LINK_LANCAMENTOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=165446579&single=true&output=csv";
+    const LINK_FLUXO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=1838851070&single=true&output=csv";
+    const LINK_DECISOES = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRHb_OWO8wTWjXG3DN31SrQKUaS0lDi-1ZMMGuyiuO9aY4t8PewQT_wtviFS904RirhNEcRaZ9l76U2/pub?gid=417072815&single=true&output=csv";
 
-    function parseCSV(csv) {
-        const lines = csv.split('\n');
-        if (lines.length < 2) return [];
+    let dadosBrutos = { lanc: [], fluxo: [], decisoes: [] };
+    let charts = {};
 
-        const headers = lines[0].split(',').map(h => h.trim());
-        const data = [];
-
-        for (let i = 1; i < lines.length; i++) {
-            if (!lines[i].trim()) continue;
-
-            const values = lines[i].split(',').map(v => v.trim());
-            const obj = {};
-
-            for (let j = 0; j < headers.length; j++) {
-                obj[headers[j]] = values[j] || '';
-            }
-
-            data.push(obj);
-        }
-
-        return data;
-    }
-
-    function num(v) {
-        if (!v || v === "-" || v === "") return 0;
-        let s = String(v).replace("R$", "").trim();
-        if (s.includes(",") && s.includes(".")) {
-            s = s.replace(/\./g, "").replace(",", ".");
-        } else if (s.includes(",")) {
-            s = s.replace(",", ".");
-        }
-        return parseFloat(s) || 0;
-    }
-
-    function real(v) {
-        return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
-
-    async function carregarDados() {
+    function atualizarDados() {
         const conteudo = document.getElementById('conteudo');
         const btn = document.getElementById('btnAtualizar');
 
         btn.disabled = true;
         conteudo.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando dados...</p></div>';
 
-        try {
-            const [lancamentos, fluxoCaixa, decisoes] = await Promise.all([
-                fetch(URLs.lancamentos).then(r => r.text()).then(csv => parseCSV(csv)),
-                fetch(URLs.fluxoCaixa).then(r => r.text()).then(csv => parseCSV(csv)),
-                fetch(URLs.decisoes).then(r => r.text()).then(csv => parseCSV(csv))
-            ]);
-
-            renderizarDashboard(lancamentos, fluxoCaixa, decisoes);
-            btn.disabled = false;
-
-        } catch (erro) {
-            console.error("Erro:", erro);
-            conteudo.innerHTML = '<div class="error-message">Erro ao carregar dados. Verifique o console.</div>';
-            btn.disabled = false;
-        }
+        Papa.parse(LINK_LANCAMENTOS, { 
+            download: true, 
+            header: true, 
+            complete: res => { 
+                dadosBrutos.lanc = normalizarColunas(res.data);
+                Papa.parse(LINK_FLUXO, { 
+                    download: true, 
+                    header: true, 
+                    complete: res => { 
+                        dadosBrutos.fluxo = normalizarColunas(res.data);
+                        Papa.parse(LINK_DECISOES, { 
+                            download: true, 
+                            header: true, 
+                            complete: res => { 
+                                dadosBrutos.decisoes = normalizarColunas(res.data);
+                                renderizarDashboard();
+                                btn.disabled = false;
+                            },
+                            error: err => {
+                                conteudo.innerHTML = `<div class="error-box">Erro ao carregar Decisões: ${err.message}</div>`;
+                                btn.disabled = false;
+                            }
+                        });
+                    },
+                    error: err => {
+                        conteudo.innerHTML = `<div class="error-box">Erro ao carregar Fluxo: ${err.message}</div>`;
+                        btn.disabled = false;
+                    }
+                });
+            },
+            error: err => {
+                conteudo.innerHTML = `<div class="error-box">Erro ao carregar Lançamentos: ${err.message}</div>`;
+                btn.disabled = false;
+            }
+        });
     }
 
-    function renderizarDashboard(lancamentos, fluxoCaixa, decisoes) {
-        let rec = 0, des = 0, pen = 0;
-        let pendenciasArray = [];
-
-        lancamentos.forEach(r => {
-            if (!r.Valor) return;
-
-            let v = num(r.Valor);
-            let status = String(r.Status || "").toLowerCase();
-            let tipo = String(r.Tipo || "").toLowerCase();
-
-            if (status.includes("realizado") || status.includes("pago")) {
-                if (tipo.includes("receber")) {
-                    rec += v;
-                } else {
-                    des += Math.abs(v);
+    function normalizarColunas(dados) {
+        if(!dados || dados.length === 0) return [];
+        return dados.map(row => {
+            let nRow = {};
+            Object.keys(row).forEach(k => {
+                if (k) {
+                    let clean = k.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
+                    nRow[clean] = row[k];
                 }
-            } else if (status.includes("pendente")) {
+            });
+            return nRow;
+        });
+    }
+
+    function formatarDataBR(s) {
+        if (!s) return null;
+        let p = s.toString().split('/');
+        return p.length === 3 ? new Date(p[2], p[1]-1, p[0]) : null;
+    }
+
+    function num(v) {
+        if (!v || v === "-") return 0;
+        if (typeof v === 'number') return v;
+        let s = v.toString().replace("R$", "").trim();
+        if (s.includes(",") && s.includes(".")) s = s.replace(/\./g, "").replace(",", ".");
+        else if (s.includes(",")) s = s.replace(",", ".");
+        return parseFloat(s) || 0;
+    }
+
+    function real(v) { 
+        return v.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}); 
+    }
+
+    function renderizarDashboard() {
+        let rec = 0, des = 0, pen = 0, cc_dados = {};
+        let htmlP = "", htmlS = "", totalSaving = 0;
+
+        let mapaForn = {};
+        dadosBrutos.lanc.forEach(r => {
+            let dObj = formatarDataBR(r.data);
+            if (dObj && (String(r.status).toLowerCase().includes("pago") || String(r.status).toLowerCase().includes("realizado"))) {
+                let n = String(r.descricao || "").trim().toUpperCase();
+                let v = Math.abs(num(r.valor));
+                let chave = dObj.getFullYear() * 100 + (dObj.getMonth() + 1);
+                if (n && v > 0) {
+                    if (!mapaForn[n]) mapaForn[n] = {};
+                    mapaForn[n][chave] = {v: (mapaForn[n][chave]?.v || 0) + v, l: dObj.toLocaleDateString('pt-BR', {month:'short', year:'2-digit'})};
+                }
+            }
+        });
+
+        Object.keys(mapaForn).forEach(f => {
+            let mKeys = Object.keys(mapaForn[f]).map(Number).sort((a,b)=>a-b);
+            for(let i=1; i<mKeys.length; i++) {
+                let dAnt = mapaForn[f][mKeys[i-1]], dAtu = mapaForn[f][mKeys[i]];
+                if(dAtu.v < dAnt.v) {
+                    let eco = dAnt.v - dAtu.v;
+                    totalSaving += eco;
+                    htmlS += `<tr><td><strong>${f}</strong></td><td>${dAnt.l}: ${real(dAnt.v)}</td><td>${dAtu.l}: ${real(dAtu.v)}</td><td><span class="badge badge-saving">↓ ${real(eco)}</span></td></tr>`;
+                }
+            }
+        });
+
+        dadosBrutos.lanc.forEach(r => {
+            let v = num(r.valor);
+            let s = String(r.status || "").toLowerCase();
+            let t = String(r.tipo || "").toLowerCase();
+            if (s.includes("realizado") || s.includes("pago") || s.includes("recebido")) {
+                if (t.includes("receber")) rec += v;
+                else { 
+                    des += Math.abs(v); 
+                    let cc = r.centro_de_custo || r.centro_custo || r.cc || 'Não Especificado';
+                    cc_dados[cc] = (cc_dados[cc] || 0) + Math.abs(v); 
+                }
+            } else if (s.includes("pendente")) {
                 pen += Math.abs(v);
-                pendenciasArray.push({
-                    data: r.Data,
-                    descricao: r.Descrição,
-                    categoria: r.Categoria,
-                    tipo: tipo,
-                    valor: v
-                });
+                htmlP += `<tr><td>${r.data || '-'}</td><td>${r.descricao || '-'}</td><td>${t}</td><td style="color:${t.includes('receber')?'#10b981':'#ef4444'}">${real(v)}</td></tr>`;
             }
         });
 
@@ -346,111 +448,118 @@
         let html = `
             <div class="grid-kpis">
                 <div class="kpi-card success">
-                    <div class="kpi-label">Receitas Realizadas</div>
+                    <div class="kpi-label"><i class="fa-solid fa-arrow-trend-up"></i> Receitas Realizadas</div>
                     <div class="kpi-value">${real(rec)}</div>
                 </div>
-
                 <div class="kpi-card danger">
-                    <div class="kpi-label">Despesas Realizadas</div>
+                    <div class="kpi-label"><i class="fa-solid fa-arrow-trend-down"></i> Despesas Realizadas</div>
                     <div class="kpi-value">${real(des)}</div>
                 </div>
-
-                <div class="kpi-card ${saldo >= 0 ? 'success' : 'danger'}">
-                    <div class="kpi-label">Saldo</div>
-                    <div class="kpi-value">${real(saldo)}</div>
+                <div class="kpi-card success">
+                    <div class="kpi-label"><i class="fa-solid fa-hand-holding-dollar"></i> Economia (Saving)</div>
+                    <div class="kpi-value">${real(totalSaving)}</div>
                 </div>
-
                 <div class="kpi-card warning">
-                    <div class="kpi-label">Pendências Totais</div>
+                    <div class="kpi-label"><i class="fa-solid fa-hourglass-end"></i> Pendências Totais</div>
                     <div class="kpi-value">${real(pen)}</div>
                 </div>
-            </div>
-
-            <div class="table-box">
-                <h2>Pendências</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Descrição</th>
-                                <th>Categoria</th>
-                                <th>Tipo</th>
-                                <th>Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${pendenciasArray.length > 0 ? pendenciasArray.map(p => `
-                                <tr>
-                                    <td>${p.data}</td>
-                                    <td>${p.descricao}</td>
-                                    <td><span class="badge badge-info">${p.categoria}</span></td>
-                                    <td>${p.tipo.includes('receber') ? 'A Receber' : 'A Pagar'}</td>
-                                    <td>${real(p.valor)}</td>
-                                </tr>
-                            `).join('') : '<tr><td colspan="5" style="text-align: center;">Sem pendências</td></tr>'}
-                        </tbody>
-                    </table>
+                <div class="kpi-card primary">
+                    <div class="kpi-label"><i class="fa-solid fa-wallet"></i> Saldo de Caixa</div>
+                    <div class="kpi-value">${real(saldo)}</div>
                 </div>
             </div>
 
-            <div class="table-box">
-                <h2>Fluxo de Caixa</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Saldo Inicial</th>
-                                <th>Entradas</th>
-                                <th>Saídas</th>
-                                <th>Saldo Final</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${fluxoCaixa.length > 0 ? fluxoCaixa.map(f => `
-                                <tr>
-                                    <td>${f.Data}</td>
-                                    <td>${real(num(f['Saldo Inicial']))}</td>
-                                    <td>${real(num(f.Entradas))}</td>
-                                    <td>${real(num(f.Saidas))}</td>
-                                    <td><strong>${real(num(f['Saldo Final']))}</strong></td>
-                                </tr>
-                            `).join('') : '<tr><td colspan="5" style="text-align: center;">Sem dados</td></tr>'}
-                        </tbody>
-                    </table>
+            <div class="grid-charts">
+                <div class="chart-box">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Custos por Centro de Custo</h2>
+                    <div class="chart-container">
+                        <canvas id="chartPizza"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <h2><i class="fa-solid fa-chart-bar"></i> Fluxo Previsto</h2>
+                    <div class="chart-container">
+                        <canvas id="chartMov"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box full-width">
+                    <h2><i class="fa-solid fa-chart-line"></i> Comparativo de Performance: Real vs. Decisões</h2>
+                    <div class="chart-container">
+                        <canvas id="chartEvol"></canvas>
+                    </div>
                 </div>
             </div>
 
-            <div class="table-box">
-                <h2>Decisões</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Observação</th>
-                                <th>Saldo Previsto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${decisoes.length > 0 ? decisoes.map(d => `
-                                <tr>
-                                    <td>${d.Data}</td>
-                                    <td>${d.Observações}</td>
-                                    <td><strong>${real(num(d['Saldo Final']))}</strong></td>
-                                </tr>
-                            `).join('') : '<tr><td colspan="3" style="text-align: center;">Sem dados</td></tr>'}
-                        </tbody>
-                    </table>
+            <div class="table-section">
+                <div class="table-box">
+                    <h2><i class="fa-solid fa-piggy-bank" style="color: #10b981;"></i> Registro de Savings (Reduções)</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Fornecedor</th><th>Histórico</th><th>Atual</th><th>Resultado</th></tr></thead>
+                            <tbody>${htmlS || "<tr><td colspan='4'>Nenhuma redução identificada.</td></tr>"}</tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table-box">
+                    <h2><i class="fa-solid fa-circle-exclamation" style="color: #f59e0b;"></i> Carteira de Pendências</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th></tr></thead>
+                            <tbody>${htmlP || "<tr><td colspan='4'>Sem pendências.</td></tr>"}</tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         `;
 
         document.getElementById('conteudo').innerHTML = html;
+        setTimeout(() => renderCharts(cc_dados), 100);
     }
 
-    window.addEventListener('load', carregarDados);
+    function renderCharts(cc_dados) {
+        const opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } } };
+
+        if (charts.p) charts.p.destroy();
+        charts.p = new Chart(document.getElementById('chartPizza'), {
+            type: 'doughnut',
+            data: { 
+                labels: Object.keys(cc_dados).length > 0 ? Object.keys(cc_dados) : ['Sem dados'], 
+                datasets: [{ 
+                    data: Object.values(cc_dados).length > 0 ? Object.values(cc_dados) : [0], 
+                    backgroundColor: ['#1e3a8a', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe', '#10b981', '#059669'] 
+                }] 
+            },
+            options: opts
+        });
+
+        if (charts.m) charts.m.destroy();
+        charts.m = new Chart(document.getElementById('chartMov'), {
+            type: 'bar',
+            data: { 
+                labels: dadosBrutos.fluxo.map(d => d.data || ""), 
+                datasets: [
+                    { label: 'Entradas', data: dadosBrutos.fluxo.map(d => num(d.entradas || 0)), backgroundColor: '#10b981' }, 
+                    { label: 'Saídas', data: dadosBrutos.fluxo.map(d => Math.abs(num(d.saidas || 0))), backgroundColor: '#ef4444' }
+                ] 
+            },
+            options: opts
+        });
+
+        if (charts.e) charts.e.destroy();
+        charts.e = new Chart(document.getElementById('chartEvol'), {
+            type: 'line',
+            data: { 
+                labels: dadosBrutos.fluxo.map(d => d.data || ""),
+                datasets: [
+                    { label: 'Fluxo Real', data: dadosBrutos.fluxo.map(d => num(d.saldo_final || 0)), borderColor: '#1e3a8a', backgroundColor: 'rgba(30, 58, 138, 0.05)', fill: true, tension: 0.4, borderWidth: 3 },
+                    { label: 'Projeção Decisões', data: dadosBrutos.decisoes.map(d => num(d.saldo_final || 0)), borderColor: '#ef4444', borderDash: [5, 5], tension: 0.4, borderWidth: 2 }
+                ]
+            },
+            options: opts
+        });
+    }
+
+    window.onload = atualizarDados;
 </script>
 
 </body>
