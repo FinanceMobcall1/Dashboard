@@ -3,42 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executive Dashboard | Mobcall</title>
+    <title>Dashboard Mobcall</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root {
-            --primary: #0f172a;
-            --primary-light: #1e293b;
-            --accent: #3b82f6;
-            --accent-dark: #1e40af;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #06b6d4;
-            --bg: #f0f4f8;
-            --card-bg: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ff 100%);
             font-family: 'Inter', sans-serif;
-            color: var(--text-primary);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ff 100%);
+            color: #0f172a;
             min-height: 100vh;
             padding: 40px 20px;
         }
@@ -49,71 +30,31 @@
         }
 
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
             padding: 40px;
             border-radius: 20px;
             margin-bottom: 40px;
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 300px;
-            height: 300px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 50%;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .header-tag {
-            display: inline-block;
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .header h1 {
+        .header-content h1 {
             font-family: 'Poppins', sans-serif;
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 8px;
         }
 
-        .header p {
+        .header-content p {
             font-size: 14px;
             opacity: 0.9;
-            color: #cbd5e1;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
         }
 
         .btn-refresh {
-            background: var(--accent);
+            background: #3b82f6;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -123,24 +64,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
-            font-size: 14px;
         }
 
         .btn-refresh:hover {
-            background: var(--accent-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+            background: #1e40af;
         }
 
         .btn-refresh:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-        }
-
-        .timestamp {
-            font-size: 12px;
-            color: #cbd5e1;
         }
 
         .grid-kpis {
@@ -151,104 +83,45 @@
         }
 
         .kpi-card {
-            background: var(--card-bg);
+            background: white;
             padding: 28px;
             border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-            border-left: 5px solid var(--accent);
-            transition: all 0.3s ease;
-        }
-
-        .kpi-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #3b82f6;
         }
 
         .kpi-card.success {
-            border-left-color: var(--success);
+            border-left-color: #10b981;
         }
 
         .kpi-card.danger {
-            border-left-color: var(--danger);
+            border-left-color: #ef4444;
         }
 
         .kpi-card.warning {
-            border-left-color: var(--warning);
-        }
-
-        .kpi-icon {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 32px;
-            opacity: 0.1;
+            border-left-color: #f59e0b;
         }
 
         .kpi-label {
-            display: block;
             font-size: 12px;
             font-weight: 700;
-            color: var(--text-secondary);
+            color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             margin-bottom: 12px;
         }
 
         .kpi-value {
-            display: block;
             font-size: 28px;
             font-weight: 800;
-            color: var(--text-primary);
             font-family: 'Poppins', sans-serif;
-            margin-bottom: 8px;
-        }
-
-        .grid-charts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .chart-box {
-            background: var(--card-bg);
-            padding: 28px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .chart-box h2 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-primary);
-        }
-
-        .chart-container {
-            position: relative;
-            height: 350px;
-            width: 100%;
-        }
-
-        .chart-full {
-            grid-column: 1 / -1;
-        }
-
-        .chart-full .chart-container {
-            height: 400px;
+            color: #0f172a;
         }
 
         .table-box {
-            background: var(--card-bg);
+            background: white;
             padding: 28px;
             border-radius: 16px;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
         }
 
@@ -257,9 +130,7 @@
             font-size: 16px;
             font-weight: 700;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: #0f172a;
         }
 
         .table-wrapper {
@@ -278,22 +149,21 @@
             background: #f8fafc;
             position: sticky;
             top: 0;
-            z-index: 10;
         }
 
         th {
             padding: 14px;
             text-align: left;
             font-weight: 700;
-            color: var(--text-secondary);
+            color: #64748b;
             text-transform: uppercase;
             font-size: 11px;
-            border-bottom: 2px solid var(--border);
+            border-bottom: 2px solid #e2e8f0;
         }
 
         td {
             padding: 14px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         tbody tr:hover {
@@ -314,16 +184,6 @@
             color: #2563eb;
         }
 
-        .badge-success {
-            background: #ecfdf5;
-            color: #059669;
-        }
-
-        .badge-danger {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
         .error-message {
             background: #fef2f2;
             border: 2px solid #fecaca;
@@ -337,7 +197,7 @@
         .loading {
             text-align: center;
             padding: 40px;
-            color: var(--text-secondary);
+            color: #64748b;
         }
 
         .spinner {
@@ -345,7 +205,7 @@
             width: 20px;
             height: 20px;
             border: 3px solid rgba(59, 130, 246, 0.3);
-            border-top-color: var(--accent);
+            border-top-color: #3b82f6;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -355,14 +215,6 @@
         }
 
         @media (max-width: 1024px) {
-            .grid-kpis {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-
-            .grid-charts {
-                grid-template-columns: 1fr;
-            }
-
             .header {
                 flex-direction: column;
                 text-align: center;
@@ -376,18 +228,13 @@
 <div class="container">
     <div class="header">
         <div class="header-content">
-            <span class="header-tag">Executive Dashboard</span>
             <h1>Gestão Financeira Mobcall</h1>
             <p>Visão integrada de caixa, pagamentos e decisões estratégicas</p>
         </div>
-        <div class="header-controls">
+        <div>
             <button class="btn-refresh" id="btnAtualizar" onclick="carregarDados()">
                 <i class="fa-solid fa-rotate-right"></i> Atualizar
             </button>
-            <div class="timestamp">
-                <i class="fa-solid fa-clock"></i>
-                <span id="lastUpdate">Carregando...</span>
-            </div>
         </div>
     </div>
 
@@ -397,61 +244,30 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
-    // URLs dos arquivos CSV no GitHub (RAW)
     const URLs = {
         lancamentos: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Lançamentos.csv',
         fluxoCaixa: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Caixa%20(1).csv',
         decisoes: 'https://raw.githubusercontent.com/FinanceMobcall1/Dashboard/main/Fluxo%20Decisões.csv'
     };
 
-    // Parser CSV robusto
     function parseCSV(csv) {
-        const lines = csv.split('\n').filter(line => line.trim());
+        const lines = csv.split('\n');
         if (lines.length < 2) return [];
 
-        const headers = lines[0].split(',').map(h => h.trim().replace(/
-^
-"|"
-$
-/g, ''));
+        const headers = lines[0].split(',').map(h => h.trim());
         const data = [];
 
         for (let i = 1; i < lines.length; i++) {
-            const line = lines[i];
-            if (!line.trim()) continue;
+            if (!lines[i].trim()) continue;
 
-            const values = [];
-            let current = '';
-            let inQuotes = false;
-
-            for (let j = 0; j < line.length; j++) {
-                const char = line[j];
-                const nextChar = line[j + 1];
-
-                if (char === '"') {
-                    if (inQuotes && nextChar === '"') {
-                        current += '"';
-                        j++;
-                    } else {
-                        inQuotes = !inQuotes;
-                    }
-                } else if (char === ',' && !inQuotes) {
-                    values.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            values.push(current.trim());
-
+            const values = lines[i].split(',').map(v => v.trim());
             const obj = {};
+
             for (let j = 0; j < headers.length; j++) {
                 obj[headers[j]] = values[j] || '';
             }
 
-            if (Object.values(obj).some(v => v)) {
-                data.push(obj);
-            }
+            data.push(obj);
         }
 
         return data;
@@ -459,39 +275,24 @@ $
 
     function num(v) {
         if (!v || v === "-" || v === "") return 0;
-        if (typeof v === 'number') return v;
-        try {
-            let s = v.toString().replace("R$", "").trim();
-            if (s.includes(",") && s.includes(".")) {
-                s = s.replace(/\./g, "").replace(",", ".");
-            } else if (s.includes(",")) {
-                s = s.replace(",", ".");
-            }
-            return parseFloat(s) || 0;
-        } catch(e) {
-            return 0;
+        let s = String(v).replace("R$", "").trim();
+        if (s.includes(",") && s.includes(".")) {
+            s = s.replace(/\./g, "").replace(",", ".");
+        } else if (s.includes(",")) {
+            s = s.replace(",", ".");
         }
+        return parseFloat(s) || 0;
     }
 
     function real(v) {
         return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
-    function atualizarTimestamp() {
-        const agora = new Date();
-        const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        const data = agora.toLocaleDateString('pt-BR');
-        document.getElementById('lastUpdate').innerText = `${data} às ${hora}`;
-    }
-
-    let chartPizza = null, chartBarras = null, chartLinha = null;
-
     async function carregarDados() {
         const conteudo = document.getElementById('conteudo');
         const btn = document.getElementById('btnAtualizar');
 
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Carregando...';
         conteudo.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando dados...</p></div>';
 
         try {
@@ -501,58 +302,39 @@ $
                 fetch(URLs.decisoes).then(r => r.text()).then(csv => parseCSV(csv))
             ]);
 
-            console.log('Lançamentos:', lancamentos);
-            console.log('Fluxo Caixa:', fluxoCaixa);
-            console.log('Decisões:', decisoes);
-
             renderizarDashboard(lancamentos, fluxoCaixa, decisoes);
-            atualizarTimestamp();
             btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Atualizar';
 
         } catch (erro) {
-            console.error("Erro ao carregar dados:", erro);
-            conteudo.innerHTML = `
-                <div class="error-message">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <strong>Erro ao carregar dados</strong>
-                    <p style="margin-top: 10px;">Verifique se os arquivos CSV estão no repositório GitHub</p>
-                    <p><small>Erro: ${erro.message}</small></p>
-                </div>
-            `;
+            console.error("Erro:", erro);
+            conteudo.innerHTML = '<div class="error-message">Erro ao carregar dados. Verifique o console.</div>';
             btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Atualizar';
         }
     }
 
     function renderizarDashboard(lancamentos, fluxoCaixa, decisoes) {
         let rec = 0, des = 0, pen = 0;
-        let cc_dados = {};
         let pendenciasArray = [];
 
-        // Processar Lançamentos
         lancamentos.forEach(r => {
             if (!r.Valor) return;
 
             let v = num(r.Valor);
             let status = String(r.Status || "").toLowerCase();
             let tipo = String(r.Tipo || "").toLowerCase();
-            let cat = String(r.Categoria || "Sem categoria").trim();
 
-            if (status.includes("realizado") || status.includes("pago") || status.includes("recebido")) {
+            if (status.includes("realizado") || status.includes("pago")) {
                 if (tipo.includes("receber")) {
                     rec += v;
                 } else {
                     des += Math.abs(v);
-                    let cc = r["Centro de Custo"] || "Não Especificado";
-                    cc_dados[cc] = (cc_dados[cc] || 0) + Math.abs(v);
                 }
             } else if (status.includes("pendente")) {
                 pen += Math.abs(v);
                 pendenciasArray.push({
                     data: r.Data,
                     descricao: r.Descrição,
-                    categoria: cat,
+                    categoria: r.Categoria,
                     tipo: tipo,
                     valor: v
                 });
@@ -561,59 +343,31 @@ $
 
         const saldo = rec - des;
 
-        // HTML do Dashboard
         let html = `
             <div class="grid-kpis">
                 <div class="kpi-card success">
-                    <i class="fa-solid fa-arrow-trend-up kpi-icon"></i>
-                    <span class="kpi-label">Receitas Realizadas</span>
-                    <strong class="kpi-value">${real(rec)}</strong>
+                    <div class="kpi-label">Receitas Realizadas</div>
+                    <div class="kpi-value">${real(rec)}</div>
                 </div>
 
                 <div class="kpi-card danger">
-                    <i class="fa-solid fa-arrow-trend-down kpi-icon"></i>
-                    <span class="kpi-label">Despesas Realizadas</span>
-                    <strong class="kpi-value">${real(des)}</strong>
+                    <div class="kpi-label">Despesas Realizadas</div>
+                    <div class="kpi-value">${real(des)}</div>
                 </div>
 
                 <div class="kpi-card ${saldo >= 0 ? 'success' : 'danger'}">
-                    <i class="fa-solid fa-hand-holding-dollar kpi-icon"></i>
-                    <span class="kpi-label">Saldo</span>
-                    <strong class="kpi-value">${real(saldo)}</strong>
+                    <div class="kpi-label">Saldo</div>
+                    <div class="kpi-value">${real(saldo)}</div>
                 </div>
 
                 <div class="kpi-card warning">
-                    <i class="fa-solid fa-hourglass-end kpi-icon"></i>
-                    <span class="kpi-label">Pendências Totais</span>
-                    <strong class="kpi-value">${real(pen)}</strong>
-                </div>
-            </div>
-
-            <div class="grid-charts">
-                <div class="chart-box">
-                    <h2><i class="fa-solid fa-chart-pie"></i> Despesas por Centro de Custo</h2>
-                    <div class="chart-container">
-                        <canvas id="chartPizza"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-box">
-                    <h2><i class="fa-solid fa-chart-bar"></i> Fluxo de Caixa</h2>
-                    <div class="chart-container">
-                        <canvas id="chartBarras"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-box chart-full">
-                    <h2><i class="fa-solid fa-chart-line"></i> Comparativo: Real vs. Decisões</h2>
-                    <div class="chart-container">
-                        <canvas id="chartLinha"></canvas>
-                    </div>
+                    <div class="kpi-label">Pendências Totais</div>
+                    <div class="kpi-value">${real(pen)}</div>
                 </div>
             </div>
 
             <div class="table-box">
-                <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--warning)"></i> Pendências</h2>
+                <h2>Pendências</h2>
                 <div class="table-wrapper">
                     <table>
                         <thead>
@@ -628,11 +382,11 @@ $
                         <tbody>
                             ${pendenciasArray.length > 0 ? pendenciasArray.map(p => `
                                 <tr>
-                                    <td>${p.data || '-'}</td>
-                                    <td>${p.descricao || '-'}</td>
+                                    <td>${p.data}</td>
+                                    <td>${p.descricao}</td>
                                     <td><span class="badge badge-info">${p.categoria}</span></td>
                                     <td>${p.tipo.includes('receber') ? 'A Receber' : 'A Pagar'}</td>
-                                    <td style="color: ${p.tipo.includes('receber') ? '#10b981' : '#ef4444'}; font-weight: 700;">${real(p.valor)}</td>
+                                    <td>${real(p.valor)}</td>
                                 </tr>
                             `).join('') : '<tr><td colspan="5" style="text-align: center;">Sem pendências</td></tr>'}
                         </tbody>
@@ -641,7 +395,35 @@ $
             </div>
 
             <div class="table-box">
-                <h2><i class="fa-solid fa-lightbulb" style="color: var(--info)"></i> Observações das Decisões</h2>
+                <h2>Fluxo de Caixa</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Saldo Inicial</th>
+                                <th>Entradas</th>
+                                <th>Saídas</th>
+                                <th>Saldo Final</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${fluxoCaixa.length > 0 ? fluxoCaixa.map(f => `
+                                <tr>
+                                    <td>${f.Data}</td>
+                                    <td>${real(num(f['Saldo Inicial']))}</td>
+                                    <td>${real(num(f.Entradas))}</td>
+                                    <td>${real(num(f.Saidas))}</td>
+                                    <td><strong>${real(num(f['Saldo Final']))}</strong></td>
+                                </tr>
+                            `).join('') : '<tr><td colspan="5" style="text-align: center;">Sem dados</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-box">
+                <h2>Decisões</h2>
                 <div class="table-wrapper">
                     <table>
                         <thead>
@@ -652,13 +434,13 @@ $
                             </tr>
                         </thead>
                         <tbody>
-                            ${decisoes.filter(d => d.Observações).length > 0 ? decisoes.filter(d => d.Observações).map(d => `
+                            ${decisoes.length > 0 ? decisoes.map(d => `
                                 <tr>
-                                    <td>${d.Data || '-'}</td>
+                                    <td>${d.Data}</td>
                                     <td>${d.Observações}</td>
-                                    <td style="font-weight: 700;">${real(num(d["Saldo Final"]))}</td>
+                                    <td><strong>${real(num(d['Saldo Final']))}</strong></td>
                                 </tr>
-                            `).join('') : '<tr><td colspan="3" style="text-align: center;">Sem observações</td></tr>'}
+                            `).join('') : '<tr><td colspan="3" style="text-align: center;">Sem dados</td></tr>'}
                         </tbody>
                     </table>
                 </div>
@@ -666,116 +448,8 @@ $
         `;
 
         document.getElementById('conteudo').innerHTML = html;
-
-        // Renderizar Gráficos
-        setTimeout(() => {
-            renderizarGraficos(cc_dados, fluxoCaixa, decisoes);
-        }, 100);
     }
 
-    function renderizarGraficos(cc_dados, fluxoCaixa, decisoes) {
-        // Destruir gráficos anteriores
-        if (chartPizza) chartPizza.destroy();
-        if (chartBarras) chartBarras.destroy();
-        if (chartLinha) chartLinha.destroy();
-
-        // Gráfico Pizza
-        const ctxPizza = document.getElementById('chartPizza');
-        if (ctxPizza) {
-            chartPizza = new Chart(ctxPizza, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(cc_dados).length > 0 ? Object.keys(cc_dados) : ['Sem dados'],
-                    datasets: [{
-                        data: Object.values(cc_dados).length > 0 ? Object.values(cc_dados) : [1],
-                        backgroundColor: ['#3b82f6', '#1e40af', '#60a5fa', '#93c5fd', '#10b981', '#059669', '#6ee7b7', '#a7f3d0'],
-                        borderColor: '#ffffff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
-                }
-            });
-        }
-
-        // Gráfico Barras
-        const ctxBarras = document.getElementById('chartBarras');
-        if (ctxBarras) {
-            chartBarras = new Chart(ctxBarras, {
-                type: 'bar',
-                data: {
-                    labels: fluxoCaixa.map(d => d.Data || "").filter(d => d),
-                    datasets: [
-                        {
-                            label: 'Entradas',
-                            data: fluxoCaixa.map(d => num(d.Entradas || 0)),
-                            backgroundColor: '#10b981',
-                            borderRadius: 8
-                        },
-                        {
-                            label: 'Saídas',
-                            data: fluxoCaixa.map(d => Math.abs(num(d.Saidas || 0))),
-                            backgroundColor: '#ef4444',
-                            borderRadius: 8
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-
-        // Gráfico Linha
-        const ctxLinha = document.getElementById('chartLinha');
-        if (ctxLinha) {
-            chartLinha = new Chart(ctxLinha, {
-                type: 'line',
-                data: {
-                    labels: fluxoCaixa.map(d => d.Data || "").filter(d => d),
-                    datasets: [
-                        {
-                            label: 'Fluxo Real',
-                            data: fluxoCaixa.map(d => num(d["Saldo Final"] || 0)),
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            fill: true,
-                            tension: 0.4,
-                            borderWidth: 3,
-                            pointRadius: 5
-                        },
-                        {
-                            label: 'Projeção Decisões',
-                            data: decisoes.map(d => num(d["Saldo Final"] || 0)),
-                            borderColor: '#ef4444',
-                            borderDash: [5, 5],
-                            tension: 0.4,
-                            borderWidth: 2,
-                            pointRadius: 4,
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
-        }
-    }
-
-    // Carregar dados ao abrir
     window.addEventListener('load', carregarDados);
 </script>
 
