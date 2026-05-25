@@ -1,0 +1,656 @@
+Data,Descrição,Categoria,Valor,Centro de Custo,Tipo,Status
+01/02/2026,Receita Consolidada,Receita,"0,00",Receita,Receber,Realizado
+01/02/2026,Tarifa ,Tarifa Bancária,"-23,96",Financeiro,Pagar,Realizado
+01/02/2026,Adobe MKT,Licença de Software,"-400,00",Marketing,Pagar,Realizado
+01/02/2026,DigitalOcean,Licença de Software,"-152,38",Marketing,Pagar,Realizado
+01/02/2026,NVOIP,Licença de Software,"-29,00",Operações,Pagar,Realizado
+01/02/2026,GreatAPP,Licença de Software,"-66,40",Marketing,Pagar,Realizado
+01/02/2026,DIDWW,Telefonia,"-166,24",Operações,Pagar,Realizado
+02/02/2026,Receita Consolidada,Receita,"69,66",Receita,Receber,Realizado
+02/02/2026,Tarifa ,Tarifa Bancária,"-9,14",Financeiro,Pagar,Realizado
+02/02/2026,Google LLC,Cloud,"-4.084,74",Operações,Pagar,Realizado
+02/02/2026,ChatGPT - Alexandre,Licença de Software,"-111,44",Administrativo,Pagar,Realizado
+03/02/2026,Receita Consolidada,Receita,"1.842,70",Receita,Receber,Realizado
+03/02/2026,Tarifa ,Tarifa Bancária,"-68,58",Financeiro,Pagar,Realizado
+03/02/2026,OpenAI ,Licença de Software,"-111,15",Tecnologia,Pagar,Realizado
+04/02/2026,Receita Consolidada,Receita,"264,55",Receita,Receber,Realizado
+04/02/2026,Tarifa ,Tarifa Bancária,"-2,30",Financeiro,Pagar,Realizado
+04/02/2026,SoftOne,Cloud,"-86.516,49",Tecnologia,Pagar,Realizado
+04/02/2026,Amil Mobcall,Saúde e Vida,"-395,56",Recursos Humanos,Pagar,Realizado
+04/02/2026,Amil Nathalie,Saúde e Vida,"-53,94",Recursos Humanos,Pagar,Realizado
+04/02/2026,Amil Alexandre,Saúde e Vida,"-71,92",Recursos Humanos,Pagar,Realizado
+04/02/2026,Amil Rafael,Saúde e Vida,"-17,98",Recursos Humanos,Pagar,Realizado
+04/02/2026,Twilio,Licença de Software,"-444,36",Tecnologia,Pagar,Realizado
+04/02/2026,Siprix,Telefonia,"-6.360,52",Operações,Pagar,Realizado
+05/02/2026,Receita Consolidada,Receita,"6.050,14",Receita,Receber,Realizado
+05/02/2026,Tarifa ,Tarifa Bancária,"-9,88",Financeiro,Pagar,Realizado
+05/02/2026,Pro-Labore Ana Carolina,Folha,"-1.442,69",Operações,Pagar,Realizado
+05/02/2026,Uber Corporativo,Refeição e Mobilidade,"-1.810,01",Administrativo,Pagar,Realizado
+05/02/2026,CustomerX,Licença de Software,"-2.142,32",Operações,Pagar,Realizado
+05/02/2026,Marcela Barão,Consultores,"-3.000,00",Operações,Pagar,Realizado
+05/02/2026,Chat GPT Business,Licença de Software,"-623,90",Tecnologia,Pagar,Realizado
+05/02/2026,DIDWW,Telefonia,"-166,93",Operações,Pagar,Realizado
+06/02/2026,Receita Consolidada,Receita,"276,00",Receita,Receber,Realizado
+06/02/2026,Tarifa ,Tarifa Bancária,"-4,66",Financeiro,Pagar,Realizado
+07/02/2026,Pipedrive,Licença de Software,"-195,66",Vendas,Pagar,Realizado
+09/02/2026,Receita Consolidada,Receita,"4.196,65",Receita,Receber,Realizado
+09/02/2026,Tarifa ,Tarifa Bancária,"-28,06",Financeiro,Pagar,Realizado
+09/02/2026,Pacote Office,Licença de Software,"-520,74",Administrativo,Pagar,Realizado
+09/02/2026,99 Corporativo,Refeição e Mobilidade,"-15,30",Administrativo,Pagar,Realizado
+09/02/2026,ISS - Pref. Barueri,Impostos,"-10.574,85",Impostos,Pagar,Pendente
+10/02/2026,Receita Consolidada,Receita,"38.173,31",Receita,Receber,Realizado
+10/02/2026,Tarifa ,Tarifa Bancária,"-41,99",Financeiro,Pagar,Realizado
+10/02/2026,Procob,Licença de Software,"-48,50",Operações,Pagar,Realizado
+10/02/2026,Vero,Telefonia,"-107,79",Operações,Pagar,Realizado
+10/02/2026,AKR ,Contabilidade,"-5.350,00",Contabilidade,Pagar,Realizado
+10/02/2026,Tokio Marine (Seguro de Vida Rafael),Saúde e Vida,"-219,99",Tecnologia,Pagar,Realizado
+10/02/2026,Datora,Telefonia,"-570,00",Operações,Pagar,Realizado
+10/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-25,00",Vendas,Pagar,Realizado
+10/02/2026,Tarifa Mensalidade Bradesco,Tarifa Bancária,"-84,20",Financeiro,Pagar,Realizado
+10/02/2026,Tarifa Mensalidade Santander,Tarifa Bancária,"-339,00",Financeiro,Pagar,Realizado
+11/02/2026,Receita Consolidada,Receita,"8.840,91",Receita,Receber,Realizado
+11/02/2026,Tarifa ,Tarifa Bancária,"-7,41",Financeiro,Pagar,Realizado
+11/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-33,00",Vendas,Pagar,Realizado
+11/02/2026,OpenAI ,Licença de Software,"-109,98",Tecnologia,Pagar,Realizado
+12/02/2026,Receita Consolidada,Receita,"2.676,39",Receita,Receber,Realizado
+12/02/2026,Tarifa ,Tarifa Bancária,"-9,60",Financeiro,Pagar,Realizado
+12/02/2026,Café Cliente,Não Dedutível,"-39,00",Vendas,Pagar,Realizado
+12/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-20,00",Vendas,Pagar,Realizado
+12/02/2026,RD Station,Licença de Software,"-79,00",Vendas,Pagar,Realizado
+13/02/2026,Receita Consolidada,Receita,"4.124,01",Receita,Receber,Realizado
+13/02/2026,Tarifa ,Tarifa Bancária,"-7,41",Financeiro,Pagar,Realizado
+13/02/2026,ADT Folha,Folha,"-12.393,46",Recursos Humanos,Pagar,Realizado
+13/02/2026,Gabriel Cruz,Consultores,"-2.500,00",Tecnologia,Pagar,Realizado
+13/02/2026,Kevin Advocacia,Advocacia,"-3.242,00",Administrativo,Pagar,Realizado
+13/02/2026,D4sign,Licença de Software,"-49,90",Administrativo,Pagar,Realizado
+13/02/2026,Dazsoft (3 faturas),Licença de Software,"-2.835,00",Operações,Pagar,Realizado
+13/02/2026,Framer,Licença de Software,"-1.726,38",Marketing,Pagar,Realizado
+13/02/2026,Almoço Cliente,Não Dedutível,"-1.264,92",Vendas,Pagar,Realizado
+13/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-30,00",Vendas,Pagar,Realizado
+14/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-50,00",Vendas,Pagar,Realizado
+16/02/2026,Receita Consolidada,Receita,"0,00",Receita,Receber,Realizado
+16/02/2026,Tarifa ,Tarifa Bancária,"0,00",Financeiro,Pagar,Realizado
+16/02/2026,Claranet (2 faturas),Telefonia,"-5.334,91",Operações,Pagar,Realizado
+16/02/2026,WeWork - Mensalidade,Aluguel,"-14.880,00",Administrativo,Pagar,Realizado
+16/02/2026,GT Group,Telefonia,"-11,00",Operações,Pagar,Realizado
+16/02/2026,OpenAI ,Licença de Software,"-55,44",Tecnologia,Pagar,Realizado
+17/02/2026,Receita Consolidada,Receita,"0,00",Receita,Receber,Realizado
+17/02/2026,Tarifa ,Tarifa Bancária,"0,00",Financeiro,Pagar,Realizado
+17/02/2026,Vonex - 101 Com,Telefonia,"-2.934,90",Operações,Pagar,Realizado
+18/02/2026,Receita Consolidada,Receita,"27.648,03",Receita,Receber,Realizado
+18/02/2026,Tarifa ,Tarifa Bancária,"-63,81",Financeiro,Pagar,Realizado
+18/02/2026,Gather,Licença de Software,"-1.075,24",Administrativo,Pagar,Realizado
+18/02/2026,OpenAI ,Licença de Software,"-55,57",Tecnologia,Pagar,Realizado
+18/02/2026,Figma,Licença de Software,"-324,60",Marketing,Pagar,Realizado
+19/02/2026,Receita Consolidada,Receita,"2.433,62",Receita,Receber,Realizado
+19/02/2026,Tarifa ,Tarifa Bancária,"-39,77",Financeiro,Pagar,Realizado
+19/02/2026,OpenAI ,Licença de Software,"-55,54",Tecnologia,Pagar,Realizado
+20/02/2026,Receita Consolidada,Receita,"18.349,58",Receita,Receber,Realizado
+20/02/2026,Tarifa ,Tarifa Bancária,"-66,69",Financeiro,Pagar,Realizado
+20/02/2026,Parcelamento ISS,Impostos,"-6.376,82",Impostos,Pagar,Realizado
+20/02/2026,DARF CSRF 5952 - 1708,Impostos,"-340,57",Impostos,Pagar,Pendente
+20/02/2026,INSS,INSS,"-15.871,20",Impostos,Pagar,Pendente
+20/02/2026,FGTS,FGTS,"-2.735,70",Recursos Humanos,Pagar,Realizado
+20/02/2026,Férias - Matheus Rodrigues,Férias - Folha,"-4.498,73",Recursos Humanos,Pagar,Realizado
+20/02/2026,TVN Nacional,Telefonia,"-490,90",Operações,Pagar,Realizado
+20/02/2026,Beatriz Rodrigues,Consultores,"-2.500,00",Marketing,Pagar,Realizado
+20/02/2026,ElevenLabs,Licença de Software,"-548,71",Tecnologia,Pagar,Realizado
+20/02/2026,ClickUp,Licença de Software,"-221,69",Tecnologia,Pagar,Realizado
+20/02/2026,Almoço Cliente,Não Dedutível,"-351,54",Vendas,Pagar,Realizado
+20/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-35,00",Vendas,Pagar,Realizado
+23/02/2026,Receita Consolidada,Receita,"3.867,10",Receita,Receber,Realizado
+23/02/2026,Tarifa ,Tarifa Bancária,"-23,96",Financeiro,Pagar,Realizado
+23/02/2026,TD Synnex,licença de Software,"-169,51",Tecnologia,Pagar,Realizado
+23/02/2026,Directcall,Telefonia,"-36.249,60",Operações,Pagar,Realizado
+24/02/2026,Receita Consolidada,Receita,"2.993,55",Receita,Receber,Realizado
+24/02/2026,Tarifa ,Tarifa Bancária,"-4,90",Financeiro,Pagar,Realizado
+24/02/2026,VR - PontoMais,Licença de Software,"-265,16",Administrativo,Pagar,Realizado
+24/02/2026,Linkedin - Alexandre,Publicidade,"-139,99",Administrativo,Pagar,Realizado
+24/02/2026,OpenAI ,Licença de Software,"-54,80",Tecnologia,Pagar,Realizado
+25/02/2026,Receita Consolidada,Receita,"310.929,09",Receita,Receber,Realizado
+25/02/2026,Tarifa ,Tarifa Bancária,"-22,23",Financeiro,Pagar,Realizado
+25/02/2026,"DARF COFINS 2172 - 5856 PIS 8109",Impostos,"-19.299,11",Impostos,Pagar,Pendente
+25/02/2026,Payfy,Cartão Corporativo,"-100,00",Administrativo,Pagar,Realizado
+25/02/2026,Bradesco Vida,Saúde e Vida,"-461,25",Recursos Humanos,Pagar,Realizado
+25/02/2026,SulAmerica Saude - Mobcall,Saúde e Vida,"-21.423,35",Recursos Humanos,Pagar,Realizado
+25/02/2026,SulAmerica Alexandre,Saúde e Vida,"-9.327,37",Recursos Humanos,Pagar,Realizado
+25/02/2026,SulAmerica Rafael,Saúde e Vida,"-2.538,59",Recursos Humanos,Pagar,Realizado
+26/02/2026,Receita Consolidada,Receita,"66.693,81",Receita,Receber,Realizado
+26/02/2026,Tarifa ,Tarifa Bancária,"-17,01",Financeiro,Pagar,Realizado
+26/02/2026,Ana Sabença,Ant. Dividendos,"-29.643,00",Operações,Pagar,Realizado
+26/02/2026,Daniel Sabença - Distrato,Acordo,"-45.000,00",Distrato,Pagar,Realizado
+26/02/2026,Alexandre Kohatsu,Ant. Dividendos,"-35.000,00",Administrativo,Pagar,Realizado
+26/02/2026,CloudSoft Phone,Telefonia,"-10.128,62",Operações,Pagar,Realizado
+26/02/2026,Vero,Telefonia,"-40.842,00",Operações,Pagar,Realizado
+26/02/2026,Rafael Lohmann,Consultores,"-16.250,00",Tecnologia,Pagar,Realizado
+26/02/2026,Octadesk,Licença de Software,"-1.542,40",Operações,Pagar,Realizado
+26/02/2026,Daniel Sabença - Distrato Reembolso,Acordo,"-2.113,16",Distrato,Pagar,Realizado
+26/02/2026,Flash,Refeição e Mobilidade,"-11.291,50",Recursos Humanos,Pagar,Realizado
+26/02/2026,Mention,Publicidade,"-2.500,00",Operações,Pagar,Realizado
+26/02/2026,Instagram,Publicidade,"-120,90",Marketing,Pagar,Realizado
+26/02/2026,Almoço Cliente,Não Dedutível,"-551,55",Vendas,Pagar,Realizado
+26/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-32,00",Vendas,Pagar,Realizado
+26/02/2026,Café Cliente,Não Dedutível,"-60,60",Vendas,Pagar,Realizado
+26/02/2026,Café Cliente,Não Dedutível,"-20,90",Vendas,Pagar,Realizado
+26/02/2026,Estacionamento Visita Cliente ,Não Dedutível,"-48,00",Vendas,Pagar,Realizado
+27/02/2026,Receita Consolidada,Receita,"4.380,40",Receita,Receber,Realizado
+27/02/2026,Tarifa ,Tarifa Bancária,"-36,36",Financeiro,Pagar,Realizado
+27/02/2026,Parcelamento de Impostos Federais (8973147),Impostos,"-607,96",Impostos,Pagar,Realizado
+27/02/2026,PARC DÉBITOS PREVIDENCIARIOS (10279027),Impostos,"-7.958,92",Impostos,Pagar,Realizado
+27/02/2026,PARC DEMAIS DÉBITOS (10278970),Impostos,"-7.923,61",Impostos,Pagar,Realizado
+27/02/2026,PARC DEMAIS DÉBITOS (12861922),Impostos,"-689,01",Impostos,Pagar,Realizado
+27/02/2026,PARC PREVIDENCIARIO (12861928),Impostos,"-436,57",Impostos,Pagar,Realizado
+27/02/2026,PARC DÉBITOS PREVIDENCIARIOS (15330945),Impostos,"-6.163,24",Impostos,Pagar,Realizado
+27/02/2026,PARC DIV. ATIVA (15330946),Impostos,"-3.420,97",Impostos,Pagar,Realizado
+27/02/2026,SAMM,Telefonia,"-67.498,54",Operações,Pagar,Realizado
+27/02/2026,Folha de Pagamento,Folha,"-15.137,63",Recursos Humanos,Pagar,Realizado
+27/02/2026,GuardeMais,Aluguel,"-161,90",Administrativo,Pagar,Realizado
+27/02/2026,Férias - Daniela Napoli,Férias - Folha,"-3.427,05",Recursos Humanos,Pagar,Realizado
+27/02/2026,Almoço Cliente,Não Dedutível,"-1.265,48",Vendas,Pagar,Realizado
+27/02/2026,Tarifa Pix - Payfy,Tarifa,"-44,10",Financeiro,Pagar,Realizado
+02/03/2026,Receita Consolidada,Receita,"1.759,72",Receita,Receber,Realizado
+02/03/2026,Tarifa ,Tarifa Bancária,"-23,96",Financeiro,Pagar,Realizado
+02/03/2026,Adobe MKT,Licença de Software,"-400,00",Marketing,Pagar,Realizado
+02/03/2026,DigitalOcean,Licença de Software,"-143,05",Marketing,Pagar,Realizado
+02/03/2026,Google LLC,Cloud,"-3.598,42",Operações,Pagar,Realizado
+02/03/2026,Acordo Algar ,Telefonia,"-13.154,19",Operações,Pagar,Realizado
+02/03/2026,ChatGPT - Alexandre,Licença de Software,"-110,03",Administrativo,Pagar,Realizado
+03/03/2026,Receita Consolidada,Receita,"12.392,28",Receita,Receber,Realizado
+03/03/2026,Tarifa ,Tarifa Bancária,"-2,47",Financeiro,Pagar,Realizado
+03/03/2026,Datora,Telefonia,"-1.632,86",Operações,Pagar,Realizado
+04/03/2026,Receita Consolidada,Receita,"908,63",Receita,Receber,Realizado
+04/03/2026,Tarifa ,Tarifa Bancária,"-50,64",Financeiro,Pagar,Realizado
+04/03/2026,Amil Mobcall,Saúde e Vida,"-395,56",Recursos Humanos,Pagar,Realizado
+04/03/2026,Amil Nathalie,Saúde e Vida,"-53,94",Recursos Humanos,Pagar,Realizado
+04/03/2026,Amil Alexandre,Saúde e Vida,"-71,92",Recursos Humanos,Pagar,Realizado
+04/03/2026,Amil Rafael,Saúde e Vida,"-17,98",Recursos Humanos,Pagar,Realizado
+04/03/2026,Twilio,Licença de Software,"-448,09",Tecnologia,Pagar,Realizado
+04/03/2026,DIDWW,Telefonia,"-335,48",Operações,Pagar,Realizado
+05/03/2026,Receita Consolidada,Receita,"6.837,93",Receita,Receber,Realizado
+05/03/2026,Tarifa ,Tarifa Bancária,"-14,54",Financeiro,Pagar,Realizado
+05/03/2026,Pro-Labore Ana Carolina,Folha,"-1.442,69",Operações,Pagar,Realizado
+05/03/2026,NVOIP,Licença de Software,"-29,00",Operações,Pagar,Realizado
+05/03/2026,Uber Corporativo,Refeição e Mobilidade,"-498,12",Administrativo,Pagar,Realizado
+05/03/2026,CustomerX,Licença de Software,"-2.142,32",Operações,Pagar,Realizado
+05/03/2026,Marcela Barão,Consultores,"-3.000,00",Operações,Pagar,Realizado
+05/03/2026,Chat GPT Business,Licença de Software,"-496,76",Tecnologia,Pagar,Realizado
+06/03/2026,Receita Consolidada,Receita,"69,00",Receita,Receber,Realizado
+06/03/2026,SoftOne,Cloud,"-84.213,15",Tecnologia,Pagar,Realizado
+06/03/2026,Estacionamento Visita Cliente ,Não Dedutível,"-50,00",Vendas,Pagar,Realizado
+06/03/2026,Almoço Cliente,Não Dedutível,"-1.200,06",Vendas,Pagar,Realizado
+07/03/2026,Pipedrive,Licença de Software,"-196,71",Vendas,Pagar,Realizado
+09/03/2026,Receita Consolidada,Receita,"4.290,02",Receita,Receber,Realizado
+09/03/2026,Tarifa ,Tarifa Bancária,"-14,82",Financeiro,Pagar,Realizado
+09/03/2026,ISS - Pref. Barueri,Impostos,"-9.459,67",Impostos,Pagar,Pendente
+09/03/2026,Microsoft do Brasil,Licença de Software,"-0,70",Operações,Pagar,Realizado
+10/03/2026,Receita Consolidada,Receita,"39.506,98",Receita,Receber,Realizado
+10/03/2026,Tarifa ,Tarifa Bancária,"-41,71",Financeiro,Pagar,Realizado
+10/03/2026,Pacote Office,Licença de Software,"-520,74",Administrativo,Pagar,Realizado
+10/03/2026,Tarifa Mensalidade Bradesco,Tarifa Bancária,"-84,20",Financeiro,Pagar,Realizado
+10/03/2026,Tarifa Mensalidade Santander,Tarifa Bancária,"-339,00",Financeiro,Pagar,Realizado
+10/03/2026,Procob,Licença de Software,"-48,50",Operações,Pagar,Realizado
+10/03/2026,Vero,Telefonia,"-109,14",Operações,Pagar,Realizado
+10/03/2026,AKR,Contabilidade,"-5.350,00",Contabilidade,Pagar,Realizado
+10/03/2026,Tokio Marine (Seguro de Vida Rafael),Saúde e Vida,"-219,99",Tecnologia,Pagar,Realizado
+10/03/2026,ChatGPT - Ana,Licença de Software,"-111,54",Operações,Pagar,Realizado
+11/03/2026,Receita Consolidada,Receita,"274,59",Receita,Receber,Realizado
+11/03/2026,Tarifa ,Tarifa Bancária,"-4,94",Financeiro,Pagar,Realizado
+12/03/2026,Receita Consolidada,Receita,"2.087,47",Receita,Receber,Realizado
+12/03/2026,Tarifa ,Tarifa Bancária,"-12,35",Financeiro,Pagar,Realizado
+12/03/2026,Estacionamento Visita Cliente ,Não Dedutível,"-35,00",Vendas,Pagar,Realizado
+12/03/2026,RD Station,Licença de Software,"-79,00",Vendas,Pagar,Realizado
+13/03/2026,Receita Consolidada,Receita,"0,00",Receita,Receber,Realizado
+13/03/2026,Tarifa ,Tarifa Bancária,"-9,14",Financeiro,Pagar,Realizado
+13/03/2026,ADT Folha,Folha,"-11.031,79",Recursos Humanos,Pagar,Realizado
+13/03/2026,Kevin Advocacia,Advocacia,"-3.242,00",Administrativo,Pagar,Realizado
+13/03/2026,Gabriel Cruz,Consultores,"-2.500,00",Tecnologia,Pagar,Realizado
+13/03/2026,Estacionamento Visita Cliente ,Não Dedutível,"-35,00",Vendas,Pagar,Realizado
+13/03/2026,Almoço Cliente,Não Dedutível,"-558,10",Vendas,Pagar,Realizado
+15/03/2026,Figma,Licença de Software,"-279,38",Marketing,Pagar,Realizado
+16/03/2026,Receita Consolidada,Receita,"36.014,31",Receita,Receber,Realizado
+16/03/2026,Tarifa ,Tarifa Bancária,"-99,48",Financeiro,Pagar,Realizado
+16/03/2026,Claranet (2 faturas),Telefonia,"-5.334,91",Operações,Pagar,Realizado
+16/03/2026,GT Group,Telefonia,"-11,00",Operações,Pagar,Realizado
+16/03/2026,Dazsoft (3 faturas),Licença de Software,"-2.835,00",Operações,Pagar,Realizado
+17/03/2026,Receita Consolidada,Receita,"68,52",Receita,Receber,Realizado
+17/03/2026,Tarifa ,Tarifa Bancária,"-4,66",Financeiro,Pagar,Realizado
+17/03/2026,WeWork - Mensalidade,Aluguel,"-14.880,00",Administrativo,Pagar,Realizado
+17/03/2026,Vonex - 101 Com,Licença de Software,"-3.190,78",Operações,Pagar,Realizado
+17/03/2026,Café Cliente,Não Dedutível,"-33,60",Vendas,Pagar,Realizado
+17/03/2026,D4sign,Licença de Software,"-49,90",Administrativo,Pagar,Realizado
+18/03/2026,Datora,Telefonia,"-230,00",Operações,Pagar,Realizado
+19/03/2026,Receita Consolidada,Receita,"5.837,07",Receita,Receber,Realizado
+19/03/2026,Tarifa ,Tarifa Bancária,"-37,30",Financeiro,Pagar,Realizado
+19/03/2026,ElevenLabs,Licença de Software,"-554,81",Tecnologia,Pagar,Realizado
+20/03/2026,Receita Consolidada,Receita,"15.014,10",Receita,Receber,Realizado
+20/03/2026,Tarifa ,Tarifa Bancária,"-70,79",Financeiro,Pagar,Realizado
+20/03/2026,DARF CSRF 5952 - 1708,Impostos,"-399,52",Impostos,Pagar,Realizado
+20/03/2026,INSS,INSS,"-15.293,49",Impostos,Pagar,Realizado
+20/03/2026,FGTS,FGTS,"-2.727,33",Recursos Humanos,Pagar,Realizado
+20/03/2026,TVN Nacional,Telefonia,"-490,90",Operações,Pagar,Realizado
+20/03/2026,Beatriz Rodrigues,Consultores,"-2.500,00",Marketing,Pagar,Realizado
+20/03/2026,ClickUP,Licença de Software,"-224,15",Tecnologia,Pagar,Realizado
+20/03/2026,Almoço Cliente,Não Dedutível,"-804,10",Vendas,Pagar,Realizado
+20/03/2026,Parcelamento ISS,Impostos,"-6.376,82",Impostos,Pagar,Realizado
+23/03/2026,Receita Consolidada,Receita,"2.889,86",Receita,Receber,Realizado
+23/03/2026,Tarifa ,Tarifa Bancária,"-7,41",Financeiro,Pagar,Realizado
+23/03/2026,TD Synnex,Licença de Software,"-168,97",Tecnologia,Pagar,Pendente
+23/03/2026,Directcall,Telefonia,"-36.205,00",Operações,Pagar,Realizado
+23/03/2026,Instagram,Licença de Software,"-120,90",Marketing,Pagar,Realizado
+23/03/2026,Aluguel de Carro (Ale),Não Dedutível,"-1.584,73",Administrativo,Pagar,Realizado
+24/03/2026,Receita Consolidada,Receita,"4.050,43",Receita,Receber,Realizado
+24/03/2026,Tarifa ,Tarifa Bancária,"-105,48",Financeiro,Pagar,Realizado
+24/03/2026,Company Hero,Aluguel,"-1.063,23",Administrativo,Pagar,Realizado
+24/03/2026,VR - PontoMais,Licença de Software,"-265,16",Administrativo,Pagar,Realizado
+24/03/2026,Linkedin - Alexandre,Publicidade,"-139,99",Administrativo,Pagar,Realizado
+25/03/2026,Receita Consolidada,Receita,"267.101,36",Receita,Receber,Realizado
+25/03/2026,Tarifa ,Tarifa Bancária,"-14,82",Financeiro,Pagar,Realizado
+25/03/2026,DARF COFINS 2172 - 5856 PIS 8109,Impostos,"-17.278,98",Impostos,Pagar,Pendente
+25/03/2026,Payfy,Cartão Corporativo,"-100,00",Administrativo,Pagar,Realizado
+25/03/2026,SulAmerica Saude - Mobcall,Saúde e Vida,"-16.926,22",Recursos Humanos,Pagar,Realizado
+25/03/2026,SulAmerica Alexandre,Saúde e Vida,"-8.829,94",Recursos Humanos,Pagar,Realizado
+25/03/2026,SulAmerica Rafael,Saúde e Vida,"-2.367,69",Recursos Humanos,Pagar,Realizado
+26/03/2026,Receita Consolidada,Receita,"24.208,22",Receita,Receber,Realizado
+26/03/2026,Tarifa ,Tarifa Bancária,"-9,88",Financeiro,Pagar,Realizado
+26/03/2026,Ana Sabença,Ant. Dividendos,"-29.643,00",Operações,Pagar,Realizado
+26/03/2026,Alexandre Kohatsu,Ant. Dividendos,"-35.000,00",Administrativo,Pagar,Realizado
+26/03/2026,Daniel Sabença - Distrato,Acordo,"-45.000,00",Distrato,Pagar,Realizado
+26/03/2026,Rafael Lohmann,Consultores,"-16.250,00",Tecnologia,Pagar,Realizado
+26/03/2026,CloudSoft Phone,Telefonia,"-10.345,92",Operações,Pagar,Realizado
+26/03/2026,Octadesk,Licença de Software,"-1.542,40",Operações,Pagar,Realizado
+26/03/2026,Mention,Publicidade,"-2.500,00",Operações,Pagar,Realizado
+27/03/2026,Receita Consolidada,Receita,"1.072,92",Receita,Receber,Realizado
+27/03/2026,Tarifa ,Tarifa Bancária,"-25,69",Financeiro,Pagar,Realizado
+27/03/2026,GuardeMais,Aluguel,"-161,90",Administrativo,Pagar,Realizado
+27/03/2026,Flash,Refeição e Mobilidade,"-13.534,50",Recursos Humanos,Pagar,Realizado
+27/03/2026,ClickUP,Licença de Software,"-44,75",Tecnologia,Pagar,Realizado
+27/03/2026,Almoço Cliente,Não Dedutível,"-1.083,78",Vendas,Pagar,Realizado
+28/03/2026,OpenAI,Licença de Software,"-55,98",Tecnologia,Pagar,Realizado
+28/03/2026,Combustível (Ale),Não Dedutível,"-169,70",Administrativo,Pagar,Realizado
+30/03/2026,Receita Consolidada,Receita,"2.177,48",Receita,Receber,Realizado
+30/03/2026,Tarifa ,Tarifa Bancária,"-41,96",Financeiro,Pagar,Realizado
+30/03/2026,Acordo Algar ,Telefonia,"-13.154,19",Operações,Pagar,Realizado
+30/03/2026,SAMM,Telefonia,"-66.924,07",Operações,Pagar,Realizado
+30/03/2026,Folha de Pagamento,Folha,"-18.678,80",Recursos Humanos,Pagar,Realizado
+30/03/2026,Ovos de Páscoa,Confraternização,"-497,89",Recursos Humanos,Pagar,Realizado
+31/03/2026,Receita Consolidada,Receita,"1.253,93",Receita,Receber,Realizado
+31/03/2026,Tarifa ,Tarifa Bancária,"-4,94",Financeiro,Pagar,Realizado
+31/03/2026,Parcelamento de Impostos Federais (8973147),Impostos,"-612,75",Impostos,Pagar,Realizado
+31/03/2026,PARC DÉBITOS PREVIDENCIARIOS (10279027),Impostos,"-8.024,76",Impostos,Pagar,Realizado
+31/03/2026,PARC DEMAIS DÉBITOS (10278970),Impostos,"-7.989,15",Impostos,Pagar,Realizado
+31/03/2026,PARC DEMAIS DÉBITOS (12861922),Impostos,"-695,24",Impostos,Pagar,Realizado
+31/03/2026,PARC PREVIDENCIARIO (12861928),Impostos,"-440,52",Impostos,Pagar,Realizado
+31/03/2026,PARC DÉBITOS PREVIDENCIARIOS (15330945),Impostos,"-6.224,88",Impostos,Pagar,Realizado
+31/03/2026,PARC DIV. ATIVA (15330946),Impostos,"-3.455,18",Impostos,Pagar,Realizado
+31/03/2026,DARE - Alteração Contratual,Impostos,"-583,98",Impostos,Pagar,Realizado
+31/03/2026,Coffee - Reunião Mensal,Confraternização,"-105,13",Administrativo,Pagar,Realizado
+31/03/2026,OpenAI,Licença de Software,"-55,73",Tecnologia,Pagar,Realizado
+31/03/2026,Deepgram,Licença de Software,"-111,19",Marketing,Pagar,Realizado
+31/03/2026,Aluguel de Carro (Ale),Não Dedutível,"-160,29",Administrativo,Pagar,Realizado
+31/03/2026,Aluguel de Carro (Ale),Não Dedutível,"-1.206,88",Administrativo,Pagar,Realizado
+31/03/2026,Tarifa Pix - Payfy,Tarifa,"-58,80",Financeiro,Pagar,Realizado
+01/04/2026,Receita Consolidada,Receita,"3.373,03",Receita,Receber,Realizado
+01/04/2026,Tarifa,Tarifa Bancária,"-2,47",Financeiro,Pagar,Realizado
+01/04/2026,Adobe MKT,Licença de Software,"-480,00",Marketing,Pagar,Realizado
+01/04/2026,DigitalOcean,Licença de Software,"-6,10",Marketing,Pagar,Realizado
+01/04/2026,Google LLC,Cloud,"-1.230,56",Operações,Pagar,Realizado
+01/04/2026,DIDWW,Telefonia,"-166,73",Operações,Pagar,Realizado
+01/04/2026,Ovos de Pascoa - Roger Flash,Confraternização,-50,Recursos Humanos,Pagar,Realizado
+02/04/2026,Férias - Roger Vargas,Férias - Folha,"-4.823,37",Recursos Humanos,Pagar,Realizado
+02/04/2026,Férias - Jonathan Ballielas,Férias - Folha,"-1.913,74",Recursos Humanos,Pagar,Realizado
+02/04/2026,Marcela Barão,Consultores,"-3.000,00",Operações,Pagar,Realizado
+02/04/2026,Marcela Barão - MRR,Consultores,"-456,89",Operações,Pagar,Realizado
+02/04/2026,OpenAI,Licença de Software,"-55,08",Tecnologia,Pagar,Realizado
+02/04/2026,Almoço Cliente,Não Dedutível,"-566,01",Vendas,Pagar,Realizado
+02/04/2026,ChatGPT - Alexandre,Licença de Software,"-109,62",Administrativo,Pagar,Realizado
+02/04/2026,Estacionamento Visita Cliente ,Não Dedutível,"-35,00",Vendas,Pagar,Realizado
+04/04/2026,Chat GPT Business,Licença de Software,"-397,36",Tecnologia,Pagar,Realizado
+06/04/2026,Receita Consolidada,Receita,"1.978,70",Receita,Receber,Realizado
+06/04/2026,Tarifa,Tarifa Bancária,"-51,38",Financeiro,Pagar,Realizado
+06/04/2026,CustomerX,Licença de Software,"-2.142,32",Operações,Pagar,Realizado
+06/04/2026,Pro-Labore Ana Carolina,Folha,"-1.442,69",Operações,Pagar,Realizado
+06/04/2026,Uber Corporativo,Refeição e Mobilidade,"-169,84",Administrativo,Pagar,Realizado
+06/04/2026,Aluguel de Carro (Ale),Não Dedutível,"-1158,64",Administrativo,Pagar,Realizado
+06/04/2026,NVOIP,Licença de Software,-87,Operações,Pagar,Realizado
+06/04/2026,Twilio,Licença de Software,"-435,8",Tecnologia,Pagar,Realizado
+06/04/2026,Namebright,Licença de Software,"-59,87",Marketing,Pagar,Realizado
+07/04/2026,Pipedrive,Licença de Software,"-195,31",Vendas,Pagar,Realizado
+07/04/2026,Receita Consolidada,Receita,"12.456,41",Receita,Receber,Realizado
+07/04/2026,Tarifa,Tarifa Bancária,"-2,47",Financeiro,Pagar,Realizado
+08/04/2026,Receita Consolidada,Receita,"3.488,53",Receita,Receber,Realizado
+08/04/2026,Tarifa,Tarifa Bancária,"-4,94",Financeiro,Pagar,Realizado
+08/04/2026,99 Corporativo,Refeição e Mobilidade,"-84,28",Administrativo,Pagar,Realizado
+08/04/2026,OpenAI,Licença de Software,"-55,11",Tecnologia,Pagar,Realizado
+08/04/2026,Wework - Alphaville,Aluguel,"-152,00",Administrativo,Pagar,Realizado
+09/04/2026,Receita Consolidada,Receita,"4.987,80",Receita,Receber,Realizado
+09/04/2026,Tarifa,Tarifa Bancária,"-13,8",Financeiro,Pagar,Realizado
+09/04/2026,Pacote Office,Licença de Software,"-520,74",Administrativo,Pagar,Realizado
+09/04/2026,Microsoft do Brasil,Licença de Software,"-4,91",Operações,Pagar,Realizado
+09/04/2026,ISS - Pref. Barueri,Impostos,"-8.343,03",Impostos,Pagar,Pendente
+10/04/2026,Tarifa Mensalidade Santander,Tarifa Bancária,-339,Financeiro,Pagar,Realizado
+10/04/2026,Tarifa Mensalidade Bradesco,Tarifa Bancária,"-84,2",Financeiro,Pagar,Realizado
+10/04/2026,ChatGPT - Ana,Licença de Software,"-107,75",Operações,Pagar,Realizado
+10/04/2026,Receita Consolidada,Receita,"39.182,03",Receita,Receber,Realizado
+10/04/2026,Tarifa,Tarifa Bancária,"-19,76",Financeiro,Pagar,Realizado
+10/04/2026,AKR,Contabilidade,"-5.350,00",Contabilidade,Pagar,Realizado
+10/04/2026,Procob,Licença de Software,"-142,89",Operações,Pagar,Realizado
+10/04/2026,Vero,Telefonia,"-104,71",Operações,Pagar,Realizado
+13/04/2026,Receita Consolidada,Receita,"9.507,92",Receita,Receber,Realizado
+13/04/2026,Tarifa,Tarifa Bancária,"-28,90",Financeiro,Pagar,Realizado
+13/04/2026,Kevin Advocacia,Advocacia,"-3.242,00",Administrativo,Pagar,Realizado
+13/04/2026,OpenAI,Licença de Software,"-53,32",Tecnologia,Pagar,Realizado
+13/04/2026,Aluguel de Carro (Ale),Não Dedutível,"-1158,64",Administrativo,Pagar,Realizado
+14/04/2026,Receita Consolidada,Receita,"396,34",Receita,Receber,Realizado
+14/04/2026,Tarifa,Tarifa Bancária,"-84,91",Financeiro,Pagar,Realizado
+14/04/2026,Dazsoft (3 faturas),Licença de Software,"-2.835,00",Operações,Pagar,Realizado
+15/04/2026,Receita Consolidada,Receita,"20.752,61",Receita,Receber,Realizado
+15/04/2026,Tarifa,Tarifa Bancária,"-41,99",Financeiro,Pagar,Realizado
+15/04/2026,ADT Folha,Folha,"-11.430,30",Recursos Humanos,Pagar,Realizado
+15/04/2026,Gabriel Cruz,Consultores,"-2.500,00",Tecnologia,Pagar,Realizado
+15/04/2026,Claranet (2 faturas),Telefonia,"-5.334,91",Operações,Pagar,Realizado
+15/04/2026,Figma,Licença de Software,"-265,07",Marketing,Pagar,Realizado
+15/04/2026,TD Synnex,Cloud,"-143,48",Tecnologia,Pagar,Pendente
+19/04/2026,ElevenLabs,Licença de Software,"-523,36",Tecnologia,Pagar,Realizado
+16/04/2026,Receita Consolidada,Receita,"3.716,78",Receita,Receber,Realizado
+16/04/2026,Tarifa,Tarifa Bancária,"-4,94",Financeiro,Pagar,Realizado
+16/04/2026,GT Group,Telefonia,"-11,00",Operações,Pagar,Realizado
+16/04/2026,Estacionamento Visita Cliente ,Não Dedutível,"-40,00",Vendas,Pagar,Realizado
+16/04/2026,Namebright,Licença de Software,"-52,52",Marketing,Pagar,Realizado
+17/04/2026,Receita Consolidada,Receita,"13.986,99",Receita,Receber,Realizado
+17/04/2026,Tarifa,Tarifa Bancária,"-7,41",Financeiro,Pagar,Realizado
+17/04/2026,Vonex - 101 Com,Telefonia,"-2.941,83",Operações,Pagar,Realizado
+17/04/2026,D4sign,Licença de Software,"-49,90",Administrativo,Pagar,Realizado
+17/04/2026,Datora,Telefonia,"-370,00",Operações,Pagar,Realizado
+17/04/2026,Combustível (Ale),Não Dedutível,"-190,42",Administrativo,Pagar,Realizado
+20/04/2026,Receita Consolidada,Receita,"16.735,50",Receita,Receber,Realizado
+20/04/2026,Tarifa,Tarifa Bancária,"-112,01",Financeiro,Pagar,Realizado
+20/04/2026,FGTS,FGTS,"-3.318,16",Recursos Humanos,Pagar,Realizado
+20/04/2026,Beatriz Rodrigues,Consultores,"-2.500,00",Marketing,Pagar,Realizado
+20/04/2026,TVN Nacional,Telefonia,"-470,9",Operações,Pagar,Realizado
+20/04/2026,Softone - Prorrogado (Parcela 1),Cloud,"-10.000,00",Tecnologia,Pagar,Realizado
+20/04/2026,Parcelamento ISS,Impostos,"-6.376,82",Impostos,Pagar,Realizado
+20/04/2026,INSS,INSS,"-18.079,95",Impostos,Pagar,Pendente
+20/04/2026,DARF CSRF 5952 - 1708,Impostos,"-340,57",Impostos,Pagar,Pendente
+20/04/2026,ClickUP,Licença de Software,"-264,32",Tecnologia,Pagar,Realizado
+20/04/2026,DIDWW,Telefonia,"-158,59",Operações,Pagar,Realizado
+20/04/2026,OpenAI,Licença de Software,"-55,11",Tecnologia,Pagar,Realizado
+21/04/2026,Aluguel de Carro (Ale),Não Dedutível,"-993,12",Administrativo,Pagar,Realizado
+22/04/2026,Receita Consolidada,Receita,"2.078,51",Receita,Receber,Realizado
+22/04/2026,Tarifa,Tarifa Bancária,"-6,85",Financeiro,Pagar,Realizado
+22/04/2026,Directcall,Telefonia,"-36.277,00",Operações,Pagar,Realizado
+22/04/2026,Almoço Cliente,Não Dedutível,"-86,46",Vendas,Pagar,Realizado
+23/04/2026,Receita Consolidada,Receita,"670,00",Receita,Receber,Realizado
+23/04/2026,Instagram,Publicidade,"-120,90",Marketing,Pagar,Realizado
+24/04/2026,Receita Consolidada,Receita,"251.079,89",Receita,Receber,Realizado
+24/04/2026,Tarifa,Tarifa Bancária,"-142,5",Financeiro,Pagar,Realizado
+24/04/2026,Linkedin - Alexandre,Publicidade,"-139,99",Administrativo,Pagar,Realizado
+24/04/2026,WeWork - Mensalidade,Aluguel,"-7.840,00",Administrativo,Pagar,Realizado
+24/04/2026,VR - PontoMais,Licença de Software,"-265,16",Administrativo,Pagar,Realizado
+24/04/2026,DARF COFINS 2172 - 5856 PIS 8109,Impostos,"-15.226,02",Impostos,Pagar,Pendente
+24/04/2026,Estacionamento Visita Cliente ,Não Dedutível,"-35,00",Vendas,Pagar,Realizado
+24/04/2026,OpenAI,Licença de Software,"-52,65",Tecnologia,Pagar,Realizado
+27/04/2026,Receita Consolidada,Receita,"14.625,30",Receita,Receber,Realizado
+27/04/2026,Tarifa,Tarifa Bancária,"-24,7",Financeiro,Pagar,Realizado
+27/04/2026,Payfy,Cartão Corporativo,-100,Administrativo,Pagar,Realizado
+27/04/2026,SulAmerica Saude - Mobcall,Saúde e Vida,"-33.435,90",Recursos Humanos,Pagar,Realizado
+27/04/2026,SulAmerica Alexandre,Saúde e Vida,"-649,59",Recursos Humanos,Pagar,Realizado
+27/04/2026,Mention,Publicidade,"-2.500,00",Operações,Pagar,Realizado
+27/04/2026,Daniel Sabença - Distrato,Acordo,"-45.000,00",Distrato,Pagar,Realizado
+27/04/2026,Ana Sabença,Ant. Dividendos,"-29.643,00",Operações,Pagar,Realizado
+27/04/2026,Alexandre Kohatsu,Ant. Dividendos,"-35.000,00",Administrativo,Pagar,Realizado
+27/04/2026,Octadesk,Licença de Software,"-1.542,40",Operações,Pagar,Realizado
+27/04/2026,CloudSoft Phone,Telefonia,"-9.879,54",Operações,Pagar,Realizado
+27/04/2026,Flash,Refeição e Mobilidade,"-11.246,80",Recursos Humanos,Pagar,Realizado
+27/04/2026,GuardeMais,Aluguel,"-161,90",Administrativo,Pagar,Realizado
+27/04/2026,Aluguel de Carro (Ale),Não Dedutível,"-165,62",Administrativo,Pagar,Realizado
+27/04/2026,Café Cliente,Não Dedutível,"-69,80",Vendas,Pagar,Realizado
+28/04/2026,Receita Consolidada,Receita,"2.319,80",Receita,Receber,Realizado
+28/04/2026,Tarifa,Tarifa Bancária,"-2,47",Financeiro,Pagar,Realizado
+28/04/2026,Estacionamento Visita Cliente ,Não Dedutível,"-35,00",Vendas,Pagar,Realizado
+28/04/2026,Combustível (Ale),Não Dedutível,"-172,05",Administrativo,Pagar,Realizado
+28/04/2026,Aluguel de Carro (Ale),Não Dedutível,"-424,02",Administrativo,Pagar,Realizado
+29/04/2026,Receita Consolidada,Receita,"235,74",Receita,Receber,Realizado
+29/04/2026,Tarifa,Tarifa Bancária,"-36,18",Financeiro,Pagar,Realizado
+29/04/2026,OpenAI,Licença de Software,"-52,98",Tecnologia,Pagar,Realizado
+30/04/2026,Receita Consolidada,Receita,"13.395,03",Receita,Receber,Realizado
+30/04/2026,Tarifa,Tarifa Bancária,"-17,29",Financeiro,Pagar,Realizado
+30/04/2026,Folha de Pagamento,Folha,"-14.816,49",Recursos Humanos,Pagar,Realizado
+30/04/2026,TEF Barueri,Impostos,"-136,64",Administrativo,Pagar,Realizado
+30/04/2026,Parc. Impostos Federais (8973147),Impostos,"-607,96",Impostos,Pagar,Pendente
+30/04/2026,PARC DÉBITOS PREVIDENCIARIOS (10279027),Impostos,"-7.958,92",Impostos,Pagar,Pendente
+30/04/2026,Parcelamento Demais Débitos (10278970),Impostos,"-7.923,61",Impostos,Pagar,Pendente
+30/04/2026,PARC DEMAIS DÉBITOS (12861922),Impostos,"-689,01",Impostos,Pagar,Pendente
+30/04/2026,PARC PREVIDENCIARIO (12861928),Impostos,"-436,57",Impostos,Pagar,Pendente
+30/04/2026,PARC DIV ATIVA (15330946),Impostos,"-3.420,97",Impostos,Pagar,Pendente
+30/04/2026,PARC PREVIDENCIARIO (15330945),Impostos,"-6.163,24",Impostos,Pagar,Pendente
+30/04/2026,Acordo Algar ,Telefonia,"-13.154,19",Operações,Pagar,Pendente
+30/04/2026,Deepgram,Licença de Software,"-105,71",Marketing,Pagar,Realizado
+30/04/2026,Almoço Cliente,Não Dedutível,"-645,23",Vendas,Pagar,Realizado
+30/04/2026,Estacionamento Visita Cliente ,Não Dedutível,"-35,00",Vendas,Pagar,Realizado
+30/04/2026,Aluguel de Carro (Ale),Não Dedutível,"-15,76",Administrativo,Pagar,Realizado
+30/04/2026,Dr. Cesar,Advocacia,"-3.242,00",Administrativo,Pagar,Realizado
+30/04/2026,SoftOne Prorrogado (Parcela 2),Cloud,"-71.204,51",Tecnologia,Pagar,Realizado
+30/04/2026,Vero (Vencimento 26/03),Telefonia,"-41.865,00",Operações,Pagar,Realizado
+30/04/2026,DARF - IRPJ 3373 / CSLL 6012 - 1 TRI,Impostos,"-2.882,74",Impostos,Pagar,Pendente
+30/04/2026,Tarifa Pix - Payfy,Tarifa,"-53,10",Financeiro,Pagar,Realizado
+04/05/2026,Receita Consolidada,Receita,"904,95",Receita,Receber,Realizado
+04/05/2026,Tarifa,Tarifa Bancária,"-50,64",Financeiro,Pagar,Realizado
+04/05/2026,Adobe MKT,Licença de Software,"-99,00",Marketing,Pagar,Realizado
+05/05/2026,NVOIP,Licença de Software,"-29,00",Operações,Pagar,Realizado
+04/05/2026,Google LLC,Cloud,"-4.000,00",Operações,Pagar,A Pagar
+05/05/2026,Twilio,Licença de Software,"-419,29",Tecnologia,Pagar,Realizado
+06/05/2026,NVOIP,Licença de Software,"-29,00",Operações,Pagar,Realizado
+05/05/2026,Receita Consolidada,Receita,"5.700,61",Receita,Receber,Realizado
+05/05/2026,Tarifa,Tarifa Bancária,"-12,35",Financeiro,Pagar,Realizado
+05/05/2026,Marcela Barão,Consultores,"-3.000,00",Operações,Pagar,Realizado
+05/05/2026,CustomerX,Licença de Software,"-2.142,32",Operações,Pagar,Realizado
+05/05/2026,Pro-Labore Ana Carolina,Folha,"-1.442,69",Operações,Pagar,Realizado
+05/05/2026,Uber Corporativo,Refeição e Mobilidade,"-1.177,94",Administrativo,Pagar,Realizado
+07/05/2026,Pipedrive,Licença de Software,"-184,40",Vendas,Pagar,Realizado
+06/05/2026,Receita Consolidada,Receita,"1.826,09",Receita,Receber,Realizado
+06/05/2026,Tarifa,Tarifa Bancária,"-4,94",Financeiro,Pagar,Realizado
+06/05/2026,Kits Dia das Mães - Natura,Confraternização,"-940,37",Recursos Humanos,Pagar,Realizado
+07/05/2026,Receita Consolidada,Receita,"244,92",Receita,Receber,Realizado
+07/05/2026,Tarifa,Tarifa Bancária,"-2,47",Financeiro,Pagar,Realizado
+07/05/2026,Flash Voucher Dia das Mães - Roger,Confraternização,"-60,00",Recursos Humanos,Pagar,Realizado
+08/05/2026,Receita Consolidada,Receita,"5.499,08",Receita,Receber,Realizado
+08/05/2026,Tarifa,Tarifa Bancária,"-9,88",Financeiro,Pagar,Realizado
+11/05/2026,Datora,Licença de Software,"-700,00",Operações,Pagar,Realizado
+09/05/2026,Pacote Office,Licença de Software,"-520,74",Administrativo,Pagar,Realizado
+10/05/2026,ChatGPT - Ana,Licença de Software,"-103,95",Operações,Pagar,Realizado
+11/05/2026,Receita Consolidada,Receita,"70.969,60",Receita,Receber,Realizado
+11/05/2026,Tarifa,Tarifa Bancária,"-61,34",Financeiro,Pagar,Realizado
+11/05/2026,ISS - Pref. Barueri,Impostos,"-8.613,54",Impostos,Pagar,Pendente
+08/05/2026,Tarifa Mensalidade Santander,Tarifa Bancária,"-340,00",Financeiro,Pagar,Realizado
+08/05/2026,Tarifa Mensalidade Bradesco,Tarifa Bancária,"-100,00",Financeiro,Pagar,Realizado
+11/05/2026,AKR,Contabilidade,"-5.350,00",Contabilidade,Pagar,Realizado
+11/05/2026,Procob,Licença de Software,"-50,92",Operações,Pagar,Realizado
+18/05/2026,D4sign,Licença de Software,"-49,90",Administrativo,Pagar,Realizado
+11/05/2026,99 Corporativo,Refeição e Mobilidade,"-61,30",Administrativo,Pagar,Realizado
+11/05/2026,SoftOne,Cloud,"-81.138,19",Tecnologia,Pagar,Pendente
+22/05/2026,Vero (Vencimento 26/04),Telefonia,"-41.661,04",Operações,Pagar,Pendente
+12/05/2026,Receita Consolidada,Receita,"472,15",Receita,Receber,Realizado
+12/05/2026,Tarifa,Tarifa Bancária,"-7,13",Financeiro,Pagar,Realizado
+13/05/2026,Receita Consolidada,Receita,"4.249,18",Receita,Receber,Realizado
+13/05/2026,Tarifa,Tarifa Bancária,"-4,94",Financeiro,Pagar,Realizado
+13/05/2026,Kevin Advocacia,Advocacia,"-3.242,00",Administrativo,Pagar,Realizado
+14/05/2026,Receita Consolidada,Receita,"4.206,41",Receita,Receber,Realizado
+14/05/2026,Tarifa,Tarifa Bancária,"-53,11",Financeiro,Pagar,Realizado
+14/05/2026,Dazsoft (3 faturas),Licença de Software,"-2.892,63",Operações,Pagar,Realizado
+15/05/2026,Receita Consolidada,Receita,"16.028,62",Receita,Receber,Realizado
+15/05/2026,Tarifa,Tarifa Bancária,"-34,02",Financeiro,Pagar,Realizado
+15/05/2026,ADT Folha,Folha,"-11.031,79",Recursos Humanos,Pagar,Realizado
+15/05/2026,Gabriel Cruz,Consultores,"-2.500,00",Tecnologia,Pagar,Realizado
+15/05/2026,Claranet (2 faturas),Telefonia,"-5.334,91",Operações,Pagar,Realizado
+20/05/2026,ClickUp,Licença de Software,"-266,84",Tecnologia,Pagar,Realizado
+15/05/2026,ElevenLabs,licença de Software,"-528,35",Tecnologia,Pagar,Realizado
+18/05/2026,Receita Consolidada,Receita,"22.772,16",Receita,Receber,Realizado
+18/05/2026,Tarifa,Tarifa Bancária,"-12,35",Financeiro,Pagar,Realizado
+18/05/2026,GT Group,Telefonia,"-11,00",Operações,Pagar,Realizado
+18/05/2026,Vonex - 101 Com,Telefonia,"-1.881,57",Operações,Pagar,Realizado
+18/05/2026,WeWork - Mensalidade,Aluguel,"-7.640,00",Administrativo,Pagar,Realizado
+19/05/2026,Receita Consolidada,Receita,"3.275,72",Receita,Receber,Realizado
+19/05/2026,Tarifa,Tarifa Bancária,"-39,03",Financeiro,Pagar,Realizado
+20/05/2026,Receita Consolidada,Receita,"20.047,83",Receita,Receber,Realizado
+20/05/2026,Tarifa,Tarifa Bancária,"-69,67",Financeiro,Pagar,Realizado
+20/05/2026,FGTS,FGTS,"-3.029,84",Recursos Humanos,Pagar,Realizado
+20/05/2026,Beatriz Rodrigues,Consultores,"-2.500,00",Marketing,Pagar,Realizado
+20/05/2026,TVN Nacional,Telefonia,"-300,90",Operações,Pagar,Realizado
+20/05/2026,SAMM (Ref. Vcto 28/04/2026),Telefonia,"-67.085,62",Operações,Pagar,Realizado
+20/05/2026,Vero,Telefonia,"-118,24",Operações,Pagar,Realizado
+20/05/2026,INSS,Impostos,"-16.426,38",Impostos,Pagar,Pendente
+20/05/2026,DARF CSRF 5952 - 1708,Impostos,"-340,57",Impostos,Pagar,Pendente
+21/05/2026,Receita Consolidada,Receita,"829,12",Receita,Receber,Realizado
+21/05/2026,Tarifa,Tarifa Bancária,"-4,94",Financeiro,Pagar,Realizado
+21/05/2026,Parcelamento ISS,Impostos,"-6.376,82",Impostos,Pagar,Pendente
+22/05/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+22/05/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+22/05/2026,Instagram,Publicidade,"-120,90",Marketing,Pagar,A Pagar
+22/05/2026,Devolução Fivo,Devolução,"-2.706,00",Administrativo,Pagar,Realizado
+25/05/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+25/05/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+25/05/2026,Linkedin - Alexandre,Publicidade,"-139,99",Administrativo,Pagar,A Pagar
+25/05/2026,VR - PontoMais,licença de Software,"-265,16",Administrativo,Pagar,A Pagar
+25/05/2026,DARF COFINS 2172 - PIS 8109,Impostos,"-15.719,71",Impostos,Pagar,A Pagar
+25/05/2026,Payfy,cartão Corporativo,"-100,00",Administrativo,Pagar,A Pagar
+25/05/2026,SulAmerica Saude - Mobcall,Saúde e Vida,"-25.554,53",Recursos Humanos,Pagar,A Pagar
+26/05/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+26/05/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+26/05/2026,Vero,Telefonia,"-41.865,00",Operações,Pagar,A Pagar
+26/05/2026,Mention,Publicidade,"-2.500,00",Operações,Pagar,A Pagar
+26/05/2026,Daniel Sabença - Distrato,Acordo,"-45.000,00",Distrato,Pagar,A Pagar
+26/05/2026,Ana Sabença,Ant. Dividendos,"-29.643,00",Operações,Pagar,A Pagar
+26/05/2026,Alexandre Kohatsu,Ant. Dividendos,"-35.000,00",Administrativo,Pagar,A Pagar
+26/05/2026,Octadesk,licença de Software,"-1.542,40",Operações,Pagar,A Pagar
+26/05/2026,CloudSoft Phone,Telefonia,"-11.000,00",Operações,Pagar,A Pagar
+26/05/2026,Flash,Refeição e Mobilidade,"-11.364,85",Recursos Humanos,Pagar,A Pagar
+27/05/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+27/05/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+28/05/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+28/05/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+28/05/2026,VoxVision,Telefonia,"-102,10",Operações,Pagar,A Pagar
+28/05/2026,SAMM,Telefonia,"-60.427,84",Operações,Pagar,A Pagar
+27/05/2026,GuardeMais,Aluguel,"-168,44",Administrativo,Pagar,A Pagar
+29/05/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+29/05/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+29/05/2026,Directcall,Telefonia,"-37.478,12",Operações,Pagar,A Pagar
+29/05/2026,Dr. Cesar,advocacia,"-3.242,00",Administrativo,Pagar,A Pagar
+29/05/2026,Folha de Pagamento,Folha,"-15.660,79",Recursos Humanos,Pagar,A Pagar
+29/05/2026,Parc. Impostos Federais (8973147),Impostos,"-607,96",Impostos,Pagar,A Pagar
+29/05/2026,PARC DÉBITOS PREVIDENCIARIOS (10279027),Impostos,"-7.958,92",Impostos,Pagar,A Pagar
+29/05/2026,Parcelamento Demais Débitos (10278970),Impostos,"-7.923,61",Impostos,Pagar,A Pagar
+29/05/2026,PARC DEMAIS DÉBITOS (12861922),Impostos,"-689,01",Impostos,Pagar,A Pagar
+29/05/2026,PARC PREVIDENCIARIO (12861928),Impostos,"-436,57",Impostos,Pagar,A Pagar
+29/05/2026,PARC DIV ATIVA (15330946),Impostos,"-3.420,97",Impostos,Pagar,A Pagar
+29/05/2026,PARC PREVIDENCIARIO (15330945),Impostos,"-6.163,24",Impostos,Pagar,A Pagar
+29/05/2026,Acordo Algar ,Telefonia,"-13.154,19",Operações,Pagar,A Pagar
+29/05/2026,DARF CSLL 2484,Impostos,"-6.888,07",Impostos,Pagar,A Pagar
+29/05/2026,DARF IRPJ 5993,Impostos,"-15.133,52",Impostos,Pagar,A Pagar
+01/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+01/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+01/06/2026,Adobe MKT,licença de Software,"-99,00",Marketing,Pagar,A Pagar
+01/06/2026,Infobip,licença de Software,"-35,00",Marketing,Pagar,A Pagar
+01/06/2026,Google LLC,Cloud,"-4.000,00",Operações,Pagar,A Pagar
+01/06/2026,Twilio,licença de Software,"-450,00",Tecnologia,Pagar,A Pagar
+01/06/2026,NVOIP,licença de Software,"-29,00",Operações,Pagar,A Pagar
+02/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+02/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+03/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+03/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+05/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+05/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+05/06/2026,Marcela Barão,Consultores,"-3.000,00",Operações,Pagar,A Pagar
+05/06/2026,CustomerX,licença de Software,"-2.142,32",Operações,Pagar,A Pagar
+05/06/2026,Pro-Labore Ana Carolina,Folha,"-1.442,69",Operações,Pagar,A Pagar
+05/06/2026,Uber Corporativo,Refeição e Mobilidade,"-104,97",Administrativo,Pagar,A Pagar
+05/06/2026,Pipedrive,Licença de Software,"-300,00",Vendas,Pagar,A Pagar
+05/06/2026,Férias - Aline Camargo,Férias - Folha,"-2.668,37",Recursos Humanos,Pagar,A Pagar
+05/06/2026,Kevin Advocacia,advocacia,"-2.377,46",Administrativo,Pagar,A Pagar
+08/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+08/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+08/06/2026,Pacote Office,Licença de Software,"-520,74",Administrativo,Pagar,A Pagar
+08/06/2026,ChatGPT - Ana,Licença de Software,"-120,00",Operações,Pagar,A Pagar
+09/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+09/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+09/06/2026,ISS - Pref. Barueri,Impostos,"-11.924,12",Impostos,Pagar,A Pagar
+10/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+10/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+10/06/2026,Tarifa Mensalidade Santander,Tarifa Bancária,"-340,00",Financeiro,Pagar,A Pagar
+10/06/2026,Tarifa Mensalidade Bradesco,Tarifa Bancária,"-100,00",Financeiro,Pagar,A Pagar
+10/06/2026,Datora,Telefonia,"-700,00",Operações,Pagar,A Pagar
+10/06/2026,AKR,Contabilidade,"-5.350,00",Contabilidade,Pagar,A Pagar
+10/06/2026,Procob,Licença de Software,"-48,50",Operações,Pagar,A Pagar
+10/06/2026,D4sign,Licença de Software,"-49,90",Administrativo,Pagar,A Pagar
+10/06/2026,Vero,Telefonia,"-107,79",Operações,Pagar,A Pagar
+11/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+11/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+12/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+12/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+12/06/2026,SoftOne - Google,Cloud,"-3.264,68",Tecnologia,Pagar,A Pagar
+15/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+15/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+15/06/2026,Dazsoft (3 faturas),Licença de Software,"-2.835,00",Operações,Pagar,A Pagar
+15/06/2026,ADT Folha,Folha,"-11.031,79",Recursos Humanos,Pagar,A Pagar
+15/06/2026,Gabriel Cruz,Consultores,"-2.500,00",Tecnologia,Pagar,A Pagar
+15/06/2026,Claranet (2 faturas),Telefonia,"-5.334,91",Operações,Pagar,A Pagar
+15/06/2026,ClickUp,Licença de Software,"-250,00",Tecnologia,Pagar,A Pagar
+15/06/2026,ElevenLabs,licença de Software,"-550,00",Tecnologia,Pagar,A Pagar
+16/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+16/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+16/06/2026,GT Group,Telefonia,"-11,00",Operações,Pagar,A Pagar
+17/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+17/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+17/06/2026,Vonex - 101 Com,Telefonia,"-2.934,90",Operações,Pagar,A Pagar
+17/06/2026,WeWork - Mensalidade,Aluguel,"-7.824,00",Administrativo,Pagar,A Pagar
+18/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+18/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+19/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+19/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+19/06/2026,FGTS,FGTS,"-2.727,33",Recursos Humanos,Pagar,A Pagar
+19/06/2026,Beatriz Rodrigues,Consultores,"-2.500,00",Marketing,Pagar,A Pagar
+19/06/2026,TVN Nacional,Telefonia,"-495,90",Operações,Pagar,A Pagar
+19/06/2026,Parcelamento ISS,Impostos,"-6.376,82",Impostos,Pagar,A Pagar
+19/06/2026,INSS,INSS,"-15.293,49",Impostos,Pagar,A Pagar
+19/06/2026,DARF CSRF 5952 - 1708,Impostos,"-418,07",Impostos,Pagar,A Pagar
+22/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+22/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+22/06/2026,Directcall,Telefonia,"-36.277,00",Operações,Pagar,A Pagar
+22/06/2026,Instagram,Publicidade,"-120,90",Marketing,Pagar,A Pagar
+23/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+23/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+24/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+24/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+24/06/2026,Linkedin - Alexandre,Publicidade,"-139,99",Administrativo,Pagar,A Pagar
+24/06/2026,VR - PontoMais,licença de Software,"-265,16",Administrativo,Pagar,A Pagar
+25/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+25/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+25/06/2026,DARF COFINS 2172_5856 - PIS 8109,Impostos,"-21.778,91",Impostos,Pagar,A Pagar
+25/06/2026,Payfy,cartão Corporativo,"-100,00",Administrativo,Pagar,A Pagar
+25/06/2026,SulAmerica Saude - Mobcall,Saúde e Vida,"-30.000,00",Recursos Humanos,Pagar,A Pagar
+26/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+26/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+26/06/2026,Férias - Matheus Rodrigues,Férias - Folha,"-4.599,02",Recursos Humanos,Pagar,A Pagar
+26/06/2026,Daniel Sabença - Distrato,Acordo,"-45.000,00",Distrato,Pagar,A Pagar
+26/06/2026,Ana Sabença,Ant. Dividendos,"-29.643,00",Operações,Pagar,A Pagar
+26/06/2026,Alexandre Kohatsu,Ant. Dividendos,"-35.000,00",Administrativo,Pagar,A Pagar
+26/06/2026,Octadesk,Licença de Software,"-1.542,40",Operações,Pagar,A Pagar
+26/06/2026,CloudSoft Phone,Telefonia,"-11.000,00",Operações,Pagar,A Pagar
+26/06/2026,Flash,Refeição e Mobilidade,"-12.298,60",Recursos Humanos,Pagar,A Pagar
+29/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+29/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+29/06/2026,VoxVision,Telefonia,"-23,91",Operações,Pagar,A Pagar
+29/06/2026,SAMM,telefonia,"-60.818,34",Operações,Pagar,A Pagar
+29/06/2026,GuardeMais,Aluguel,"-168,44",Administrativo,Pagar,A Pagar
+30/06/2026,Receita Consolidada,Receita,,Receita,Receber,A Receber
+30/06/2026,Tarifa,Tarifa Bancária,,Financeiro,Pagar,A Pagar
+30/06/2026,Folha de Pagamento,Folha,"-15.377,90",Recursos Humanos,Pagar,A Pagar
+30/06/2026,Parc. Impostos Federais (8973147),Impostos,"-607,96",Impostos,Pagar,A Pagar
+30/06/2026,PARC DÉBITOS PREVIDENCIARIOS (10279027),Impostos,"-7.958,92",Impostos,Pagar,A Pagar
+30/06/2026,Parcelamento Demais Débitos (10278970),Impostos,"-7.923,61",Impostos,Pagar,A Pagar
+30/06/2026,PARC DEMAIS DÉBITOS (12861922),Impostos,"-689,01",Impostos,Pagar,A Pagar
+30/06/2026,PARC PREVIDENCIARIO (12861928),Impostos,"-436,57",Impostos,Pagar,A Pagar
+30/06/2026,PARC DIV ATIVA (15330946),Impostos,"-3.420,97",Impostos,Pagar,A Pagar
+30/06/2026,PARC PREVIDENCIARIO (15330945),Impostos,"-6.163,24",Impostos,Pagar,A Pagar
+30/06/2026,Acordo Algar ,Telefonia,"-13.154,19",Operações,Pagar,A Pagar
+30/06/2026,DARF CSLL 2484,Impostos,"-6.888,07",Impostos,Pagar,A Pagar
+30/06/2026,DARF IRPJ 5993,Impostos,"-15.133,52",Impostos,Pagar,A Pagar
