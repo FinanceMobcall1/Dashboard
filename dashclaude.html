@@ -134,6 +134,11 @@
             box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
         }
 
+        .btn-refresh:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .timestamp {
             font-size: 12px;
             color: #cbd5e1;
@@ -377,7 +382,7 @@
             <p>Visão integrada de caixa, pagamentos e decisões estratégicas</p>
         </div>
         <div class="header-controls">
-            <button class="btn-refresh" onclick="carregarDados()">
+            <button class="btn-refresh" id="btnAtualizar" onclick="carregarDados()">
                 <i class="fa-solid fa-rotate-right"></i> Atualizar
             </button>
             <div class="timestamp">
@@ -422,55 +427,78 @@
 
     async function carregarDados() {
         const conteudo = document.getElementById('conteudo');
-        conteudo.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando dados...</p></div>';
+        const btn = document.getElementById('btnAtualizar');
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Carregando...';
+        conteudo.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando dados da planilha...</p></div>';
 
         try {
-            // Carregar Lançamentos
-            const resLanc = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Lançamentos`);
+            // Carregar dados usando a API do Google Sheets
+            const urlLancamentos = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=AIzaSyAHjW5L9_CYSHxlVzHnhKPVLWHvJLfPPEw&ranges=Lançamentos&valueRenderOption=UNFORMATTED_VALUE`;
+            const urlFluxoCaixa = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=AIzaSyAHjW5L9_CYSHxlVzHnhKPVLWHvJLfPPEw&ranges=Fluxo%20Caixa&valueRenderOption=UNFORMATTED_VALUE`;
+            const urlDecisoes = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=AIzaSyAHjW5L9_CYSHxlVzHnhKPVLWHvJLfPPEw&ranges=Fluxo%20Decisões&valueRenderOption=UNFORMATTED_VALUE`;
+
+            const [resLanc, resFluxo, resDecisoes] = await Promise.all([
+                fetch(urlLancamentos),
+                fetch(urlFluxoCaixa),
+                fetch(urlDecisoes)
+            ]);
+
             const dataLanc = await resLanc.json();
-            const lancamentos = extrairDados(dataLanc);
-
-            // Carregar Fluxo Caixa
-            const resFluxo = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Fluxo Caixa`);
             const dataFluxo = await resFluxo.json();
-            const fluxoCaixa = extrairDados(dataFluxo);
-
-            // Carregar Decisões
-            const resDecisoes = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Fluxo Decisões`);
             const dataDecisoes = await resDecisoes.json();
-            const decisoes = extrairDados(dataDecisoes);
+
+            const lancamentos = extrairDadosAPI(dataLanc, 'Lançamentos');
+            const fluxoCaixa = extrairDadosAPI(dataFluxo, 'Fluxo Caixa');
+            const decisoes = extrairDadosAPI(dataDecisoes, 'Fluxo Decisões');
 
             renderizarDashboard(lancamentos, fluxoCaixa, decisoes);
             atualizarTimestamp();
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Atualizar';
 
         } catch (erro) {
             console.error("Erro ao carregar dados:", erro);
             conteudo.innerHTML = `
                 <div class="error-message">
                     <i class="fa-solid fa-triangle-exclamation"></i>
-                    Erro ao carregar dados da planilha. Verifique se:
-                    <ul style="margin-top: 10px; margin-left: 20px;">
-                        <li>A planilha está compartilhada como "Qualquer pessoa com o link"</li>
-                        <li>Os nomes das abas estão corretos: "Lançamentos", "Fluxo Caixa", "Fluxo Decisões"</li>
-                        <li>Há dados nas abas</li>
-                    </ul>
-                    <p style="margin-top: 15px;"><strong>Erro:</strong> ${erro.message}</p>
+                    <strong>Erro ao carregar dados da planilha</strong>
+                    <p style="margin-top: 10px;">Verifique se a planilha está compartilhada como "Público na Web"</p>
+                    <p><small>Erro: ${erro.message}</small></p>
                 </div>
             `;
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Atualizar';
         }
     }
 
-    function extrairDados(response) {
-        if (!response.table || !response.table.rows) return [];
+    function extrairDadosAPI(response, nomeAba) {
+        try {
+            if (!response.sheets) return [];
 
-        const cols = response.table.cols.map(c => c.label);
-        return response.table.rows.map(row => {
-            let obj = {};
-            cols.forEach((col, idx) => {
-                obj[col] = row.c[idx]?.v || '';
-            });
-            return obj;
-        });
+            const sheet = response.sheets.find(s => s.properties.title === nomeAba);
+            if (!sheet || !sheet.data[0] || !sheet.data[0].values) return [];
+
+            const valores = sheet.data[0].values;
+            if (valores.length < 2) return [];
+
+            const headers = valores[0];
+            const dados = [];
+
+            for (let i = 1; i < valores.length; i++) {
+                let obj = {};
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j]] = valores[i][j] || '';
+                }
+                dados.push(obj);
+            }
+
+            return dados;
+        } catch(e) {
+            console.error(`Erro ao extrair dados de ${nomeAba}:`, e);
+            return [];
+        }
     }
 
     function renderizarDashboard(lancamentos, fluxoCaixa, decisoes) {
@@ -626,10 +654,10 @@
             new Chart(ctxPizza, {
                 type: 'doughnut',
                 data: {
-                    labels: Object.keys(cc_dados),
+                    labels: Object.keys(cc_dados).length > 0 ? Object.keys(cc_dados) : ['Sem dados'],
                     datasets: [{
-                        data: Object.values(cc_dados),
-                        backgroundColor: ['#3b82f6', '#1e40af', '#60a5fa', '#93c5fd', '#10b981', '#059669'],
+                        data: Object.values(cc_dados).length > 0 ? Object.values(cc_dados) : [1],
+                        backgroundColor: ['#3b82f6', '#1e40af', '#60a5fa', '#93c5fd', '#10b981', '#059669', '#6ee7b7', '#a7f3d0'],
                         borderColor: '#ffffff',
                         borderWidth: 2
                     }]
