@@ -384,58 +384,164 @@
     }
 
     function renderCharts(cc_dados, fF, fD) {
-        const commonWithScales = { 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } }
-        };
+    const commonWithScales = { 
+        responsive: true, 
+        maintainAspectRatio: false, 
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } }
+    };
 
-        const pieOptions = {
+    const pieOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { 
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } 
+        }
+    };
+
+    try {
+        if (charts.p) charts.p.destroy();
+        charts.p = new Chart(document.getElementById('chartPizza'), {
+            type: 'doughnut',
+            data: { 
+                labels: Object.keys(cc_dados).length > 0 ? Object.keys(cc_dados) : ['Sem dados'], 
+                datasets: [{ 
+                    data: Object.values(cc_dados).length > 0 ? Object.values(cc_dados) : [0], 
+                    backgroundColor: ['#1e3a8a', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'] 
+                }] 
+            },
+            options: pieOptions
+        });
+    } catch(e) {
+        console.log("Erro ao gerar pizza: ", e);
+    }
+
+    if (charts.m) charts.m.destroy();
+    charts.m = new Chart(document.getElementById('chartMov'), {
+        type: 'bar',
+        data: { 
+            labels: fF.map(d => d.data || ""), 
+            datasets: [
+                { label: 'Entradas', data: fF.map(d => num(d.entradas_previstas || d.entradas)), backgroundColor: '#10b981' }, 
+                { label: 'Saídas', data: fF.map(d => Math.abs(num(d.saidas_previstas || d.saidas))), backgroundColor: '#ef4444' }
+            ] 
+        },
+        options: commonWithScales
+    });
+
+    // ============================================================
+    // GRÁFICO COMPARATIVO COM POST-ITS DE OBSERVAÇÕES
+    // ============================================================
+    const observacoes = fD.map(d => d.observacoes || d.observacao || d.obs || null);
+
+    const tooltipPostIt = {
+        enabled: false,
+        external: function(context) {
+            let tooltipEl = document.getElementById('chartjs-postit');
+
+            if (!tooltipEl) {
+                tooltipEl = document.createElement('div');
+                tooltipEl.id = 'chartjs-postit';
+                tooltipEl.style.cssText = `
+                    position: absolute;
+                    background: #fef9c3;
+                    border: 1px solid #facc15;
+                    border-left: 4px solid #f59e0b;
+                    border-radius: 8px;
+                    padding: 10px 14px;
+                    font-family: Inter, sans-serif;
+                    font-size: 13px;
+                    color: #1e293b;
+                    max-width: 220px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    pointer-events: none;
+                    z-index: 9999;
+                    transition: opacity 0.2s;
+                    line-height: 1.5;
+                `;
+                document.body.appendChild(tooltipEl);
+            }
+
+            const tooltipModel = context.tooltip;
+
+            if (tooltipModel.opacity === 0) {
+                tooltipEl.style.opacity = '0';
+                return;
+            }
+
+            const dataIndex = tooltipModel.dataPoints?.[0]?.dataIndex;
+            const datasetIndex = tooltipModel.dataPoints?.[0]?.datasetIndex;
+            const obs = (datasetIndex === 1) ? observacoes[dataIndex] : null;
+
+            const labelData = tooltipModel.dataPoints?.[0]?.label || '';
+            const valorFormatado = tooltipModel.dataPoints?.[0]?.formattedValue || '';
+
+            let conteudo = `<strong>${labelData}</strong><br>Saldo: R$ ${valorFormatado}`;
+            if (obs && obs.toString().trim() !== '') {
+                conteudo += `<br><br>📌 <em>${obs}</em>`;
+            }
+
+            tooltipEl.innerHTML = conteudo;
+            tooltipEl.style.opacity = '1';
+
+            const position = context.chart.canvas.getBoundingClientRect();
+            tooltipEl.style.left = position.left + window.scrollX + tooltipModel.caretX + 12 + 'px';
+            tooltipEl.style.top = position.top + window.scrollY + tooltipModel.caretY - 20 + 'px';
+        }
+    };
+
+    if (charts.e) charts.e.destroy();
+    charts.e = new Chart(document.getElementById('chartEvol'), {
+        type: 'line',
+        data: { 
+            labels: fF.map(d => d.data || ""),
+            datasets: [
+                { 
+                    label: 'Fluxo Real', 
+                    data: fF.map(d => num(d.saldo_final)), 
+                    borderColor: '#1e3a8a', 
+                    backgroundColor: 'rgba(30, 58, 138, 0.05)', 
+                    fill: true, 
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 7
+                },
+                { 
+                    label: 'Projeção Decisões', 
+                    data: fD.map(d => num(d.saldo_final)), 
+                    borderColor: '#ef4444', 
+                    borderDash: [5, 5], 
+                    tension: 0.4,
+                    pointRadius: fD.map(d => {
+                        const obs = d.observacoes || d.observacao || d.obs || null;
+                        return (obs && obs.toString().trim() !== '') ? 8 : 4;
+                    }),
+                    pointHoverRadius: 10,
+                    pointBackgroundColor: fD.map(d => {
+                        const obs = d.observacoes || d.observacao || d.obs || null;
+                        return (obs && obs.toString().trim() !== '') ? '#f59e0b' : '#ef4444';
+                    }),
+                    pointBorderColor: fD.map(d => {
+                        const obs = d.observacoes || d.observacao || d.obs || null;
+                        return (obs && obs.toString().trim() !== '') ? '#f59e0b' : '#ef4444';
+                    })
+                }
+            ]
+        },
+        options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { 
-                legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } } 
-            }
-        };
-        
-        // Garante que se a pizza falhar por algum dado corrompido, ela não "apaga" o resto do dashboard
-        try {
-            if (charts.p) charts.p.destroy();
-            charts.p = new Chart(document.getElementById('chartPizza'), {
-                type: 'doughnut',
-                data: { 
-                    labels: Object.keys(cc_dados).length > 0 ? Object.keys(cc_dados) : ['Sem dados'], 
-                    datasets: [{ 
-                        data: Object.values(cc_dados).length > 0 ? Object.values(cc_dados) : [0], 
-                        backgroundColor: ['#1e3a8a', '#3b82f6', '#60a5fa', '#93c5fd', '#dbeafe'] 
-                    }] 
-                },
-                options: pieOptions
-            });
-        } catch(e) {
-            console.log("Erro ao gerar pizza: ", e);
-        }
-
-        if (charts.m) charts.m.destroy();
-        charts.m = new Chart(document.getElementById('chartMov'), {
-            type: 'bar',
-            data: { labels: fF.map(d => d.data || ""), datasets: [{ label: 'Entradas', data: fF.map(d => num(d.entradas_previstas || d.entradas)), backgroundColor: '#10b981' }, { label: 'Saídas', data: fF.map(d => Math.abs(num(d.saidas_previstas || d.saidas))), backgroundColor: '#ef4444' }] },
-            options: commonWithScales
-        });
-
-        if (charts.e) charts.e.destroy();
-        charts.e = new Chart(document.getElementById('chartEvol'), {
-            type: 'line',
-            data: { 
-                labels: fF.map(d => d.data || ""),
-                datasets: [
-                    { label: 'Fluxo Real', data: fF.map(d => num(d.saldo_final)), borderColor: '#1e3a8a', backgroundColor: 'rgba(30, 58, 138, 0.05)', fill: true, tension: 0.4 },
-                    { label: 'Projeção Decisões', data: fD.map(d => num(d.saldo_final)), borderColor: '#ef4444', borderDash: [5, 5], tension: 0.4 }
-                ]
+            interaction: {
+                mode: 'nearest',
+                intersect: true
             },
-            options: commonWithScales
-        });
-    }
+            plugins: { 
+                legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } },
+                tooltip: tooltipPostIt
+            }
+        }
+    });
+    // ============================================================
+}
 
     window.onload = atualizarDados;
 </script>
