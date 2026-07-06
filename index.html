@@ -173,7 +173,65 @@
         }
 
         .btn-refresh:hover { background: var(--mobcall-accent); }
+   .export-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.btn-export {
+    background: #0f766e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-export:hover { background: #0d9488; }
+
+.export-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 48px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    z-index: 999;
+    min-width: 220px;
+    overflow: hidden;
+}
+
+.export-menu.aberto { display: block; }
+
+.export-menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.export-menu button:hover { background: #f8fafc; }
+.export-menu button:last-child { border-bottom: none; }
+
+.export-menu i {
+    width: 20px;
+    color: #0f766e;
+}
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -191,7 +249,7 @@
         </div>
     </div>
 
-    <div class="controls">
+   <div class="controls">
     <select id="filtroMes" onchange="aplicarFiltro()">
         <option value="todos">Selecione o Mês</option>
     </select>
@@ -201,6 +259,26 @@
     <button class="btn-refresh" onclick="atualizarDados()">
         <i class="fa-solid fa-rotate"></i> Atualizar
     </button>
+
+    <div class="export-wrapper">
+        <button class="btn-export" onclick="toggleMenuExport()">
+            <i class="fa-solid fa-file-pdf"></i> Exportar PDF
+        </button>
+        <div class="export-menu" id="exportMenu">
+            <button onclick="exportarPDF('tudo')">
+                <i class="fa-solid fa-layer-group"></i>
+                Relatório Completo
+            </button>
+            <button onclick="exportarPDF('graficos')">
+                <i class="fa-solid fa-chart-pie"></i>
+                Apenas Gráficos e KPIs
+            </button>
+            <button onclick="exportarPDF('tabelas')">
+                <i class="fa-solid fa-table"></i>
+                Apenas Tabelas
+            </button>
+        </div>
+    </div>
 </div>
 </div>
 
@@ -596,6 +674,84 @@ const filtrar = (l) => l.filter(r => {
     // ============================================================
 }
 
+    function toggleMenuExport() {
+    const menu = document.getElementById('exportMenu');
+    menu.classList.toggle('aberto');
+}
+
+document.addEventListener('click', function(e) {
+    const wrapper = document.querySelector('.export-wrapper');
+    if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById('exportMenu').classList.remove('aberto');
+    }
+});
+
+async function exportarPDF(modo) {
+    document.getElementById('exportMenu').classList.remove('aberto');
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('landscape', 'mm', 'a4');
+    const largura = pdf.internal.pageSize.getWidth();
+    const altura = pdf.internal.pageSize.getHeight();
+
+    let seletores = [];
+
+    if (modo === 'tudo') {
+        seletores = ['.grid-kpis', '.grid-charts', '.table-section'];
+    } else if (modo === 'graficos') {
+        seletores = ['.grid-kpis', '.grid-charts'];
+    } else if (modo === 'tabelas') {
+        seletores = ['.table-section'];
+    }
+
+    let posY = 15;
+
+    pdf.setFontSize(14);
+    pdf.setTextColor(30, 58, 138);
+    pdf.text('Visão Financeira Mobcall', largura / 2, posY, { align: 'center' });
+
+    const mesSelecionado = document.getElementById('filtroMes').selectedOptions[0].text;
+    const centroSelecionado = document.getElementById('filtroCentro').selectedOptions[0].text;
+
+    posY += 7;
+    pdf.setFontSize(9);
+    pdf.setTextColor(100, 116, 139);
+    pdf.text(`Período: ${mesSelecionado}   |   Centro de Custo: ${centroSelecionado}`, largura / 2, posY, { align: 'center' });
+
+    posY += 10;
+
+    for (const seletor of seletores) {
+        const elemento = document.querySelector(seletor);
+        if (!elemento) continue;
+
+        const canvas = await html2canvas(elemento, {
+            scale: 1.5,
+            useCORS: true,
+            backgroundColor: '#f8fafc'
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const imgProps = pdf.getImageProperties(imgData);
+        const imgLargura = largura - 20;
+        const imgAltura = (imgProps.height * imgLargura) / imgProps.width;
+
+        if (posY + imgAltura > altura - 15) {
+            pdf.addPage();
+            posY = 15;
+        }
+
+        pdf.addImage(imgData, 'PNG', 10, posY, imgLargura, imgAltura);
+        posY += imgAltura + 10;
+    }
+
+    const dataHoje = new Date().toLocaleDateString('pt-BR');
+    pdf.setFontSize(8);
+    pdf.setTextColor(148, 163, 184);
+    pdf.text(`Gerado em ${dataHoje}`, largura - 10, altura - 5, { align: 'right' });
+
+    const nomeArquivo = `Mobcall_Financeiro_${mesSelecionado.replace(/ /g, '_')}.pdf`;
+    pdf.save(nomeArquivo);
+}
     window.onload = atualizarDados;
 </script>
 </body>
