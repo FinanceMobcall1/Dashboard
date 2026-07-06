@@ -192,13 +192,16 @@
     </div>
 
     <div class="controls">
-        <select id="filtroMes" onchange="aplicarFiltro()">
-            <option value="todos">Selecione o Mês</option>
-        </select>
-        <button class="btn-refresh" onclick="atualizarDados()">
-            <i class="fa-solid fa-rotate"></i> Atualizar
-        </button>
-    </div>
+    <select id="filtroMes" onchange="aplicarFiltro()">
+        <option value="todos">Selecione o Mês</option>
+    </select>
+    <select id="filtroCentro" onchange="aplicarFiltro()">
+        <option value="todos">Todos os Centros</option>
+    </select>
+    <button class="btn-refresh" onclick="atualizarDados()">
+        <i class="fa-solid fa-rotate"></i> Atualizar
+    </button>
+</div>
 </div>
 
     <div class="grid-kpis">
@@ -277,8 +280,17 @@
     let charts = {};
 
     function atualizarDados() {
-        Papa.parse(LINK_LANCAMENTOS, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.lanc = normalizarColunas(res.data); gerarFiltros(dadosBrutos.lanc); aplicarFiltro(); }});
-        Papa.parse(LINK_FLUXO, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.fluxo = normalizarColunas(res.data); aplicarFiltro(); }});
+Papa.parse(LINK_LANCAMENTOS, {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: res => {
+        dadosBrutos.lanc = normalizarColunas(res.data);
+        gerarFiltros(dadosBrutos.lanc);
+        gerarFiltrosCentro(dadosBrutos.lanc);
+        aplicarFiltro();
+    }
+});        Papa.parse(LINK_FLUXO, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.fluxo = normalizarColunas(res.data); aplicarFiltro(); }});
         Papa.parse(LINK_DECISOES, { download: true, header: true, dynamicTyping: true, complete: res => { dadosBrutos.decisoes = normalizarColunas(res.data); aplicarFiltro(); }});
     }
 
@@ -327,11 +339,40 @@
             sel.appendChild(o);
         });
     }
+    function gerarFiltrosCentro(dados) {
+    const sel = document.getElementById('filtroCentro');
+    const centros = new Set();
+
+    dados.forEach(r => {
+        const cc = r.centro_de_custo || r.centro_custo || r.cc || null;
+        if (cc && cc.toString().trim() !== '') {
+            centros.add(cc.toString().trim());
+        }
+    });
+
+    sel.innerHTML = '<option value="todos">Todos os Centros</option>';
+    Array.from(centros).sort().forEach(c => {
+        let o = document.createElement('option');
+        o.value = c;
+        o.innerHTML = c;
+        sel.appendChild(o);
+    });
+}
 
     function aplicarFiltro() {
         const sel = document.getElementById('filtroMes').value;
-        const filtrar = (l) => l.filter(r => sel === 'todos' || (formatarDataBR(r.data) && formatarDataBR(r.data).toLocaleDateString('pt-BR', {month:'long', year:'numeric'}) === sel));
+const selCentro = document.getElementById('filtroCentro').value;
+const filtrar = (l) => l.filter(r => {
+    const passaMes = sel === 'todos' || (
+        formatarDataBR(r.data) &&
+        formatarDataBR(r.data).toLocaleDateString('pt-BR', {month:'long', year:'numeric'}) === sel
+    );
 
+    const cc = r.centro_de_custo || r.centro_custo || r.cc || '';
+    const passaCentro = selCentro === 'todos' || cc.toString().trim() === selCentro;
+
+    return passaMes && passaCentro;
+});
         const fL = filtrar(dadosBrutos.lanc);
         const fF = filtrar(dadosBrutos.fluxo);
         const fD = filtrar(dadosBrutos.decisoes);
