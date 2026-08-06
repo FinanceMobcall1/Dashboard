@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard de Recebimentos</title>
+
+  <!-- Biblioteca para interpretar o CSV -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.3/papaparse.min.js"></script>
+
+  <style>
+    :root {
+      --azul: #2563eb;
+      --azul-escuro: #1e3a8a;
+      --verde: #059669;
+      --laranja: #d97706;
+      --vermelho: #dc2626;
+      --cinza-fundo: #f3f4f6;
+      --cinza-texto: #6b7280;
+      --borda: #e5e7eb;
+      --branco: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cinza-fundo);
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      color: var(--azul-escuro);
+      font-size: 28px;
+    }
+
+    .subtitulo {
+      color: var(--cinza-texto);
+      margin: 0;
+    }
+
+    button {
+      background: var(--azul);
+      border: none;
+      color: white;
+      padding: 11px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .status {
+      color: var(--cinza-texto);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .mensagem-erro {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .card {
+      background: var(--branco);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border-left: 5px solid var(--azul);
+    }
+
+    .card.verde {
+      border-left-color: var(--verde);
+    }
+
+    .card.laranja {
+      border-left-color: var(--laranja);
+    }
+
+    .card.vermelho {
+      border-left-color: var(--vermelho);
+    }
+
+    .card.cinza {
+      border-left-color: #6b7280;
+    }
+
+    .card-titulo {
+      font-size: 14px;
+      color: var(--cinza-texto);
+      margin-bottom: 12px;
+    }
+
+    .card-valor {
+      font-size: 24px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .secoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .secao {
+      background: var(--branco);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+
+    .secao h2 {
+      margin: 0 0 4px;
+      color: var(--azul-escuro);
+      font-size: 20px;
+    }
+
+    .secao p {
+      margin: 0 0 16px;
+      color: var(--cinza-texto);
+      font-size: 13px;
+    }
+
+    .tabela-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--borda);
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--cinza-texto);
+      font-size: 12px;
+      text-transform: uppercase;
+      background: #f9fafb;
+    }
+
+    td.valor,
+    th.valor {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .vazio {
+      color: var(--cinza-texto);
+      text-align: center;
+      padding: 24px;
+    }
+
+    .rodape {
+      text-align: center;
+      color: var(--cinza-texto);
+      font-size: 12px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1100px) {
+      .kpis {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 750px) {
+      .kpis,
+      .secoes {
+        grid-template-columns: 1fr;
+      }
+
+      .kpis {
+        gap: 12px;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <header>
+      <div>
+        <h1>Dashboard de Recebimentos</h1>
+        <p class="subtitulo">Acompanhamento de parcelas, recebimentos e atrasos</p>
+      </div>
+
+      <button onclick="carregarDados()">Atualizar dados</button>
+    </header>
+
+    <div id="status" class="status">Carregando dados...</div>
+    <div id="erro" class="mensagem-erro"></div>
+
+    <section class="kpis">
+      <div class="card verde">
+        <div class="card-titulo">Recebimentos do dia</div>
+        <div class="card-valor" id="kpiRecebimentosHoje">R$ 0,00</div>
+      </div>
+
+      <div class="card laranja">
+        <div class="card-titulo">Total a receber</div>
+        <div class="card-valor" id="kpiTotalReceber">R$ 0,00</div>
+      </div>
+
+      <div class="card verde">
+        <div class="card-titulo">Total recebido</div>
+        <div class="card-valor" id="kpiTotalRecebido">R$ 0,00</div>
+      </div>
+
+      <div class="card cinza">
+        <div class="card-titulo">Total em aberto</div>
+        <div class="card-valor" id="kpiTotalAberto">R$ 0,00</div>
+      </div>
+
+      <div class="card vermelho">
+        <div class="card-titulo">Total atrasado</div>
+        <div class="card-valor" id="kpiTotalAtrasado">R$ 0,00</div>
+      </div>
+    </section>
+
+    <section class="secoes">
+      <div class="secao">
+        <h2>Recebimentos do dia</h2>
+        <p>Parcelas com pagamento registrado na data de hoje.</p>
+
+        <div class="tabela-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Vencimento</th>
+                <th class="valor">Valor recebido</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaRecebimentosHoje"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="secao">
+        <h2>Parcelas em atraso</h2>
+        <p>Parcelas vencidas que ainda possuem valor em aberto.</p>
+
+        <div class="tabela-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Vencimento</th>
+                <th class="valor">Valor em aberto</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaAtrasados"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="rodape">
+      Dados carregados diretamente da planilha publicada.
+    </div>
+  </main>
+
+  <script>
+    /*
+      Link CSV publicado da sua planilha.
+      Aqui usamos & e não &.
+    */
+    const URL_CSV =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdtP7kBeoxSO6aSd1dFY9obnPFs95A6KFQ7cYehOc1f7kNNJ4PZuRxbQom288CshAbSJTO8jeY9esT/pub?gid=0&single=true&output=csv";
+
+    const COLUNAS = {
+      cliente: "Nome do cliente",
+      vencimento: "Data de vencimento",
+      situacao: "Situação",
+      valorOriginal: "Valor original da parcela (R$)",
+      valorRecebido: "Valor recebido da parcela (R$)",
+      juros: "Juros realizado (R$)",
+      multa: "Multa realizado (R$)",
+      desconto: "Desconto realizado (R$)",
+      totalRecebido: "Valor total recebido da parcela (R$)",
+      valorAberto: "Valor da parcela em aberto (R$)",
+      ultimoPagamento: "Data do último pagamento"
+    };
+
+    const moeda = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+
+    function normalizarTexto(valor) {
+      return String(valor || "")
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function numeroBrasileiro(valor) {
+      if (valor === null || valor === undefined || valor === "") {
+        return 0;
+      }
+
+      if (typeof valor === "number") {
+        return valor;
+      }
+
+      let texto = String(valor)
+        .replace(/\s/g, "")
+        .replace(/R\$/gi, "")
+        .trim();
+
+      /*
+        Converte formatos como:
+        1.234,56
+        1234,56
+        1234.56
+      */
+      if (texto.includes(",") && texto.includes(".")) {
+        texto = texto.replace(/\./g, "").replace(",", ".");
+      } else if (texto.includes(",")) {
+        texto = texto.replace(",", ".");
+      }
+
+      texto = texto.replace(/[^\d.-]/g, "");
+
+      const resultado = Number(texto);
+      return Number.isFinite(resultado) ? resultado : 0;
+    }
+
+    function dataSemHora(data) {
+      return new Date(data.getFullYear(), data.getMonth(), data.getDate());
+    }
+
+    function dataAtual() {
+      return dataSemHora(new Date());
+    }
+
+    function dataISO(data) {
+      const ano = data.getFullYear();
+      const mes = String(data.getMonth() + 1).padStart(2, "0");
+      const dia = String(data.getDate()).padStart(2, "0");
+
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    function converterData(valor) {
+      if (!valor) {
+        return null;
+      }
+
+      let texto = String(valor).trim();
+
+      /*
+        Remove horário quando a célula vier como:
+        15/08/2026 00:00:00
+        2026-08-15T00:00:00
+      */
+      texto = texto.split(" ")[0].split("T")[0];
+
+      let data;
+
+      if (/
+^
+\d{2}\/\d{2}\/\d{4}
+$
+/.test(texto)) {
+        const [dia, mes, ano] = texto.split("/").map(Number);
+        data = new Date(ano, mes - 1, dia);
+      } else if (/
+^
+\d{4}-\d{2}-\d{2}
+$
+/.test(texto)) {
+        const [ano, mes, dia] = texto.split("-").map(Number);
+        data = new Date(ano, mes - 1, dia);
+      } else {
+        data = new Date(texto);
+      }
+
+      if (Number.isNaN(data.getTime())) {
+        return null;
+      }
+
+      return dataSemHora(data);
+    }
+
+    function formatarData(valor) {
+      const data = converterData(valor);
+
+      if (!data) {
+        return "-";
+      }
+
+      return data.toLocaleDateString("pt-BR");
+    }
+
+    function valorRecebidoDaLinha(linha) {
+      const totalRecebido = numeroBrasileiro(
+        linha[COLUNAS.totalRecebido]
+      );
+
+      if (totalRecebido > 0) {
+        return totalRecebido;
+      }
+
+      /*
+        Caso a coluna de total não esteja preenchida,
+        utiliza o valor recebido mais juros e multa, descontando descontos.
+      */
+      return Math.max(
+        0,
+        numeroBrasileiro(linha[COLUNAS.valorRecebido]) +
+        numeroBrasileiro(linha[COLUNAS.juros]) +
+        numeroBrasileiro(linha[COLUNAS.multa]) -
+        numeroBrasileiro(linha[COLUNAS.desconto])
+      );
+    }
+
+    function valorAbertoDaLinha(linha) {
+      const valorInformado = linha[COLUNAS.valorAberto];
+
+      if (valorInformado !== undefined && valorInformado !== "") {
+        return Math.max(0, numeroBrasileiro(valorInformado));
+      }
+
+      return Math.max(
+        0,
+        numeroBrasileiro(linha[COLUNAS.valorOriginal]) -
+        valorRecebidoDaLinha(linha)
+      );
+    }
+
+    function pagamentoFoiRegistrado(linha) {
+      const dataPagamento = converterData(
+        linha[COLUNAS.ultimoPagamento]
+      );
+
+      const situacao = normalizarTexto(linha[COLUNAS.situacao]);
+
+      return Boolean(
+        dataPagamento ||
+        valorRecebidoDaLinha(linha) > 0 ||
+        situacao.includes("receb") ||
+        situacao.includes("pago") ||
+        situacao.includes("quitado")
+      );
+    }
+
+    function criarLinha(cliente, vencimento, valor) {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${escaparHTML(cliente)}</td>
+        <td>${escaparHTML(formatarData(vencimento))}</td>
+        <td class="valor">${moeda.format(valor)}</td>
+      `;
+
+      return tr;
+    }
+
+    function escaparHTML(texto) {
+      return String(texto || "")
+        .replace(/&/g, "&")
+        .replace(/</g, "<")
+        .replace(/>/g, ">")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function mostrarVazio(tabela, mensagem) {
+      tabela.innerHTML = `
+        <tr>
+          <td colspan="3" class="vazio">${mensagem}</td>
+        </tr>
+      `;
+    }
+
+    function preencherTabela(tabela, dados, mensagem) {
+      tabela.innerHTML = "";
+
+      if (dados.length === 0) {
+        mostrarVazio(tabela, mensagem);
+        return;
+      }
+
+      dados.forEach(item => {
+        tabela.appendChild(
+          criarLinha(item.cliente, item.vencimento, item.valor)
+        );
+      });
+    }
+
+    function processarDados(linhas) {
+      const hoje = dataAtual();
+      const hojeISO = dataISO(hoje);
+
+      let totalAReceber = 0;
+      let totalRecebido = 0;
+      let totalAberto = 0;
+      let totalAtrasado = 0;
+
+      const recebimentosHoje = [];
+      const atrasados = [];
+
+      linhas.forEach(linha => {
+        const cliente = linha[COLUNAS.cliente] || "Cliente não informado";
+        const vencimento = converterData(linha[COLUNAS.vencimento]);
+        const pagamento = converterData(linha[COLUNAS.ultimoPagamento]);
+
+        const original = numeroBrasileiro(
+          linha[COLUNAS.valorOriginal]
+        );
+
+        const recebido = valorRecebidoDaLinha(linha);
+        const aberto = valorAbertoDaLinha(linha);
+
+        totalAReceber += original;
+        totalRecebido += recebido;
+        totalAberto += aberto;
+
+        /*
+          Recebimento do dia:
+          usa a coluna "Data do último pagamento".
+        */
+        if (pagamento && dataISO(pagamento) === hojeISO) {
+          recebimentosHoje.push({
+            cliente,
+            vencimento,
+            valor: recebido
+          });
+        }
+
+        /*
+          Atrasado:
+          vencimento anterior a hoje e valor aberto maior que zero.
+        */
+        if (vencimento && vencimento < hoje && aberto > 0) {
+          totalAtrasado += aberto;
+
+          atrasados.push({
+            cliente,
+            vencimento,
+            valor: aberto
+          });
+        }
+      });
+
+      recebimentosHoje.sort((a, b) => {
+        return a.vencimento - b.vencimento;
+      });
+
+      atrasados.sort((a, b) => {
+        return a.vencimento - b.vencimento;
+      });
+
+      document.getElementById("kpiRecebimentosHoje").textContent =
+        moeda.format(
+          recebimentosHoje.reduce((total, item) => total + item.valor, 0)
+        );
+
+      document.getElementById("kpiTotalReceber").textContent =
+        moeda.format(totalAReceber);
+
+      document.getElementById("kpiTotalRecebido").textContent =
+        moeda.format(totalRecebido);
+
+      document.getElementById("kpiTotalAberto").textContent =
+        moeda.format(totalAberto);
+
+      document.getElementById("kpiTotalAtrasado").textContent =
+        moeda.format(totalAtrasado);
+
+      preencherTabela(
+        document.getElementById("tabelaRecebimentosHoje"),
+        recebimentosHoje,
+        "Nenhum recebimento registrado hoje."
+      );
+
+      preencherTabela(
+        document.getElementById("tabelaAtrasados"),
+        atrasados,
+        "Nenhuma parcela em atraso."
+      );
+
+      const agora = new Date().toLocaleString("pt-BR");
+
+      document.getElementById("status").textContent =
+        `Última atualização: ${agora} | ${linhas.length} registros carregados.`;
+    }
+
+    function carregarDados() {
+      document.getElementById("status").textContent =
+        "Carregando dados da planilha...";
+
+      document.getElementById("erro").style.display = "none";
+
+      Papa.parse(URL_CSV, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(resultado) {
+          if (resultado.errors && resultado.errors.length > 0) {
+            console.warn("Avisos encontrados no CSV:", resultado.errors);
+          }
+
+          if (!resultado.data || resultado.data.length === 0) {
+            exibirErro("A planilha não retornou registros.");
+            return;
+          }
+
+          processarDados(resultado.data);
+        },
+        error: function(erro) {
+          console.error(erro);
+
+          exibirErro(
+            "Não foi possível carregar a planilha. Verifique se ela está publicada como CSV e se o link continua válido."
+          );
+        }
+      });
+    }
+
+    function exibirErro(mensagem) {
+      const elemento = document.getElementById("erro");
+
+      elemento.textContent = mensagem;
+      elemento.style.display = "block";
+
+      document.getElementById("status").textContent =
+        "Erro ao carregar os dados.";
+    }
+
+    carregarDados();
+  </script>
+</body>
+</html>
